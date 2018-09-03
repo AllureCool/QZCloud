@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white_ffffff">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="64dp"
+        android:layout_height="92dp"
+        android:src="@mipmap/icon_logo"
+        android:scaleType="fitXY"
+        android:layout_marginTop="133dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <EditText
+        android:id="@+id/mEtPhoneNum"
+        android:layout_width="313dp"
+        android:layout_height="25dp"
+        android:background="@null"
+        android:layout_marginTop="60dp"
+        android:textSize="15sp"
+        android:textColor="@color/color_gray_BFBFBF"
+        android:textColorHint="@color/color_gray_BFBFBF"
+        android:inputType="phone"
+        android:hint="@string/hint_et_phone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_logo"/>
+    <View
+        android:layout_width="313dp"
+        android:layout_height="1dp"
+        android:background="@color/color_green_2EC17C"
+        android:layout_marginTop="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mEtPhoneNum"/>
+
+    <EditText
+        android:id="@+id/mEtPassword"
+        android:layout_width="313dp"
+        android:layout_height="25dp"
+        android:background="@null"
+        android:layout_marginTop="40dp"
+        android:textSize="15sp"
+        android:textColor="@color/color_gray_BFBFBF"
+        android:textColorHint="@color/color_gray_BFBFBF"
+        android:hint="@string/hint_et_pwd"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mEtPhoneNum"/>
+
+    <View
+        android:layout_width="313dp"
+        android:layout_height="1dp"
+        android:background="@color/color_green_2EC17C"
+        android:layout_marginTop="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mEtPassword"/>
+
+    <TextView
+        android:id="@+id/mBtnForgetPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/forget_pwd"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="35dp"
+        android:textSize="12sp"
+        android:textColor="@color/color_green_2EC17C"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mEtPassword"/>
+
+    <Button
+        android:id="@+id/mBtnLogin"
+        android:layout_marginTop="80dp"
+        android:text="@string/login"
+        android:enabled="false"
+        style="@style/Button_List_Style"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mEtPassword"/>
+
+    <TextView
+        android:id="@+id/mBtnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/regist"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
+        android:textColor="@color/color_green_2EC17C"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mBtnLogin"/>
+
+</android.support.constraint.ConstraintLayout>

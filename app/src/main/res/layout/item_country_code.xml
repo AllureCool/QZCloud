@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+    <TextView
+        android:id="@+id/mTvCode"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/color_black_404040"
+        tools:text="+86"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/mTvCountry"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/color_black_404040"
+        tools:text="中国"/>
+
+    <ImageView
+        android:id="@+id/mIvCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_check"/>
+</LinearLayout>

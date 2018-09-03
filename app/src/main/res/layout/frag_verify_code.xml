@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white_ffffff"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/statusView"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_white_ffffff"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/mRlToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusView">
+
+        <ImageView
+            android:id="@+id/mBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/icon_back_white"
+            android:tint="@color/color_black_5A5A5A" />
+
+        <TextView
+            android:id="@+id/mTvBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/regist_title"
+            android:textColor="@color/color_black_5A5A5A"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_gray_D9D9D9" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="56dp"
+        android:text="@string/please_input_verify_code"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mRlToolbar" />
+
+
+    <com.github.glomadrian.codeinputlib.CodeInputEditText
+        android:id="@+id/mCodeInput"
+        android:layout_width="205dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:inputType="number"
+        android:maxLength="6"
+        app:codes="6"
+        app:hint_color="#03A9F4"
+        app:hint_text=""
+        app:text_color="@color/color_black_404040"
+        app:underline_color="@color/color_gray_D9D9D9"
+        app:underline_selected_color="@color/color_green_2EC17C" />
+
+
+    <TextView
+        android:id="@+id/mBtnGetCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/color_green_2EC17C"
+        android:textSize="15sp"
+        tools:text="@string/regain_verify_code" />
+
+    <TextView
+        android:id="@+id/mBtnNext"
+        android:layout_width="313dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="110dp"
+        android:background="@drawable/bg_btn_next_step"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/next_step"
+        android:textColor="@color/color_white_ffffff"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mEtPhoneNum" />
+</LinearLayout>

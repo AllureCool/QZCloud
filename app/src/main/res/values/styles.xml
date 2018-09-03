@@ -1,0 +1,32 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <!--自定义Dialog样式-->
+    <style name="MyDialogFragmentStyle" parent="AlertDialog.AppCompat">
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!--底部弹出Dialog动画-->
+    <style name="MyBottomDialog" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
+    </style>
+
+    <style name="Button_List_Style" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">310dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/bg_btn_next_step</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_white_ffffff</item>
+    </style>
+</resources>

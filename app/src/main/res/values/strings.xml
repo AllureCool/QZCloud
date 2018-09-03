@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">6盘</string>
+    <string name="classify">分类</string>
+    <string name="upload">上传</string>
+    <string name="my_folder">我的文件夹</string>
+    <string name="hint_et_phone">请输入手机号</string>
+    <string name="hint_et_pwd">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="forget_pwd">忘记密码</string>
+    <string name="regist">用户注册</string>
+    <string name="regist_title">注册</string>
+    <string name="please_input_phone_num">请输入您的手机号</string>
+    <string name="please_input_verify_code">请输入您的验证码</string>
+    <string name="next_step">下一步</string>
+    <string name="please_select_country_code">请选择区号</string>
+    <string name="user_center">个人中心</string>
+    <string name="modify_pwd">修改密码</string>
+    <string name="user_feedback">用户反馈</string>
+    <string name="about">关于</string>
+    <string name="logout">退出</string>
+    <string name="send_success">验证码发送成功</string>
+    <string name="regain_verify_code">重新获取</string>
+    <string name="please_input_pwd">请输入您的密码</string>
+    <string name="pwd_input_tip">大小写字母+数字</string>
+    <string name="complete">完成</string>
+    <string name="register_success">注册成功</string>
+    <string name="login_success">登录成功</string>
+    <string name="logout_success">注销成功</string>
+    <string name="modify_pwd_success">修改密码成功</string>
+</resources>

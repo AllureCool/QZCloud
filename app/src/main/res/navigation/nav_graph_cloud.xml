@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_cloud"
+    app:startDestination="@id/homeFirstFragment2">
+    <fragment
+        android:id="@+id/homeFirstFragment2"
+        android:name="com.smile.qzclould.ui.cloud.fragment.HomeFirstFragment"
+        android:label="HomeFirstFragment" >
+        <action
+            android:id="@+id/action_homeFirstFragment2_to_folderFragment"
+            app:destination="@id/folderFragment"
+            app:enterAnim="@anim/anim_frag_enter"
+            app:popEnterAnim="@anim/anim_frag_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/folderFragment"
+        android:name="com.smile.qzclould.ui.cloud.fragment.FolderFragment"
+        android:label="FolderFragment" />
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.smile.qzclould.ui.user.loign.LoginActivity"
+        android:label="LoginActivity" />
+</navigation>

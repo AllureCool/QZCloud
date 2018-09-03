@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+    <tab
+        id="@+id/tab_cloud"
+        icon="@mipmap/icon_cloud_focus"
+        title="first_page" />
+    <tab
+        id="@+id/tab_chuanshu"
+        icon="@mipmap/icon_chuanshu_focus"
+        title="secode_page" />
+    <tab
+        id="@+id/tab_clock"
+        icon="@mipmap/icon_clock_focus"
+        title="third_page" />
+    <tab
+        id="@+id/tab_user"
+        icon="@mipmap/icon_user_focus"
+        title="fouth_page" />
+</tabs>
