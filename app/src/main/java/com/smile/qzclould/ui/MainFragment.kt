@@ -10,7 +10,6 @@ import com.smile.qzclould.ui.cloud.fragment.CloudBoardFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
 import com.smile.qzclould.ui.transfer.HomeSecondFragment
 import com.smile.qzclould.ui.task.HomeThirdFragment
-import com.smile.qzclould.ui.user.UserBoardFragment
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_main.*
 
