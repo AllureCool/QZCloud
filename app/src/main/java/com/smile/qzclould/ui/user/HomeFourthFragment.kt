@@ -10,7 +10,8 @@ import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
-import com.smile.qzclould.ui.user.loign.LoginActivity
+import com.smile.qzclould.ui.user.loign.activity.LoginActivity
+import com.smile.qzclould.ui.user.loign.activity.ModifyPwdActivity
 import com.smile.qzclould.ui.user.loign.fragment.PwdInputFragment
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.frag_home_fourth.*
@@ -45,8 +46,7 @@ class HomeFourthFragment: BaseFragment() {
             UserInfoManager.get().logout()
             stopLoading()
             showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.logout_success))
-            val intent = Intent(mActivity, LoginActivity::class.java)
-            startActivity(intent)
+            jumpActivity(LoginActivity::class.java)
             mActivity?.finish()
         })
 
@@ -57,7 +57,7 @@ class HomeFourthFragment: BaseFragment() {
             bundle.putString("phone_info", it)
             bundle.putString("toolbar_title", App.instance.getString(R.string.modify_pwd))
             bundle.putInt("jump_type", PwdInputFragment.TYPE_MODIFY_PWD)
-            Navigation.findNavController(mLlUserCenter).navigate(R.id.action_homeFourthFragment_to_verifyCodeInputFragment2, bundle)
+            jumpActivity(ModifyPwdActivity::class.java, bundle)
         })
 
         mModel.errorStatus.observe(this, Observer {

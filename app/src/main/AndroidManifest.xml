@@ -21,7 +21,9 @@
         </activity>
         <activity android:name=".ui.MainActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.user.loign.LoginActivity"
+        <activity android:name=".ui.user.loign.activity.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.loign.activity.ModifyPwdActivity"
             android:screenOrientation="portrait"/>
 
         <meta-data

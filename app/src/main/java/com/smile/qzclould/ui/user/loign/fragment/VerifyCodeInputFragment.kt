@@ -15,7 +15,9 @@ import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
+import com.smile.qzclould.event.ModifyPwdEvent
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_verify_code.*
 
 class VerifyCodeInputFragment : BaseFragment() {
@@ -69,7 +71,12 @@ class VerifyCodeInputFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        mBackBtn.setOnClickListener { Navigation.findNavController(it).navigateUp() }
+        mBackBtn.setOnClickListener {
+            when {
+                mJumpType == PwdInputFragment.TYPE_REGISTER -> Navigation.findNavController(it).navigateUp()
+                mJumpType == PwdInputFragment.TYPE_MODIFY_PWD -> mActivity?.finish()
+            }
+        }
         mBtnGetCode.setOnClickListener {
             showLoading()
             mModel.sendRegisterMessage(mCountryCode!!, mPhoneNum!!)
@@ -80,7 +87,6 @@ class VerifyCodeInputFragment : BaseFragment() {
                 mBtnNext.isEnabled = true
 
             }
-
             override fun onInput(ci: CodeInputEditText, currentChar: Char?) {
                 mBtnNext.isEnabled = false
             }
@@ -96,7 +102,7 @@ class VerifyCodeInputFragment : BaseFragment() {
                     Navigation.findNavController(it).navigate(R.id.action_verifyCodeInputFragment_to_pwdInputFragment, bundle)
                 }
                 mJumpType == PwdInputFragment.TYPE_MODIFY_PWD -> {
-                    Navigation.findNavController(it).navigate(R.id.action_verifyCodeInputFragment2_to_pwdInputFragment2, bundle)
+                    Navigation.findNavController(it).navigate(R.id.action_verifyCodeInputFragment3_to_pwdInputFragment3, bundle)
                 }
             }
 
@@ -114,6 +120,17 @@ class VerifyCodeInputFragment : BaseFragment() {
             stopLoading()
             showToast(Constants.TOAST_ERROR, it?.errorMessage!!)
         })
+    }
+
+    override fun initEvent() {
+        RxBus.toObservable(ModifyPwdEvent::class.java)
+                .subscribe {
+                    mPhoneInfo = it.phoneInfo
+                    mToolbarTitle = it.toobarTitle
+                    mJumpType = it.jumpType
+                    mTvBarTitle.text = mToolbarTitle
+                }
+                .autoDispose()
     }
 
     override fun onDestroyView() {

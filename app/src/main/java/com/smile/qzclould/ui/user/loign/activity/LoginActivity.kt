@@ -1,4 +1,4 @@
-package com.smile.qzclould.ui.user.loign
+package com.smile.qzclould.ui.user.loign.activity
 
 import androidx.navigation.Navigation
 import com.gyf.barlibrary.ImmersionBar

@@ -20,6 +20,6 @@
         android:label="FolderFragment" />
     <activity
         android:id="@+id/loginActivity"
-        android:name="com.smile.qzclould.ui.user.loign.LoginActivity"
+        android:name="com.smile.qzclould.ui.user.loign.activity.LoginActivity"
         android:label="LoginActivity" />
 </navigation>

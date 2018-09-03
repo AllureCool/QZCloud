@@ -85,7 +85,7 @@ class PwdInputFragment : BaseFragment() {
         mModel.modifyPwdResult.observe(this, Observer {
             stopLoading()
             showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.modify_pwd_success))
-            Navigation.findNavController(mBtnComplete).navigate(R.id.action_pwdInputFragment2_to_homeFourthFragment)
+            mActivity?.finish()
         })
 
         mModel.errorStatus.observe(this, Observer {

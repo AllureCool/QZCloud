@@ -2,6 +2,8 @@ package com.smile.qzclould.ui
 
 import android.os.Handler
 import android.os.Message
+import android.view.KeyEvent
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
@@ -40,20 +42,20 @@ class MainActivity : BaseActivity() {
         }
     }
 
-//    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            if (!isQuit) {
-//                isQuit = true
-//                Toast.makeText(applicationContext, "再按一次退出程序",
-//                        Toast.LENGTH_SHORT).show()
-//                // 利用handler延迟发送更改状态信息
-//                mHandler.sendEmptyMessageDelayed(0, 2000)
-//            } else {
-//                finish()
-//                System.exit(0)
-//            }
-//        }
-//        return false
-//    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (!isQuit) {
+                isQuit = true
+                Toast.makeText(applicationContext, "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show()
+                // 利用handler延迟发送更改状态信息
+                mHandler.sendEmptyMessageDelayed(0, 2000)
+            } else {
+                finish()
+                System.exit(0)
+            }
+        }
+        return false
+    }
 
 }

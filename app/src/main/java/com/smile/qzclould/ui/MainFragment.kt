@@ -26,7 +26,7 @@ class MainFragment: BaseFragment() {
         mFragments.add(CloudBoardFragment())
         mFragments.add(HomeSecondFragment())
         mFragments.add(HomeThirdFragment())
-        mFragments.add(UserBoardFragment())
+        mFragments.add(HomeFourthFragment())
 
         mVpContainer.adapter = object : FragmentPagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment {
