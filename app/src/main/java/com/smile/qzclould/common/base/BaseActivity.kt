@@ -43,10 +43,7 @@ open abstract class BaseActivity: AppCompatActivity() {
     protected abstract fun setLayoutId(): Int
 
     protected open fun initImmersionBar() {
-//        mImmersionBar = ImmersionBar.with(this)
-//        mImmersionBar?.statusBarColor(R.color.colorPrimary)
-//        mImmersionBar?.fitsSystemWindows(true)
-//        mImmersionBar?.init()
+
     }
 
     protected open fun initData() {}
