@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/mIcon"
+        android:layout_width="36dp"
+        android:layout_height="32dp"
+        android:src="@mipmap/img_directory"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/mTvFileName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="我的文件夹"
+        android:textColor="@color/color_black_404040"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/mIcon"
+        app:layout_constraintTop_toTopOf="@+id/mIcon"/>
+
+    <TextView
+        android:id="@+id/mTvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        tools:text="2018-08-08 21:22"
+        android:textColor="@color/color_gray_919191"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/mIcon"
+        app:layout_constraintBottom_toBottomOf="@+id/mIcon"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_gray_D9D9D9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</android.support.constraint.ConstraintLayout>

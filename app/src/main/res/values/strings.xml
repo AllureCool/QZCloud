@@ -27,4 +27,14 @@
     <string name="login_success">登录成功</string>
     <string name="logout_success">注销成功</string>
     <string name="modify_pwd_success">修改密码成功</string>
+    <string name="new_folder">新建文件夹</string>
+    <string name="please_input_folder_name">请输入您的文件夹名称</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="folder_name_not_empty">文件名不能为空</string>
+    <string name="create_directory_success">文件夹创建成功</string>
+    <string name="create_directory_failed">文件夹创建失败</string>
+    <string name="transfer_list">传输列表</string>
+    <string name="download_list">下载列表</string>
+    <string name="offline_download">离线下载</string>
 </resources>

@@ -2,6 +2,10 @@ package com.smile.qzclould.repository
 
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.repository.requestbody.*
+import com.smile.qzclould.ui.cloud.bean.DirecotoryBean
+import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
+import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import com.smile.qzclould.utils.doRequestAsync
 import io.reactivex.Observable
@@ -111,5 +115,30 @@ class HttpRepository {
     fun changePasswordByMessage(phoneInfo: String, code: String, newPassword: String): Observable<Respone<Boolean>> {
         val body = ChangePwdBody(phoneInfo, code, newPassword)
         return service.changePasswordByMessage(body).doRequestAsync()
+    }
+
+    fun createDirectory(directoryName: String, parentUUid: String = ""): Observable<Respone<DirecotoryBean>> {
+        val body = CreateDirectoryBody(directoryName, parentUUid)
+        return service.createDirectory(body).doRequestAsync()
+    }
+
+    fun listFile( parent: String, path: String, start: Int, size: Int, recycle: Int, mime: String, orderBy: Int, type: Int): Observable<Respone<List<DirecotoryBean>>> {
+        val body = FileListBody(parent, path, start, size, recycle, mime, orderBy, type)
+        return service.listDirectory(body).doRequestAsync()
+    }
+
+    fun parseUrlS(url: String): Observable<Respone<ParseUrlResultBean>> {
+        val body = ParseUrlBody(url)
+        return service.parseurl(body).doRequestAsync()
+    }
+
+    fun offlineDownloadStart(taskHash: String, savePath: String, copyFile: Array<Int> = arrayOf()): Observable<Respone<OfflineDownloadResult>> {
+        val body = OfflineDownloadBody(taskHash, copyFile, savePath)
+        return service.offlineDownloadStart(body).doRequestAsync()
+    }
+
+    fun offlineDownloadList(page: Int, pageSize: Int, order: Int): Observable<Respone<DownloadTaskBean>> {
+        val body = OfflineDownloadListBody(page, pageSize, order)
+        return service.offlineDownloadList(body).doRequestAsync()
     }
 }

@@ -1,6 +1,10 @@
 package com.smile.qzclould.repository
 
 import com.smile.qzclould.repository.requestbody.*
+import com.smile.qzclould.ui.cloud.bean.DirecotoryBean
+import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
+import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import io.reactivex.Observable
 import retrofit2.http.Body
@@ -46,4 +50,34 @@ interface ApiService {
      */
     @POST("/v1/user/changePasswordByMessage")
     fun changePasswordByMessage(@Body requestBody: ChangePwdBody): Observable<Respone<Boolean>>
+
+    /**
+     * 新建文件夹
+     */
+    @POST("/v1/files/createDirectory")
+    fun createDirectory(@Body requestBody: CreateDirectoryBody): Observable<Respone<DirecotoryBean>>
+
+    /**
+     * 列出文件夹
+     */
+    @POST("/v1/files/list")
+    fun listDirectory(@Body requestBody: FileListBody): Observable<Respone<List<DirecotoryBean>>>
+
+    /**
+     * 预解析文件
+     */
+    @POST("/v1/offline/parseUrl")
+    fun parseurl(@Body requestBody: ParseUrlBody): Observable<Respone<ParseUrlResultBean>>
+
+    /**
+     * 离线url下载
+     */
+    @POST("/v1/offline/start")
+    fun offlineDownloadStart(@Body requestBody: OfflineDownloadBody): Observable<Respone<OfflineDownloadResult>>
+
+    /**
+     * 获取离线下载列表
+     */
+    @POST("/v1/offline/page")
+    fun offlineDownloadList(@Body requestBody: OfflineDownloadListBody): Observable<Respone<DownloadTaskBean>>
 }

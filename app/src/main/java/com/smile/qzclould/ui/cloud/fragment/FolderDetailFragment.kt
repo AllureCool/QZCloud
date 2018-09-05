@@ -3,9 +3,10 @@ package com.smile.qzclould.ui.cloud.fragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.ParcelUuid
 import android.support.v7.widget.LinearLayoutManager
+import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
@@ -16,70 +17,75 @@ import com.smile.qzclould.ui.cloud.bean.DirecotoryBean
 import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.utils.DLog
-import kotlinx.android.synthetic.main.frag_home_first.*
+import kotlinx.android.synthetic.main.frag_folder_detail.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
-class HomeFirstFragment: BaseFragment() {
+class FolderDetailFragment : BaseFragment() {
 
     private val mModel by lazy { ViewModelProviders.of(this).get(CloudViewModel::class.java) }
-
     private val mDialog by lazy { BuildNewFolderDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { FileListAdapter() }
     private val mPageSize = 20
 
     private var mOffset = 0
-
-    private var mOrderType = 0 //排序 0按 文件名 1 按时间
+    private lateinit var mParentUuid: String
+    private lateinit var mParentName: String
 
     override fun getLayoutId(): Int {
-        return R.layout.frag_home_first
+        return R.layout.frag_folder_detail
     }
 
     override fun initData() {
+        mParentUuid = mActivity?.intent!!.getBundleExtra("bundle_extra").getString("parent_uuid")
+        mParentName = mActivity?.intent!!.getBundleExtra("bundle_extra").getString("parent_name")
+        if (arguments?.getString("parent_uuid") != null) {
+            mParentUuid = arguments!!.getString("parent_uuid")
+            mParentName = arguments!!.getString("parent_name")
+        }
         loadFileList()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        mBtnBack.text = mParentName
         mRvFile.layoutManager = mLayoutManager
         mAdapter.bindToRecyclerView(mRvFile)
     }
 
     override fun initListener() {
+
+        mBtnBack.setOnClickListener {
+            if(!Navigation.findNavController(it).navigateUp()) {
+                mActivity?.finish()
+            }
+        }
+
         mNewFloder.setOnClickListener {
             mDialog.setDialogClickListener(object : BuildNewFolderDialog.DialogButtonClickListener {
                 override fun onConfirmClick(folderName: String) {
                     showLoading()
-                    mModel.createDirectory(folderName)
+                    mModel.createDirectory(folderName, mParentUuid)
                 }
             })
-            if(!mDialog.isAdded) {
+            if (!mDialog.isAdded) {
                 mDialog.show(childFragmentManager, "new_folder")
             }
         }
 
-        mAdapter.setOnLoadMoreListener( { loadFileList() }, mRvFile)
+        mAdapter.setOnLoadMoreListener({ loadFileList() }, mRvFile)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            val bundle = Bundle()
-            bundle.putString("parent_name", (adapter.getItem(position) as DirecotoryBean).name)
-            bundle.putString("parent_uuid", (adapter.getItem(position) as DirecotoryBean).uuid)
-            jumpActivity(FolderDetailActivity::class.java, bundle)
+            if ((adapter.getItem(position) as DirecotoryBean).mime == "application/x-directory") {
+                val bundle = Bundle()
+                bundle.putString("parent_name", (adapter.getItem(position) as DirecotoryBean).name)
+                bundle.putString("parent_uuid", (adapter.getItem(position) as DirecotoryBean).uuid)
+                Navigation.findNavController(mRvFile).navigate(R.id.folderDetailFragment, bundle)
+            }
         }
 
         mRefreshLayout.setOnRefreshListener {
             mOffset = 0
             loadFileList()
-        }
-
-        mBtnSort.setOnClickListener {
-//            mModel.parseUrl("magnet:?xt=urn:btih:3d5184b5cb76c47500950a2bd945f65383fcea71&dn=LuckyStar")
-            mOffset = 0
-            when {
-                mOrderType == 0 -> mOrderType = 1
-                mOrderType == 1 -> mOrderType = 0
-            }
-            mModel.listFile("", "", mOffset, mPageSize, 0, "", mOrderType, 1)
         }
     }
 
@@ -88,12 +94,12 @@ class HomeFirstFragment: BaseFragment() {
         mModel.listFileResult.observe(this, Observer {
 
             mRefreshLayout.isRefreshing = false
-            if(it!!.isEmpty()) {
+            if (it!!.isEmpty()) {
                 mAdapter.loadMoreEnd(true)
             } else {
                 mAdapter.loadMoreComplete()
             }
-            if(mOffset == 0) {
+            if (mOffset == 0) {
                 mAdapter.setNewData(it)
             } else {
                 mAdapter.addData(it)
@@ -108,10 +114,6 @@ class HomeFirstFragment: BaseFragment() {
             mOffset += 1
         })
 
-        mModel.parseUrlResult.observe(this, Observer {
-            mModel.offlineDownloadStart(it!!.taskHash, "", arrayOf(1,2))
-        })
-
         mModel.errorStatus.observe(this, Observer {
             mRefreshLayout.isRefreshing = false
             stopLoading()
@@ -120,7 +122,6 @@ class HomeFirstFragment: BaseFragment() {
     }
 
     private fun loadFileList() {
-        mModel.listFile("", "", mOffset, mPageSize, 0, "", mOrderType, 1)
+        mModel.listFile(mParentUuid, "", mOffset, mPageSize, 0, "", 0, 1)
     }
-
 }
