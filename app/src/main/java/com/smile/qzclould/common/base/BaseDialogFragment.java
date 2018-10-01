@@ -16,6 +16,10 @@ import android.view.Window;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.smile.qzclould.R;
+import com.smile.qzclould.common.App;
+import com.smile.qzclould.common.Constants;
+
+import es.dmoral.toasty.Toasty;
 
 public abstract class BaseDialogFragment extends DialogFragment {
 
@@ -136,6 +140,20 @@ public abstract class BaseDialogFragment extends DialogFragment {
      */
     protected void setListener() {
 
+    }
+
+    /**
+     * toast提示
+     */
+    protected void showToast(int status, String msg) {
+        switch (status){
+            case Constants.TOAST_SUCCESS:
+                Toasty.success(App.instance, msg).show();
+                break;
+            case Constants.TOAST_ERROR:
+                Toasty.error(App.instance, msg).show();
+                break;
+        }
     }
 
     /**

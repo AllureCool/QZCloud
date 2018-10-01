@@ -9,7 +9,7 @@ import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.event.SwitchTabEvent
 import com.smile.qzclould.utils.RxBus
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.act_main.*
 
 class MainActivity : BaseActivity() {
 
@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
 
 
     override fun setLayoutId(): Int {
-        return R.layout.activity_main
+        return R.layout.act_main
     }
 
     override fun onSupportNavigateUp(): Boolean {

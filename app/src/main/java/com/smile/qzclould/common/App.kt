@@ -4,6 +4,8 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.liulishuo.filedownloader.FileDownloader
+import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.common.base.CloudDatabase
 import com.tspoon.traceur.Traceur
@@ -42,5 +44,11 @@ class App: Application() {
             Traceur.enableLogging()
         }
         Fresco.initialize(this)
+        FileDownloader.setupOnApplicationOnCreate(this)
+                .connectionCreator(FileDownloadUrlConnection.Creator(FileDownloadUrlConnection.Configuration()
+                        .connectTimeout(15000) // set connection timeout.
+                        .readTimeout(15000) // set read timeout.
+                ))
+                .commit()
     }
 }

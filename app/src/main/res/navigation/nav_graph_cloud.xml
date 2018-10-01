@@ -9,17 +9,11 @@
         android:name="com.smile.qzclould.ui.cloud.fragment.HomeFirstFragment"
         android:label="HomeFirstFragment" >
         <action
-            android:id="@+id/action_homeFirstFragment2_to_folderFragment"
-            app:destination="@id/folderFragment"
-            app:enterAnim="@anim/anim_frag_enter"
-            app:popEnterAnim="@anim/anim_frag_exit" />
+            android:id="@+id/action_homeFirstFragment2_to_folderDetailActivity"
+            app:destination="@id/folderDetailActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/folderFragment"
-        android:name="com.smile.qzclould.ui.cloud.fragment.FolderFragment"
-        android:label="FolderFragment" />
     <activity
-        android:id="@+id/loginActivity"
-        android:name="com.smile.qzclould.ui.user.loign.activity.LoginActivity"
-        android:label="LoginActivity" />
+        android:id="@+id/folderDetailActivity"
+        android:name="com.smile.qzclould.ui.cloud.activity.FolderDetailActivity"
+        android:label="FolderDetailActivity" />
 </navigation>

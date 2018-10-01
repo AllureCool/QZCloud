@@ -24,6 +24,7 @@
             android:id="@+id/mTvClassify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="@string/classify"
             android:textSize="16sp"
             android:textColor="@color/color_white_ffffff"
@@ -37,6 +38,7 @@
             android:id="@+id/mTvUpload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="@string/upload"
             android:textSize="16sp"
             android:textColor="@color/color_white_ffffff"
@@ -48,5 +50,16 @@
 
     <include
         layout="@layout/view_search_bar"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRvFile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

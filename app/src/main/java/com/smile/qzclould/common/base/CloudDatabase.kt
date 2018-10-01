@@ -2,11 +2,14 @@ package com.smile.qzclould.common.base
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import com.smile.qzclould.db.User
-import com.smile.qzclould.db.UserDao
+import android.arch.persistence.room.TypeConverters
+import com.smile.qzclould.db.*
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Direcotory::class], version = 2, exportSchema = false)
+@TypeConverters(NormalConverter::class)
 abstract class CloudDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+
+    abstract fun DirecotoryDao(): DirecotoryDao
 }

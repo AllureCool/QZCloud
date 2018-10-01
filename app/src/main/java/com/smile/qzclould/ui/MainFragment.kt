@@ -8,7 +8,7 @@ import com.smile.qzclould.R
 import com.smile.qzclould.event.SwitchTabEvent
 import com.smile.qzclould.ui.cloud.fragment.CloudBoardFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
-import com.smile.qzclould.ui.transfer.HomeSecondFragment
+import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
 import com.smile.qzclould.ui.task.HomeThirdFragment
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_main.*
@@ -23,7 +23,7 @@ class MainFragment: BaseFragment() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mFragments.add(CloudBoardFragment())
-        mFragments.add(HomeSecondFragment())
+        mFragments.add(HomeTransferFragment())
         mFragments.add(HomeThirdFragment())
         mFragments.add(HomeFourthFragment())
 

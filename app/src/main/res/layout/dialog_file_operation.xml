@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mFlDialog">
+
+    <FrameLayout
+        android:id="@+id/mFlTop"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/color_green_2EC17C">
+        <TextView
+            android:id="@+id/mTvSelectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:padding="6dp"
+            android:text="@string/select_all"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/color_white_ffffff"/>
+
+        <TextView
+            android:id="@+id/mTvCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="10dp"
+            android:padding="6dp"
+            android:text="@string/cancel"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/color_white_ffffff"/>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/mFlBottom"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:clickable="true"
+        android:background="@color/color_green_2EC17C">
+        <LinearLayout
+            android:id="@+id/mLlDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="58dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@mipmap/icon_file_download"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/download"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/color_white_ffffff"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mLlDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@mipmap/icon_file_delete"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/file_delete"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/color_white_ffffff"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mLlMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginRight="58dp"
+            android:layout_gravity="center_vertical|right"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@mipmap/icon_more"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/more"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:textColor="@color/color_white_ffffff"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

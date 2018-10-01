@@ -3,11 +3,16 @@
     package="com.smile.qzclould">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <application
         android:name=".common.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -20,10 +25,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".ui.user.loign.activity.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.user.loign.activity.ModifyPwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.cloud.activity.FolderDetailActivity"
             android:screenOrientation="portrait"/>
 
         <meta-data

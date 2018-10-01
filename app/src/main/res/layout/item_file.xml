@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mClItem"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:id="@+id/mIcon"
+            android:layout_width="36dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="8dp"
+            android:src="@mipmap/img_directory"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/mTvFileName"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_black_404040"
+            app:layout_constraintLeft_toRightOf="@+id/mIcon"
+            app:layout_constraintTop_toTopOf="@+id/mIcon"
+            tools:text="我的文件夹" />
+
+        <TextView
+            android:id="@+id/mTvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/color_gray_919191"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/mIcon"
+            app:layout_constraintLeft_toRightOf="@+id/mIcon"
+            tools:text="2018-08-08 21:22" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_gray_D9D9D9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/mIvSelect"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/bg_file_selected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@color/color_red_FF4D4F"
+        android:text="删除"
+        android:textColor="@android:color/white" />
+</com.mcxtzhang.swipemenulib.SwipeMenuLayout>

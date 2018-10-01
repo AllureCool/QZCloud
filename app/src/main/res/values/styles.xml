@@ -16,6 +16,14 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="MyDialogFragmentNoBackgroundStyle" parent="AlertDialog.AppCompat">
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+
     <!--底部弹出Dialog动画-->
     <style name="MyBottomDialog" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
