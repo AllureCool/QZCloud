@@ -6,6 +6,9 @@ package com.smile.qzclould.common
  */
 
 object Constants {
+    const val MIME_IMG = "image/jpeg"
+    const val MIME_FOLDER = "application/x-directory"
+
     const val KEY_CLOUD_SP = "key_cloud_sp"
     const val USER_INFO = "user_info"
     const val USER_TOKEN = "user_token"

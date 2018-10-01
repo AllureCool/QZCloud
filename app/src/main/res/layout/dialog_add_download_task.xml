@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_white_ffffff">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_input_download_url"
+        android:layout_marginTop="15dp"
+        android:textSize="15sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/mIvClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_close"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="10dp"/>
+
+    <View
+        android:id="@+id/mLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/color_gray_D9D9D9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"/>
+
+    <EditText
+        android:id="@+id/mEtDownloadUrl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:gravity="top|left"
+        android:padding="10dp"
+        android:hint="@string/please_input_download_url"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mLine"
+        app:layout_constraintBottom_toTopOf="@+id/mQuickPaste"/>
+
+    <TextView
+        android:id="@+id/mQuickPaste"
+        android:layout_width="187.5dp"
+        android:layout_height="50dp"
+        android:text="@string/quick_paste"
+        android:gravity="center"
+        android:background="@color/color_gray_F5F5F5"
+        android:textColor="@color/color_black_404040"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/mBtnConfirm"
+        android:layout_width="187.5dp"
+        android:layout_height="50dp"
+        android:text="@string/confirm"
+        android:gravity="center"
+        android:background="@color/color_green_2EC17C"
+        android:textColor="@color/color_white_ffffff"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</android.support.constraint.ConstraintLayout>

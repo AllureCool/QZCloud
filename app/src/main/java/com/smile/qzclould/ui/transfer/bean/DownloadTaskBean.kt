@@ -20,6 +20,7 @@ data class DownloadTaskBean(
             val copied: Long,
             val statue: Int,
             val name: String,
+            val mime: String,
             val progress: Int,
             val finishedSize: Long,
             val size: Long,

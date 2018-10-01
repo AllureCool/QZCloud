@@ -29,8 +29,14 @@ class HomeTransferFragment: BaseFragment() {
     }
 
     override fun initData() {
-        mFragments.add(TransferFragment())
-        mFragments.add(TransferFragment())
+        mFragments.add(LocalDownloadFragment())
+
+
+        val offlineBundle = Bundle()
+        offlineBundle.putInt("download_type", TransferFragment.OFFLINE_DOWNLOAD)
+        val offlineDownloadFrag = TransferFragment()
+        offlineDownloadFrag.arguments = offlineBundle
+        mFragments.add(offlineDownloadFrag)
     }
 
     override fun initView(savedInstanceState: Bundle?) {

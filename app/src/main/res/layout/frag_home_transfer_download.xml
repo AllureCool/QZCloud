@@ -4,6 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/color_white_ffffff">
+    <FrameLayout
+        android:id="@+id/mFlTask"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:visibility="gone"
+        android:background="@color/color_gray_F5F5F5">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="12sp"
+            android:text="@string/task_offline"
+            android:textColor="@color/color_black_5A5A5A"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/mAddTaskBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp"
+            android:text="@string/add_task"
+            android:textColor="@color/color_black_5A5A5A"
+            android:layout_gravity="center_vertical|right"/>
+    </FrameLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRvDownload"
         android:layout_width="match_parent"

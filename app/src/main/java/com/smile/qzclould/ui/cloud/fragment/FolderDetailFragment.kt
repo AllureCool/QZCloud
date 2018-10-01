@@ -3,20 +3,16 @@ package com.smile.qzclould.ui.cloud.fragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.ParcelUuid
 import android.support.v7.widget.LinearLayoutManager
-import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
-import com.smile.qzclould.ui.cloud.activity.FolderDetailActivity
 import com.smile.qzclould.ui.cloud.adapter.FileListAdapter
-import com.smile.qzclould.ui.cloud.bean.DirecotoryBean
+import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
-import com.smile.qzclould.utils.DLog
 import kotlinx.android.synthetic.main.frag_folder_detail.*
 import kotlinx.android.synthetic.main.view_search_bar.*
 
@@ -25,7 +21,7 @@ class FolderDetailFragment : BaseFragment() {
     private val mModel by lazy { ViewModelProviders.of(this).get(CloudViewModel::class.java) }
     private val mDialog by lazy { BuildNewFolderDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
-    private val mAdapter by lazy { FileListAdapter() }
+    private val mAdapter by lazy { FileListAdapter(mModel) }
     private val mPageSize = 20
 
     private var mOffset = 0
@@ -75,10 +71,10 @@ class FolderDetailFragment : BaseFragment() {
         mAdapter.setOnLoadMoreListener({ loadFileList() }, mRvFile)
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            if ((adapter.getItem(position) as DirecotoryBean).mime == "application/x-directory") {
+            if ((adapter.getItem(position) as Direcotory).mime == "application/x-directory") {
                 val bundle = Bundle()
-                bundle.putString("parent_name", (adapter.getItem(position) as DirecotoryBean).name)
-                bundle.putString("parent_uuid", (adapter.getItem(position) as DirecotoryBean).uuid)
+                bundle.putString("parent_name", (adapter.getItem(position) as Direcotory).name)
+                bundle.putString("parent_uuid", (adapter.getItem(position) as Direcotory).uuid)
                 Navigation.findNavController(mRvFile).navigate(R.id.folderDetailFragment, bundle)
             }
         }
@@ -94,17 +90,21 @@ class FolderDetailFragment : BaseFragment() {
         mModel.listFileResult.observe(this, Observer {
 
             mRefreshLayout.isRefreshing = false
-            if (it!!.isEmpty()) {
-                mAdapter.loadMoreEnd(true)
+            if(mOffset == 0 && it!!.isEmpty()) {
+                mAdapter.setEmptyView(R.layout.view_empty)
             } else {
-                mAdapter.loadMoreComplete()
+                if (it!!.isEmpty()) {
+                    mAdapter.loadMoreEnd(true)
+                } else {
+                    mAdapter.loadMoreComplete()
+                }
+                if (mOffset == 0) {
+                    mAdapter.setNewData(it)
+                } else {
+                    mAdapter.addData(it)
+                }
+                mOffset += it?.size!!
             }
-            if (mOffset == 0) {
-                mAdapter.setNewData(it)
-            } else {
-                mAdapter.addData(it)
-            }
-            mOffset += it?.size!!
         })
 
         mModel.createDirectoryResult.observe(this, Observer {

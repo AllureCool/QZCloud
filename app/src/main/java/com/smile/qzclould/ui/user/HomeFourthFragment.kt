@@ -15,6 +15,7 @@ import com.smile.qzclould.ui.user.loign.activity.ModifyPwdActivity
 import com.smile.qzclould.ui.user.loign.fragment.PwdInputFragment
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.frag_home_fourth.*
+import org.jetbrains.anko.doAsync
 
 class HomeFourthFragment: BaseFragment() {
     private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
@@ -48,6 +49,7 @@ class HomeFourthFragment: BaseFragment() {
             showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.logout_success))
             jumpActivity(LoginActivity::class.java)
             mActivity?.finish()
+
         })
 
         mModel.verifyCodeResult.observe(this, Observer {

@@ -15,6 +15,8 @@ import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.utils.CommonUtils
+import com.smile.qzclould.utils.DLog
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : BaseFragment() {
@@ -63,7 +65,8 @@ class LoginFragment : BaseFragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                mPassword = s.toString()
+                mPassword = CommonUtils.encodeMD5(mEtPassword.text.toString())
+                DLog.i(mPassword + " -------------------------")
                 mBtnLogin.isEnabled = !TextUtils.isEmpty(mPhoneNum) && !TextUtils.isEmpty(mPassword)
             }
         })
