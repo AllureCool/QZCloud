@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--ImageView播放按钮1 2-->
+    <item name="help_start" type="id" />
+    <item name="help_start2" type="id" />
+    <!--ImageView播放器锁-->
+    <item name="help_lock" type="id" />
+    <!--TextView播放时间  视频时长-->
+    <item name="help_total" type="id" />
+    <item name="help_current" type="id" />
+    <!--ProgressBar进度条  SeekBar拖动条-->
+    <item name="help_progress" type="id" />
+    <item name="help_seekbar" type="id" />
+    <!--ImageView全屏按钮  View返回按钮-->
+    <item name="help_fullscreen" type="id" />
+    <item name="help_back" type="id" />
+    <!--TextView清晰度切换按钮-->
+    <item name="help_switch_stream" type="id" />
+    <item name="help_clarity" type="id" />
+</resources>

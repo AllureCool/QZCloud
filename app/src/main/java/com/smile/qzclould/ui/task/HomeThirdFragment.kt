@@ -7,6 +7,7 @@ import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.ui.component.FileDeleteDialog
+import com.smile.qzclould.ui.player.PlayerActivity
 import com.smile.qzclould.ui.task.adapter.FileDownloadCompleteAdapter
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_third.*
@@ -54,6 +55,13 @@ class HomeThirdFragment: BaseFragment() {
 
             }
         })
+
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            val bundle = Bundle()
+            bundle.putBoolean("isLocal", true)
+            bundle.putString("path", (adapter.getItem(position) as File).absolutePath)
+            jumpActivity(PlayerActivity::class.java, bundle)
+        }
 
         mFileDeleteDialog?.setOnDialogClickListener(object : FileDeleteDialog.OnDialogClickListener {
             override fun onDeleteClick() {

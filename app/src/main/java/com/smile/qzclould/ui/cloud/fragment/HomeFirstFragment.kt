@@ -21,6 +21,7 @@ import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.dialog.FileOperationDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.component.FileDeleteDialog
+import com.smile.qzclould.ui.player.PlayerActivity
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_first.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -114,11 +115,19 @@ class HomeFirstFragment : BaseFragment() {
                     mFileOperationDialog!!.dismissDialog()
                     return
                 }
-                if (item?.mime == Constants.MIME_FOLDER) {
-                    val bundle = Bundle()
-                    bundle.putString("file_name", item.name)
-                    bundle.putString("file_path", item.path)
-                    Navigation.findNavController(mRvFile).navigate(R.id.homeFirstFragment2, bundle)
+                when {
+                    item?.mime == Constants.MIME_FOLDER -> {
+                        val bundle = Bundle()
+                        bundle.putString("file_name", item.name)
+                        bundle.putString("file_path", item.path)
+                        Navigation.findNavController(mRvFile).navigate(R.id.homeFirstFragment2, bundle)
+                    }
+                    item?.mime!!.contains(Constants.MIME_VIDEO) -> {
+                        val bundle = Bundle()
+                        bundle.putBoolean("isLocal", false)
+                        bundle.putString("path", item.path)
+                        jumpActivity(PlayerActivity::class.java, bundle)
+                    }
                 }
             }
 

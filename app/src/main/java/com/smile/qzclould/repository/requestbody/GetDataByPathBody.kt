@@ -1,6 +1,6 @@
 package com.smile.qzclould.repository.requestbody
 
-data class GetFileListByPathBody(
+data class GetDataByPathBody(
         val path: String,
         val page: Int,
         val pageSize: Int,

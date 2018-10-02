@@ -6,6 +6,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.bean.FileBean
 import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.ui.player.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
@@ -132,7 +133,7 @@ class HttpRepository {
     }
 
     fun listFileByPath(path: String, page: Int, pageSize: Int, orderBy: Int, type: Int): Observable<Respone<FileBean>> {
-        val body = GetFileListByPathBody(path, page, pageSize, orderBy, type)
+        val body = GetDataByPathBody(path, page, pageSize, orderBy, type)
         return service.listFileByPath(body).doRequestAsync()
     }
 
@@ -159,5 +160,10 @@ class HttpRepository {
     fun removeFile(path: List<String>): Observable<Respone<String>> {
         val body = PathArrayBody(path)
         return service.removeFile(body).doRequestAsync()
+    }
+
+    fun getMediaInfo(path: String): Observable<Respone<VideoDetailBean>> {
+        val body = PathBody(path)
+        return service.getMediaInfo(body).doRequestAsync()
     }
 }

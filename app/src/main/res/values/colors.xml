@@ -18,4 +18,6 @@
     <color name="color_gray_d9d9d9">#d9d9d9</color>
     <color name="color_gray_bbbbbb">#BBBBBB</color>
     <color name="color_blue_108EE9">#108EE9</color>
+    <color name="color_black_000000">#000000</color>
+    <color name="color_black_percent_80">#cc000000</color>
 </resources>

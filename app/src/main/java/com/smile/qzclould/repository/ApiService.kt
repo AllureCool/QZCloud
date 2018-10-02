@@ -5,6 +5,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.bean.FileBean
 import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.ui.player.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
@@ -69,7 +70,7 @@ interface ApiService {
      * 根据path列出文件
      */
     @POST("/v1/files/page")
-    fun listFileByPath(@Body requestBody: GetFileListByPathBody): Observable<Respone<FileBean>>
+    fun listFileByPath(@Body requestBody: GetDataByPathBody): Observable<Respone<FileBean>>
 
     /**
      * 预解析文件
@@ -100,4 +101,10 @@ interface ApiService {
      */
     @POST("/v1/files/remove")
     fun removeFile(@Body requestBody: PathArrayBody): Observable<Respone<String>>
+
+    /**
+     * 预览媒体文件
+     */
+    @POST("/v1/preview/media")
+    fun getMediaInfo(@Body requestBody: PathBody): Observable<Respone<VideoDetailBean>>
 }

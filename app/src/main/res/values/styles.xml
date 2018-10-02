@@ -30,6 +30,12 @@
         <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
     </style>
 
+    <!--右边弹出Dialog动画-->
+    <style name="RightDialog" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_fragment_right_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_fragment_right_out</item>
+    </style>
+
     <style name="Button_List_Style" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">310dp</item>
         <item name="android:layout_height">40dp</item>
