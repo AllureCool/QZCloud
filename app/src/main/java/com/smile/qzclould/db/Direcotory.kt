@@ -27,7 +27,7 @@ data class Direcotory(
 
         var isSelected: Boolean, //是否选中
         var isDownloading: Boolean = false, //是否处于下载状态
-        var downloadStatus: Int = 0, //0: 未下载 1：正在下载 2：暂停 3：下载失败 4：下载完成
+        var downloadStatus: Int = 0, //0: 未下载 1：正在下载 2：暂停 3：下载失败 4：下载完成 5:队列中
         var downloadSize: Int = 0, //已经下载的大小
         var downProgress: Int =  0, //下载进度
         var totalSize: Int = 0, //文件总大小

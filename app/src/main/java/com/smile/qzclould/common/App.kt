@@ -14,7 +14,7 @@ import com.tspoon.traceur.Traceur
  * Created by wangzhg on 2018/7/12
  * Describe:
  */
-class App: Application() {
+class App : Application() {
     companion object {
         @JvmStatic
         lateinit var instance: App
@@ -22,7 +22,7 @@ class App: Application() {
         private var cloudDb: CloudDatabase? = null
 
         fun getCloudDatabase(): CloudDatabase? {
-            if(cloudDb == null) {
+            if (cloudDb == null) {
                 try {
                     cloudDb = Room.databaseBuilder(instance, CloudDatabase::class.java, "cloud.db").fallbackToDestructiveMigration().build()
                 } catch (e: Exception) {
@@ -40,7 +40,7 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Traceur.enableLogging()
         }
         Fresco.initialize(this)
@@ -49,6 +49,7 @@ class App: Application() {
                         .connectTimeout(15000) // set connection timeout.
                         .readTimeout(15000) // set read timeout.
                 ))
+                .maxNetworkThreadCount(3)
                 .commit()
     }
 }
