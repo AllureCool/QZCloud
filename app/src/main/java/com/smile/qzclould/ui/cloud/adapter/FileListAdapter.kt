@@ -21,15 +21,15 @@ import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
+class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     private var mCheckListener: OnCheckListener? = null
     private var mDispose: Disposable? = null
     private val mSelectedList by lazy { mutableListOf<Direcotory>() }
-    private var mViewModel:CloudViewModel? = null
+    private var mViewModel: CloudViewModel? = null
     lateinit var observer: Observer<String>
 
-    constructor(viewModel: CloudViewModel): super(R.layout.item_file) {
+    constructor(viewModel: CloudViewModel) : super(R.layout.item_file) {
         mViewModel = viewModel
         initViewModel()
         initEvent()
@@ -58,7 +58,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         with(helper?.getView<ImageView>(R.id.mIvSelect)) {
             this?.isSelected = item!!.isSelected
-            if(item.mime == Constants.MIME_FOLDER) {
+            if (item.mime == Constants.MIME_FOLDER) {
                 this?.visibility = View.GONE
             } else {
                 this?.visibility = View.VISIBLE
@@ -67,7 +67,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 mSelectedList.add(item)
                 item.isSelected = true
                 notifyItemChanged(helper!!.adapterPosition)
-                mCheckListener?.onChecked(helper.adapterPosition ,item)
+                mCheckListener?.onChecked(helper.adapterPosition, item)
             }
         }
 
@@ -102,7 +102,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private fun initEvent() {
         mDispose = RxBus.toObservable(FileControlEvent::class.java)
                 .subscribe {
-                    when(it.controlCode) {
+                    when (it.controlCode) {
                         EVENT_CANCEl -> {
                             mSelectedList.clear()
                             for (item in data) {
@@ -120,30 +120,20 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
                         }
                         EVENT_DOWNLOAD -> {
                             val downloadList = mutableListOf<Direcotory>()
-                            for(file in mSelectedList) {
-                                if(file.mime != Constants.MIME_FOLDER) {
+                            for (file in mSelectedList) {
+                                if (file.mime != Constants.MIME_FOLDER) {
                                     downloadList.add(file)
                                 }
                             }
+                            mSelectedList.clear()
+                            for (item in data) {
+                                item.isSelected = false
+                            }
+                            notifyDataSetChanged()
                             doAsync {
                                 val dao = App.getCloudDatabase()?.DirecotoryDao()
                                 dao?.saveDirecotoryList(downloadList)
-                                var shouldDownloadNow = true
-                                for (item in dao!!.loadDirecotory()) {
-                                    if(item.downloadStatus == 1) {
-                                        shouldDownloadNow = false
-                                        break
-                                    }
-                                }
-
-                                uiThread {
-                                    mSelectedList.clear()
-                                    for (item in data) {
-                                        item.isSelected = false
-                                    }
-                                    RxBus.post(FileDownloadEvent(shouldDownloadNow))
-                                    notifyDataSetChanged()
-                                }
+                                RxBus.post(FileDownloadEvent(true))
                             }
                         }
                         EVENT_DELETE -> {
@@ -156,7 +146,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private fun removeFiles() {
         doAsync {
             val removeList = mutableListOf<String>()
-            for(file in mSelectedList) {
+            for (file in mSelectedList) {
                 removeList.add(file.path)
             }
             uiThread {
@@ -171,7 +161,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
-        if(!mDispose?.isDisposed!!) {
+        if (!mDispose?.isDisposed!!) {
             mDispose?.dispose()
         }
     }

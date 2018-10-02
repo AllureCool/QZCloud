@@ -13,31 +13,28 @@ import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadSampleListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.util.FileDownloadUtils
-import com.mcxtzhang.swipemenulib.SwipeMenuLayout
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.FileDownloadCompleteEvent
-import com.smile.qzclould.manager.TasksManager
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
-import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.RxBus
 import io.netopen.hotbitmapgg.library.view.RingProgressBar
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.io.File
 
 class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private val mViewModel by lazy { TransferViewModel() }
     lateinit var observer: Observer<FileDetailBean>
+    private val waitDownLoadList = ArrayList<Direcotory>()
 
     private val mTaskDownloadListener = object : FileDownloadSampleListener() {
         override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             super.pending(task, soFarBytes, totalBytes)
             val itemData = task?.tag as Direcotory
-            itemData?.downloadStatus = 1
+            itemData?.downloadStatus = 5
             notifyItemChanged(data.indexOf(itemData))
             updateFileInfo(itemData)
         }
@@ -92,7 +89,9 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             super.completed(task)
             val itemData = task?.tag as Direcotory
             data.remove(itemData)
-            notifyItemRemoved(data.indexOf(itemData))
+            notifyDataSetChanged()
+//            notifyItemRemoved(index)
+//            notifyItemRangeChanged(index, mData.size)
             deleteFile(itemData)
             RxBus.post(FileDownloadCompleteEvent())
         }
@@ -102,23 +101,40 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         initViewModel()
     }
 
+    fun startDownload(file: Direcotory) {
+        var savePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + file.name
+        when {
+            file.mime == Constants.MIME_IMG -> savePath = "$savePath.jpg"
+        }
+        val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
+                .setPath(savePath)
+                .setTag(file)
+                .setCallbackProgressTimes(750)
+                .setListener(mTaskDownloadListener)
+        task.start()
+    }
 
     override fun setNewData(data: List<Direcotory>?) {
         super.setNewData(data)
 
-        for(item in data!!) {
+        for (item in data!!) {
             when (item.downloadStatus) {
-                1 -> {
-                    if(item.fileDetail != null) {
+                1, 5 -> {
+                    if (item.fileDetail != null) {
                         startDownload(item!!)
+                    } else {
+                        getDownloadInfo(item.path, data.indexOf(item))
                     }
+                }
+                0 -> {
+                    getDownloadInfo(item.path, data.indexOf(item))
                 }
             }
         }
     }
 
     private fun deleteFile(fileInfo: Direcotory?) {
-        if(fileInfo == null) {
+        if (fileInfo == null) {
             return
         }
         doAsync {
@@ -128,7 +144,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     }
 
     private fun updateFileInfo(fileInfo: Direcotory?) {
-        if(fileInfo == null) {
+        if (fileInfo == null) {
             return
         }
         doAsync {
@@ -140,7 +156,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private fun initViewModel() {
         observer = Observer {
             data[it!!.position].fileDetail = it
-            startDownload(data[it!!.position], true)
+            startDownload(data[it!!.position])
         }
         mViewModel.fileDetail.observeForever(observer)
     }
@@ -154,23 +170,6 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     fun getDownloadInfo(path: String, pos: Int) {
         mViewModel.loadFileDetail(path, pos)
     }
-
-    fun startDownload(file: Direcotory, shouldDeleteOld: Boolean = false) {
-        var savePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + file.name
-        DLog.i(savePath + "-----------------------------")
-        if (shouldDeleteOld) {
-            File(savePath).delete()
-            File(FileDownloadUtils.getTempPath(savePath)).delete()
-        }
-        val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
-                .setPath(savePath)
-                .setTag(file)
-                .setCallbackProgressTimes(100)
-                .setListener(mTaskDownloadListener)
-        TasksManager.getImpl().addTaskForViewHolder(task)
-        task.start()
-    }
-
 
     override fun convert(helper: BaseViewHolder?, item: Direcotory) {
         with(helper?.getView<ImageView>(R.id.mIcon)) {
@@ -189,22 +188,14 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         helper?.setText(R.id.mTvFileName, item.name)
 
         with(helper?.getView<ImageView>(R.id.mIvStatus)) {
-            when {
-                item.downloadStatus == 0 -> {
-                    this?.setImageDrawable(mContext.resources.getDrawable(R.drawable.icon_download_24dp))
-                }
-                item.downloadStatus == 1 -> {
-                    this?.setImageDrawable(mContext.resources.getDrawable(R.drawable.icon_pause_24dp))
-                }
-                item.downloadStatus == 2 -> {
-                    this?.setImageDrawable(mContext.resources.getDrawable(R.drawable.icon_download_24dp))
-                }
-                item.downloadStatus == 3 -> {
-                    this?.setImageDrawable(mContext.resources.getDrawable(R.drawable.icon_download_24dp))
-                }
-                else -> {
-                }
-            }
+            this?.setImageDrawable(mContext.resources.getDrawable(when (item.downloadStatus) {
+                0 -> R.drawable.icon_download_24dp
+                1 -> R.drawable.icon_pause_24dp
+                2 -> R.drawable.icon_download_24dp
+                3 -> R.drawable.icon_download_24dp
+                5 -> R.drawable.ic_queue_24dp
+                else -> 0
+            }))
         }
 
         with(helper?.getView<RingProgressBar>(R.id.mDlProgress)) {
@@ -212,42 +203,25 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         }
 
         with(helper?.getView<FrameLayout>(R.id.mFlDownload)) {
-            when {
-                item.downloadStatus == 0 -> {
+            when (item.downloadStatus) {
+                0, 1, 2, 3, 5 -> {
                     this?.visibility = View.VISIBLE
                 }
-                item.downloadStatus == 1 -> {
-                    this?.visibility = View.VISIBLE
-                }
-                item.downloadStatus == 2 -> {
-                    this?.visibility = View.VISIBLE
-                }
-                item.downloadStatus == 3 -> {
-                    this?.visibility = View.VISIBLE
-                }
-                item.downloadStatus == 4 -> {
+                4 -> {
                     this?.visibility = View.GONE
                 }
             }
         }
 
         with(helper?.getView<TextView>(R.id.mTvDownloadStatus)) {
-            when {
-                item.downloadStatus == 0 -> {
-                    this?.text = "等待下载....."
-                }
-                item.downloadStatus == 1 -> {
-                    this?.text = "正在下载 ${item?.downProgress}%"
-                }
-                item.downloadStatus == 2 -> {
-                    this?.text = "下载暂停"
-                }
-                item.downloadStatus == 3 -> {
-                    this?.text = "下载失败"
-                }
-                item.downloadStatus == 4 -> {
-                    this?.text = "下载完成"
-                }
+            this?.text = when (item.downloadStatus) {
+                0 -> "等待下载....."
+                1 -> "正在下载 ${item?.downProgress}%"
+                2 -> "下载暂停"
+                3 -> "下载失败"
+                4 -> "下载完成"
+                5 -> "队列中"
+                else -> ""
             }
         }
 
@@ -260,21 +234,27 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                     item.fileDetail?.position = helper.adapterPosition
                     startDownload(item)
                 }
-                1 -> {
+                1, 5 -> {
                     FileDownloader.getImpl().pause(item.taskId)
                 }
             }
         }
 
         helper?.getView<Button>(R.id.btnDelete)?.setOnClickListener {
-            deleteTask(item?.fileDetail)
-            helper?.getView<SwipeMenuLayout>(R.id.mSwipeLayout)?.smoothClose()
+            //            deleteTask(item?.fileDetail)
+            FileDownloader.getImpl().clear(item?.taskId, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + item?.fileDetail?.name)
+//            helper?.getView<SwipeMenuLayout>(R.id.mSwipeLayout)?.quickClose()
             doAsync {
                 val dao = App.getCloudDatabase()?.DirecotoryDao()
                 dao?.deleteDirecotory(item)
             }
-            mData.remove(item)
-            notifyItemRemoved(helper.adapterPosition)
+            val index = helper.adapterPosition
+            mData.removeAt(index)
+            notifyDataSetChanged()
+            notifyItemRemoved(index)
+//            if (index != mData.size) { // 如果移除的是最后一个，忽略
+//                notifyItemRangeChanged(index, mData.size - index)
+//            }
         }
 
     }
