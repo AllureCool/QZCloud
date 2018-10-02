@@ -36,6 +36,8 @@
         <activity android:name=".ui.player.PlayerActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".ui.player.AudioPlayerActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="design_width_in_dp"
