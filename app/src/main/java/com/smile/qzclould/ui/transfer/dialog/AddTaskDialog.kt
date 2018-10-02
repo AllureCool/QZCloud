@@ -2,6 +2,8 @@ package com.smile.qzclould.ui.transfer.dialog
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.Gravity
@@ -13,9 +15,12 @@ import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.dialog_add_download_task.*
 
+
+
 class AddTaskDialog: BaseDialogFragment() {
 
     private val mModel by lazy { ViewModelProviders.of(this).get(TransferViewModel::class.java) }
+    private val cm by lazy { mActivity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager }
 
     override fun setLayoutId(): Int {
         return R.layout.dialog_add_download_task
@@ -41,6 +46,10 @@ class AddTaskDialog: BaseDialogFragment() {
         mBtnConfirm.setOnClickListener {
             mModel.parseUrl(mEtDownloadUrl.text.toString())
         }
+
+        mQuickPaste.setOnClickListener {
+            mEtDownloadUrl.setText(getClipboardText())
+        }
         initViewModel()
     }
 
@@ -54,5 +63,11 @@ class AddTaskDialog: BaseDialogFragment() {
             showToast(Constants.TOAST_SUCCESS, getString(R.string.already_add_to_offlin_task))
             dismiss()
         })
+    }
+
+    private fun getClipboardText(): String {
+        val data = cm.primaryClip
+        val item = data.getItemAt(0)
+        return item.text.toString()
     }
 }

@@ -40,6 +40,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
     }
 
     override fun convert(helper: BaseViewHolder?, item: Direcotory?) {
+
         with(helper?.getView<ImageView>(R.id.mIcon)) {
             when {
                 item?.mime!!.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
@@ -69,12 +70,6 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 notifyItemChanged(helper!!.adapterPosition)
                 mCheckListener?.onChecked(helper.adapterPosition ,item)
             }
-        }
-
-        helper?.getView<Button>(R.id.btnDelete)?.setOnClickListener {
-            mSelectedList.clear()
-            mSelectedList.add(item!!)
-            removeFiles()
         }
 
         helper?.getView<ConstraintLayout>(R.id.mClItem)?.setOnClickListener {

@@ -6,6 +6,7 @@ import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import org.jetbrains.anko.doAsync
 
 class CloudViewModel : BaseViewModel() {
     val repo by lazy { HttpRepository() }
@@ -18,7 +19,7 @@ class CloudViewModel : BaseViewModel() {
     fun createDirectory(name: String, parentUUid: String = "") {
         repo.createDirectory(name, parentUUid)
                 .subscribe({
-                    if(it.success) {
+                    if (it.success) {
                         createDirectoryResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -29,10 +30,10 @@ class CloudViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
-    fun listFile( parent: String, path: String, start: Int, size: Int, recycle: Int, mime: String, orderBy: Int, type: Int) {
+    fun listFile(parent: String, path: String, start: Int, size: Int, recycle: Int, mime: String, orderBy: Int, type: Int) {
         repo.listFile(parent, path, start, size, recycle, mime, orderBy, type)
                 .subscribe({
-                    if(it.success) {
+                    if (it.success) {
                         listFileResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -46,8 +47,14 @@ class CloudViewModel : BaseViewModel() {
     fun listFileByPath(path: String, page: Int, pageSize: Int, orderBy: Int, type: Int = -1) {
         repo.listFileByPath(path, page, pageSize, orderBy, type)
                 .subscribe({
-                    if(it.success) {
-                        listFileResult.value = it.data!!.list
+                    if (it.success) {
+                        val fileList = mutableListOf<Direcotory>()
+                        for (item in it.data!!.list) {
+                            if(!item.locking) {
+                                fileList.add(item)
+                            }
+                        }
+                        listFileResult.value = fileList
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }
@@ -60,7 +67,7 @@ class CloudViewModel : BaseViewModel() {
     fun parseUrl(url: String) {
         repo.parseUrlS(url)
                 .subscribe({
-                    if(it.success) {
+                    if (it.success) {
                         parseUrlResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(100, it.message)
@@ -84,7 +91,7 @@ class CloudViewModel : BaseViewModel() {
     fun removeFile(path: List<String>) {
         repo.removeFile(path)
                 .subscribe({
-                    if(it.success) {
+                    if (it.success) {
                         removeResult.value = it.data
                     }
                 }, {

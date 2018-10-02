@@ -24,6 +24,7 @@ class FileDeleteDialog: BaseDialogFragment() {
     override fun initView() {
         rl_delete.setOnClickListener {
             mOnDialogClickListener?.onDeleteClick()
+            dismiss()
         }
     }
 

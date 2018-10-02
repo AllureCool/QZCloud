@@ -45,9 +45,6 @@ class DownloadTaskAdapter: BaseQuickAdapter<DownloadTaskBean.Task, BaseViewHolde
         }
         helper?.getView<ImageView>(R.id.mIvSelect)?.visibility = View.GONE
 
-        helper?.getView<Button>(R.id.btnDelete)?.setOnClickListener {
-            mOnItemRemoveListener?.onRemoved(item)
-        }
     }
 
     interface OnItemRemoveListener {

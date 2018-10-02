@@ -6,6 +6,7 @@ import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.event.FileDownloadCompleteEvent
+import com.smile.qzclould.ui.component.FileDeleteDialog
 import com.smile.qzclould.ui.task.adapter.FileDownloadCompleteAdapter
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_third.*
@@ -16,6 +17,8 @@ class HomeThirdFragment: BaseFragment() {
     private val path = FileDownloadUtils.getDefaultSaveRootPath() + File.separator
     private val mAdapter by lazy { FileDownloadCompleteAdapter() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
+    private val mFileDeleteDialog by lazy { FileDeleteDialog() }
+    private var mDeleteFile: File ? = null
 
     private fun loadAlreadyDownloadFiles(): MutableList<File> {
         val file = File(path)
@@ -43,7 +46,18 @@ class HomeThirdFragment: BaseFragment() {
         mAdapter.bindToRecyclerView(mRvFile)
         mAdapter.setOnFileRemoveListener(object : FileDownloadCompleteAdapter.OnFileRemoveListener {
             override fun onRemove(file: File) {
-                file.deleteRecursively()
+                mDeleteFile = file
+
+                if(!mFileDeleteDialog.isAdded) {
+                    mFileDeleteDialog.showNow(childFragmentManager, "file_delete_dialog")
+                }
+
+            }
+        })
+
+        mFileDeleteDialog?.setOnDialogClickListener(object : FileDeleteDialog.OnDialogClickListener {
+            override fun onDeleteClick() {
+                mDeleteFile!!.deleteRecursively()
                 refreshList()
             }
         })

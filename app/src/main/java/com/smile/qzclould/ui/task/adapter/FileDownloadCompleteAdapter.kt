@@ -1,5 +1,6 @@
 package com.smile.qzclould.ui.task.adapter
 
+import android.support.constraint.ConstraintLayout
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -42,12 +43,11 @@ class FileDownloadCompleteAdapter: BaseQuickAdapter<File, BaseViewHolder>(R.layo
         helper?.setText(R.id.mTvDate, DateUtils.dateFormat(item?.lastModified()!!))
 
         helper?.getView<ImageView>(R.id.mIvSelect)?.visibility = View.GONE
-        DLog.i(item?.absolutePath + "******************")
-        helper?.getView<Button>(R.id.btnDelete)?.setOnClickListener {
-            mOnFilRemoveListener?.onRemove(item!!)
-        }
 
-        DLog.i(FileUtils.getMIMEType(item) + "------------------------------")
+        helper?.getView<ConstraintLayout>(R.id.mClItem)?.setOnLongClickListener {
+            mOnFilRemoveListener?.onRemove(item!!)
+            return@setOnLongClickListener true
+        }
     }
 
     interface OnFileRemoveListener {
