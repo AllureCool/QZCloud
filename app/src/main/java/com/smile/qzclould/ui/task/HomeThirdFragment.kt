@@ -28,11 +28,9 @@ class HomeThirdFragment: BaseFragment() {
 
     private fun refreshList() {
         val fileList = loadAlreadyDownloadFiles()
-
+        mAdapter.setNewData(fileList)
         if(fileList.isEmpty()) {
             mAdapter.setEmptyView(R.layout.view_empty)
-        } else {
-            mAdapter.setNewData(fileList)
         }
     }
 
@@ -43,6 +41,12 @@ class HomeThirdFragment: BaseFragment() {
     override fun initView(savedInstanceState: Bundle?) {
         mRvFile.layoutManager = mLayoutManager
         mAdapter.bindToRecyclerView(mRvFile)
+        mAdapter.setOnFileRemoveListener(object : FileDownloadCompleteAdapter.OnFileRemoveListener {
+            override fun onRemove(file: File) {
+                file.deleteRecursively()
+                refreshList()
+            }
+        })
         refreshList()
     }
 

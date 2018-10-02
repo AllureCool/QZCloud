@@ -6,8 +6,14 @@ package com.smile.qzclould.common
  */
 
 object Constants {
-    const val MIME_IMG = "image/jpeg"
+    const val MIME_IMG = "image/"
     const val MIME_FOLDER = "application/x-directory"
+    const val MIME_TEXT = "text/"
+    const val MIME_AUDIO = "audio/"
+    const val MIME_VIDEO = "video/"
+    const val MIME_PDF = "application/pdf"
+    const val MIME_EXCEL = "-excel"
+    const val MIME_DOC = "application/msword"
 
     const val KEY_CLOUD_SP = "key_cloud_sp"
     const val USER_INFO = "user_info"

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mFlDialog">
+    android:orientation="vertical"
+    android:id="@+id/mLlDialog">
 
     <FrameLayout
         android:id="@+id/mFlTop"
@@ -35,18 +36,26 @@
             android:textSize="16sp"
             android:textColor="@color/color_white_ffffff"/>
     </FrameLayout>
-    <FrameLayout
+    <View
+        android:id="@+id/mTempView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_weight="1"
+        android:clickable="true"/>
+    <LinearLayout
         android:id="@+id/mFlBottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="bottom"
+        android:orientation="horizontal"
         android:clickable="true"
         android:background="@color/color_green_2EC17C">
         <LinearLayout
             android:id="@+id/mLlDownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="58dp"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
@@ -69,6 +78,7 @@
             android:id="@+id/mLlDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:layout_gravity="center"
             android:orientation="vertical">
@@ -91,8 +101,8 @@
             android:id="@+id/mLlMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:layout_marginRight="58dp"
             android:layout_gravity="center_vertical|right"
             android:orientation="vertical">
 
@@ -109,6 +119,6 @@
                 android:textSize="10sp"
                 android:textColor="@color/color_white_ffffff"/>
         </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

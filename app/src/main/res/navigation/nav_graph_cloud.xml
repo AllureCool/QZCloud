@@ -7,13 +7,5 @@
     <fragment
         android:id="@+id/homeFirstFragment2"
         android:name="com.smile.qzclould.ui.cloud.fragment.HomeFirstFragment"
-        android:label="HomeFirstFragment" >
-        <action
-            android:id="@+id/action_homeFirstFragment2_to_folderDetailActivity"
-            app:destination="@id/folderDetailActivity" />
-    </fragment>
-    <activity
-        android:id="@+id/folderDetailActivity"
-        android:name="com.smile.qzclould.ui.cloud.activity.FolderDetailActivity"
-        android:label="FolderDetailActivity" />
+        android:label="HomeFirstFragment" />
 </navigation>

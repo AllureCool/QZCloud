@@ -25,6 +25,7 @@ class TransferViewModel: BaseViewModel() {
     val parseUrlResult by lazy { MediatorLiveData<ParseUrlResultBean>() }
     val offlineDownloadResult by lazy { MediatorLiveData<OfflineDownloadResult>() }
     val fileDetail by lazy { MediatorLiveData<FileDetailBean>() }
+    val removeResult by lazy { MediatorLiveData<String>() }
 
     fun loadOfflineTask(page: Int, pageSize: Int, order: Int = 0) {
         repo.offlineDownloadList(page, pageSize, order)
@@ -85,6 +86,18 @@ class TransferViewModel: BaseViewModel() {
                     }
                 }, {
                     errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun removeFile(path: List<String>) {
+        repo.removeFile(path)
+                .subscribe({
+                    if(it.success) {
+                        removeResult.value = it.data
+                    }
+                }, {
+
                 })
                 .autoDispose()
     }

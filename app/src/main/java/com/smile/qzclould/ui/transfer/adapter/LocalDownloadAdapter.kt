@@ -22,6 +22,7 @@ import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.manager.TasksManager
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
+import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.RxBus
 import io.netopen.hotbitmapgg.library.view.RingProgressBar
 import org.jetbrains.anko.doAsync
@@ -156,9 +157,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     fun startDownload(file: Direcotory, shouldDeleteOld: Boolean = false) {
         var savePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + file.name
-        when {
-            file.mime == Constants.MIME_IMG -> savePath = "$savePath.jpg"
-        }
+        DLog.i(savePath + "-----------------------------")
         if (shouldDeleteOld) {
             File(savePath).delete()
             File(FileDownloadUtils.getTempPath(savePath)).delete()
@@ -176,9 +175,15 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     override fun convert(helper: BaseViewHolder?, item: Direcotory) {
         with(helper?.getView<ImageView>(R.id.mIcon)) {
             when {
-                item.mime == Constants.MIME_FOLDER -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
-                item.mime == Constants.MIME_IMG -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
-                else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
+                item?.mime!!.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
+                item.mime.contains(Constants.MIME_IMG) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
+                item.mime.contains(Constants.MIME_AUDIO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_mp3))
+                item.mime.contains(Constants.MIME_TEXT) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_txt))
+                item.mime.contains(Constants.MIME_VIDEO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_video))
+                item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
+                item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
+                item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
+                else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
             }
         }
         helper?.setText(R.id.mTvFileName, item.name)

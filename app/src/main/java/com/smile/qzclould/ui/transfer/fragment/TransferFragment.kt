@@ -10,6 +10,7 @@ import com.smile.qzclould.R
 import com.smile.qzclould.event.FileDownloadEvent
 import com.smile.qzclould.event.RefreshOfflineTaskListEvent
 import com.smile.qzclould.ui.transfer.adapter.DownloadTaskAdapter
+import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.dialog.AddTaskDialog
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
 import com.smile.qzclould.utils.RxBus
@@ -44,12 +45,22 @@ class TransferFragment: BaseFragment() {
     override fun initView(savedInstanceState: Bundle?) {
         mFlTask.visibility = View.VISIBLE
         mRvDownload.layoutManager = mLayoutManager
+        mRvDownload.itemAnimator = null
         mAdapter.bindToRecyclerView(mRvDownload)
         mAdapter.setOnLoadMoreListener({loadOfflinTask(mPage)}, mRvDownload)
+        mAdapter.setItemRemoveListener(object : DownloadTaskAdapter.OnItemRemoveListener {
+            override fun onRemoved(file: DownloadTaskBean.Task?) {
+            }
+        })
+        mRefreshLayout.setOnRefreshListener {
+            mPage = 1
+            loadOfflinTask(mPage)
+        }
     }
 
     override fun initViewModel() {
         mModel.offlineTaskList.observe(this, Observer {
+            mRefreshLayout.isRefreshing = false
             if(mPage == 1 && it!!.isEmpty()) {
                 mAdapter.setEmptyView(R.layout.view_empty)
             }
@@ -84,7 +95,7 @@ class TransferFragment: BaseFragment() {
     }
 
     private fun loadOfflinTask(page: Int) {
-        mModel.loadOfflineTask(page, 10)
+        mModel.loadOfflineTask(page, 20)
 
     }
 }

@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
+import com.smile.qzclould.common.base.Backable
 import com.smile.qzclould.ui.MainActivity
 import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.CompositeDisposable
@@ -21,7 +23,7 @@ import io.reactivex.disposables.Disposable
  * Created by wangzhg on 2018/7/13
  * Describe:
  */
-abstract class BaseFragment: Fragment() {
+abstract class BaseFragment: Fragment(), Backable {
     private var mCompositeDisposable = CompositeDisposable()
     private val mLoadingDialog by lazy { KProgressHUD.create(mActivity) }
     protected var mActivity: Activity? = null
@@ -64,7 +66,8 @@ abstract class BaseFragment: Fragment() {
         return mActivity
     }
 
-    override fun onAttach(context: Context?) {
+
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is Activity) {
             mActivity = context
@@ -175,6 +178,10 @@ abstract class BaseFragment: Fragment() {
 
     open fun getTitle(): String {
         return ""
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
     }
 
     protected fun addDispose(disposable: Disposable) {

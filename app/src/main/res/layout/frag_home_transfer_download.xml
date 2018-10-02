@@ -29,8 +29,14 @@
             android:textColor="@color/color_black_5A5A5A"
             android:layout_gravity="center_vertical|right"/>
     </FrameLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRvDownload"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRvDownload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </LinearLayout>

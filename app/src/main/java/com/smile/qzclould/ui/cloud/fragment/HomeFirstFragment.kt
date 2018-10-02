@@ -4,6 +4,9 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
+import android.view.View
+import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
@@ -11,18 +14,22 @@ import com.smile.qzclould.common.Constants
 import com.smile.qzclould.ui.cloud.activity.FolderDetailActivity
 import com.smile.qzclould.ui.cloud.adapter.FileListAdapter
 import com.smile.qzclould.db.Direcotory
+import com.smile.qzclould.event.ClickThroughEvent
+import com.smile.qzclould.event.EVENT_CANCEl
+import com.smile.qzclould.event.FileControlEvent
 import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.dialog.FileOperationDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
-import com.smile.qzclould.utils.DLog
+import com.smile.qzclould.ui.component.FileDeleteDialog
+import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_first.*
 import kotlinx.android.synthetic.main.view_search_bar.*
-import org.jetbrains.anko.doAsync
 
-class HomeFirstFragment: BaseFragment() {
+class HomeFirstFragment : BaseFragment() {
 
     private val mModel by lazy { ViewModelProviders.of(this).get(CloudViewModel::class.java) }
     private var mFileOperationDialog: FileOperationDialog? = null
+    private var mFileDeleteDialog: FileDeleteDialog? = null
     private val mDialog by lazy { BuildNewFolderDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { FileListAdapter(mModel) }
@@ -32,21 +39,39 @@ class HomeFirstFragment: BaseFragment() {
 
     private var mOrderType = 0 //排序 0按 文件名 1 按时间
 
+    private var mFilePath = "/"
+    private var mFileName = ""
+
     override fun getLayoutId(): Int {
         return R.layout.frag_home_first
     }
 
     override fun initData() {
+        if (arguments != null && arguments!!.getString("file_path") != null) {
+            mFilePath = arguments!!.getString("file_path")
+            mFileName = arguments!!.getString("file_name")
+        }
+
         listFileByPath()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+
+        if (!TextUtils.isEmpty(mFileName)) {
+            mTvFileName.visibility = View.VISIBLE
+            mTvFileName.text = mFileName
+        } else {
+            mTvFileName.visibility = View.GONE
+        }
+
+        mTvFileName.setOnClickListener {
+            if (!Navigation.findNavController(it).navigateUp()) {
+                mActivity?.finish()
+            }
+        }
+
         mRvFile.layoutManager = mLayoutManager
         mAdapter.bindToRecyclerView(mRvFile)
-        doAsync {
-            val dao = App.getCloudDatabase()?.DirecotoryDao()
-            DLog.i(dao!!.loadDirecotory().size.toString() + "================")
-        }
     }
 
     override fun initListener() {
@@ -54,48 +79,53 @@ class HomeFirstFragment: BaseFragment() {
             mDialog.setDialogClickListener(object : BuildNewFolderDialog.DialogButtonClickListener {
                 override fun onConfirmClick(folderName: String) {
                     showLoading()
-                    mModel.createDirectory(folderName)
+                    mModel.createDirectory(folderName, mFilePath)
                 }
             })
-            if(!mDialog.isAdded) {
+            if (!mDialog.isAdded) {
                 mDialog.show(childFragmentManager, "new_folder")
             }
         }
 
-        mAdapter.setOnLoadMoreListener( { listFileByPath() }, mRvFile)
+        mAdapter.setOnLoadMoreListener({ listFileByPath() }, mRvFile)
 
-        mAdapter.setOnItemClickListener { adapter, view, position ->
-            if((adapter.getItem(position) as Direcotory).mime == Constants.MIME_FOLDER) {
-                val bundle = Bundle()
-                bundle.putString("parent_name", (adapter.getItem(position) as Direcotory).name)
-                bundle.putString("parent_uuid", (adapter.getItem(position) as Direcotory).uuid)
-                jumpActivity(FolderDetailActivity::class.java, bundle)
+        mAdapter.setOnItemLongClickListener { adapter, view, position ->
+
+            if (mFileOperationDialog == null) {
+                mFileOperationDialog = FileOperationDialog()
             }
+
+            if (!mFileOperationDialog!!.isAdded) {
+                mFileOperationDialog?.show(childFragmentManager, "file_operation")
+            }
+
+            return@setOnItemLongClickListener true
         }
 
         mAdapter.setOnCheckListener(object : FileListAdapter.OnCheckListener {
             override fun onChecked(position: Int, item: Direcotory?) {
-//                doAsync {
-//                    val dao = App.getCloudDatabase()?.DirecotoryDao()
-//                    dao?.saveDirecotory(item!!)
-//
-//                    DLog.i(dao!!.loadDirecotory()[0].uuid + "--------------------")
-//                }
-                mFileOperationDialog = FileOperationDialog()
-                val bundle = Bundle()
-                bundle.putSerializable("file_info", item)
-                mFileOperationDialog?.arguments = bundle
-                mFileOperationDialog?.show(childFragmentManager, "file_operation")
+                showFileOperationDialog(true)
             }
 
             override fun onItemClick(position: Int, item: Direcotory?) {
-                if(item?.mime == Constants.MIME_FOLDER) {
+
+                if (mFileOperationDialog != null && mFileOperationDialog!!.isAdded) {
+                    RxBus.post(FileControlEvent(EVENT_CANCEl))
+                    mFileOperationDialog!!.dismissDialog()
+                    return
+                }
+                if (item?.mime == Constants.MIME_FOLDER) {
                     val bundle = Bundle()
-                    bundle.putString("parent_name", item.name)
-                    bundle.putString("parent_uuid", item.uuid)
-                    jumpActivity(FolderDetailActivity::class.java, bundle)
+                    bundle.putString("file_name", item.name)
+                    bundle.putString("file_path", item.path)
+                    Navigation.findNavController(mRvFile).navigate(R.id.homeFirstFragment2, bundle)
                 }
             }
+
+            override fun onItemLongClick(position: Int, item: Direcotory?) {
+                showFileOperationDialog(false)
+            }
+
         })
 
         mRefreshLayout.setOnRefreshListener {
@@ -118,15 +148,15 @@ class HomeFirstFragment: BaseFragment() {
         mModel.listFileResult.observe(this, Observer {
 
             mRefreshLayout.isRefreshing = false
-            if(mPage == 1 && it!!.isEmpty()) {
+            if (mPage == 1 && it!!.isEmpty()) {
                 mAdapter.setEmptyView(R.layout.view_empty)
             } else {
-                if(it!!.isEmpty()) {
+                if (it!!.isEmpty()) {
                     mAdapter.loadMoreEnd(true)
                 } else {
                     mAdapter.loadMoreComplete()
                 }
-                if(mPage == 1) {
+                if (mPage == 1) {
                     mAdapter.setNewData(it)
                 } else {
                     mAdapter.addData(it)
@@ -152,8 +182,35 @@ class HomeFirstFragment: BaseFragment() {
         })
     }
 
-    private fun listFileByPath() {
-        mModel.listFileByPath("/", mPage, mPageSize, mOrderType)
+    override fun initEvent() {
+        RxBus.toObservable(ClickThroughEvent::class.java)
+                .subscribe {
+                    mRvFile?.dispatchTouchEvent(it.event)
+                }
+                .autoDispose()
     }
 
+    private fun listFileByPath() {
+        mModel.listFileByPath(mFilePath, mPage, mPageSize, mOrderType)
+    }
+
+    private fun showFileOperationDialog(showDownloadBtn: Boolean) {
+        if (mFileOperationDialog == null) {
+            mFileOperationDialog = FileOperationDialog()
+        }
+
+        if (!mFileOperationDialog!!.isAdded) {
+            val bundle = Bundle()
+            bundle.putBoolean("show_download_btn", showDownloadBtn)
+            mFileOperationDialog!!.arguments = bundle
+            mFileOperationDialog?.show(childFragmentManager, "file_operation")
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (!Navigation.findNavController(mTvFileName).navigateUp()) {
+            return false
+        }
+        return true
+    }
 }

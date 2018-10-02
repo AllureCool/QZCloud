@@ -3,10 +3,13 @@ package com.smile.qzclould.ui.cloud.dialog
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.Gravity
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import com.gyf.barlibrary.ImmersionBar
 import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
@@ -25,6 +28,8 @@ class FileOperationDialog: BaseDialogFragment() {
     private val mEnterAnimatorSet by lazy { AnimatorSet() }
     private val mExitAnimatorSet by lazy { AnimatorSet() }
 
+    private var mShowDownloadBtn = true
+
     override fun setLayoutId(): Int {
         return R.layout.dialog_file_operation
     }
@@ -42,13 +47,21 @@ class FileOperationDialog: BaseDialogFragment() {
 
     override fun initView() {
 
-        val layoutParms = mFlTop.layoutParams as FrameLayout.LayoutParams
+        mShowDownloadBtn = arguments!!.getBoolean("show_download_btn")
+
+        if(mShowDownloadBtn) {
+            mLlDownload.visibility = View.VISIBLE
+        } else {
+            mLlDownload.visibility = View.GONE
+        }
+
+        val layoutParms = mFlTop.layoutParams as LinearLayout.LayoutParams
         layoutParms.height = ImmersionBar.getStatusBarHeight(mActivity) + ViewUtils.dip2px(45f).toInt()
         mFlTop.layoutParams = layoutParms
 
-        mFlDialog.setOnClickListener {
-            RxBus.post(FileControlEvent(EVENT_CANCEl))
-            dismissDialog()
+        mTempView.setOnTouchListener { v, event ->
+            RxBus.post(ClickThroughEvent(event))
+            return@setOnTouchListener true
         }
 
         mTvCancel.setOnClickListener {
@@ -67,7 +80,6 @@ class FileOperationDialog: BaseDialogFragment() {
         mLlDelete.setOnClickListener {
             RxBus.post(FileControlEvent(EVENT_DELETE))
             dismissDialog()
-            showToast(Constants.TOAST_SUCCESS, mActivity.getString(R.string.deleting))
         }
 
         mEnterAnimatorSet.play(mTopEnterAnimator).with(mBottomEnterAnimator)
@@ -78,7 +90,7 @@ class FileOperationDialog: BaseDialogFragment() {
         mExitAnimatorSet.duration = 200
     }
 
-    private fun dismissDialog() {
+    fun dismissDialog() {
         mExitAnimatorSet.start()
 
         mExitAnimatorSet.addListener(object : Animator.AnimatorListener {
@@ -97,5 +109,10 @@ class FileOperationDialog: BaseDialogFragment() {
 
             }
         })
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        RxBus.post(FileControlEvent(EVENT_CANCEl))
+        super.onDismiss(dialog)
     }
 }
