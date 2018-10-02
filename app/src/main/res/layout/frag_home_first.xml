@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.constraint.ConstraintLayout
@@ -21,15 +22,16 @@
             app:layout_constraintRight_toRightOf="parent"/>
 
         <TextView
-            android:id="@+id/mTvClassify"
-            android:layout_width="wrap_content"
+            android:id="@+id/mTvFileName"
+            android:layout_width="120dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@string/classify"
+            android:drawableLeft="@drawable/icon_back_white"
+            tools:text="@string/classify"
             android:textSize="16sp"
             android:textColor="@color/color_white_ffffff"
             android:layout_marginLeft="15dp"
-            android:drawableRight="@drawable/icon_expand_more_white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>

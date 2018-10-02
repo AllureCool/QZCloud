@@ -16,6 +16,7 @@ import com.smile.qzclould.event.*
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.utils.DateUtils
 import com.smile.qzclould.utils.RxBus
+import es.dmoral.toasty.Toasty
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -41,9 +42,15 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
     override fun convert(helper: BaseViewHolder?, item: Direcotory?) {
         with(helper?.getView<ImageView>(R.id.mIcon)) {
             when {
-                item?.mime == Constants.MIME_FOLDER -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
-                item?.mime == Constants.MIME_IMG -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
-                else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
+                item?.mime!!.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
+                item.mime.contains(Constants.MIME_IMG) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
+                item.mime.contains(Constants.MIME_AUDIO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_mp3))
+                item.mime.contains(Constants.MIME_TEXT) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_txt))
+                item.mime.contains(Constants.MIME_VIDEO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_video))
+                item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
+                item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
+                item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
+                else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
             }
         }
         helper?.setText(R.id.mTvFileName, item?.name)
@@ -57,11 +64,10 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 this?.visibility = View.VISIBLE
             }
             this?.setOnClickListener {
-                mSelectedList.clear()
                 mSelectedList.add(item)
                 item.isSelected = true
-                notifyItemChanged(helper!!.layoutPosition)
-                mCheckListener?.onChecked(helper.layoutPosition ,item)
+                notifyItemChanged(helper!!.adapterPosition)
+                mCheckListener?.onChecked(helper.adapterPosition ,item)
             }
         }
 
@@ -72,12 +78,21 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
         }
 
         helper?.getView<ConstraintLayout>(R.id.mClItem)?.setOnClickListener {
-            mCheckListener?.onItemClick(helper.layoutPosition, item)
+            mCheckListener?.onItemClick(helper.adapterPosition, item)
+        }
+
+        helper?.getView<ConstraintLayout>(R.id.mClItem)?.setOnLongClickListener {
+            mSelectedList.add(item!!)
+            item.isSelected = true
+            notifyItemChanged(helper.adapterPosition)
+            mCheckListener?.onItemLongClick(helper.adapterPosition, item)
+            return@setOnLongClickListener true
         }
     }
 
     private fun initViewModel() {
         observer = Observer {
+            Toasty.success(App.instance, mContext.getString(R.string.deleting)).show()
             data.removeAll(mSelectedList)
             notifyDataSetChanged()
         }
@@ -98,17 +113,21 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
                         EVENT_SELECTALL -> {
                             mSelectedList.clear()
                             for (item in data) {
-                                if(item.mime != Constants.MIME_FOLDER) {
-                                    item.isSelected = true
-                                    mSelectedList.add(item)
-                                }
+                                item.isSelected = true
+                                mSelectedList.add(item)
                             }
                             notifyDataSetChanged()
                         }
                         EVENT_DOWNLOAD -> {
+                            val downloadList = mutableListOf<Direcotory>()
+                            for(file in mSelectedList) {
+                                if(file.mime != Constants.MIME_FOLDER) {
+                                    downloadList.add(file)
+                                }
+                            }
                             doAsync {
                                 val dao = App.getCloudDatabase()?.DirecotoryDao()
-                                dao?.saveDirecotoryList(mSelectedList)
+                                dao?.saveDirecotoryList(downloadList)
                                 var shouldDownloadNow = true
                                 for (item in dao!!.loadDirecotory()) {
                                     if(item.downloadStatus == 1) {
@@ -161,5 +180,7 @@ class FileListAdapter: BaseQuickAdapter<Direcotory, BaseViewHolder> {
         fun onChecked(position: Int, item: Direcotory?)
 
         fun onItemClick(position: Int, item: Direcotory?)
+
+        fun onItemLongClick(position: Int, item: Direcotory?)
     }
 }

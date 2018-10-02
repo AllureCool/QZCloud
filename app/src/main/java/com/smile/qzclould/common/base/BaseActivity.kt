@@ -3,11 +3,13 @@ package com.smile.qielive.common
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.gyf.barlibrary.ImmersionBar
+import com.smile.qzclould.common.base.Backable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -103,4 +105,25 @@ open abstract class BaseActivity: AppCompatActivity() {
         mImm?.hideSoftInputFromWindow(localView?.windowToken, 2)
     }
 
+    override fun onBackPressed() {
+        val fragment = getCurrentFragment()
+        if (fragment != null && fragment is Backable) {
+            if ((fragment as Backable).onBackPressed()) {
+                // If the onBackPressed override in your fragment
+                // did absorb the back event (returned true), return
+                return
+            }
+        }
+        super.onBackPressed()
+    }
+
+    fun getCurrentFragment(): Fragment? {
+        val fragmentManager = supportFragmentManager
+        if (fragmentManager.backStackEntryCount > 0) {
+            val lastFragmentName = fragmentManager.getBackStackEntryAt(
+                    fragmentManager.backStackEntryCount - 1).name
+            return fragmentManager.findFragmentByTag(lastFragmentName)
+        }
+        return null
+    }
 }

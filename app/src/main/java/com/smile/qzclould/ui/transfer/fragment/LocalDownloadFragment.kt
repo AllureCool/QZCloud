@@ -35,6 +35,8 @@ class LocalDownloadFragment : BaseFragment() {
         mAdapter.setHasStableIds(true)
         mAdapter.bindToRecyclerView(mRvDownload)
         mAdapter.setEmptyView(R.layout.view_empty)
+
+        mRefreshLayout.isEnabled = false
     }
 
     override fun initViewModel() {

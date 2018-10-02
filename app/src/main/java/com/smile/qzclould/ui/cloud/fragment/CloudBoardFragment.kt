@@ -5,6 +5,7 @@ import com.smile.qielive.common.BaseFragment
 
 import com.smile.qzclould.R
 
+
 class CloudBoardFragment : BaseFragment() {
 
     override fun getLayoutId(): Int {
@@ -13,5 +14,9 @@ class CloudBoardFragment : BaseFragment() {
 
     override fun initView(savedInstanceState: Bundle?) {
 
+    }
+
+    override fun onBackPressed(): Boolean {
+        return false
     }
 }

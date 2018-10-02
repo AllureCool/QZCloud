@@ -20,7 +20,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
     </android.support.constraint.ConstraintLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:paddingLeft="5dp"
+        android:gravity="center_vertical"
+        android:textSize="10sp"
+        android:background="@color/color_gray_F5F5F5"
+        android:text="位置:/storage/emulated/0/Android/data/com.smile.qzclould/cache"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mRvFile"
         android:layout_width="match_parent"
