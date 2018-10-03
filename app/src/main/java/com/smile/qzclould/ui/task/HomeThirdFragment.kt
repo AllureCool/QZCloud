@@ -8,6 +8,7 @@ import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.ui.component.FileDeleteDialog
+import com.smile.qzclould.ui.player.PdfViewActivity
 import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
 import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
 import com.smile.qzclould.ui.task.adapter.FileDownloadCompleteAdapter
@@ -75,6 +76,13 @@ class HomeThirdFragment: BaseFragment() {
                     bundle.putString("path", (adapter.getItem(position) as File).absolutePath)
                     bundle.putString("audio_name", (adapter.getItem(position) as File).name)
                     jumpActivity(AudioPlayerActivity::class.java, bundle)
+                }
+                mimeType!!.contains(Constants.MIME_DOC) || mimeType!!.contains(Constants.MIME_PDF) || mimeType!!.contains(Constants.MIME_EXCEL) || mimeType!!.contains(Constants.MIME_TEXT) -> {
+                    val bundle = Bundle()
+                    bundle.putBoolean("isLocal", false)
+                    bundle.putString("path", (adapter.getItem(position) as File).absolutePath)
+                    bundle.putString("name", (adapter.getItem(position) as File).name)
+                    jumpActivity(PdfViewActivity::class.java, bundle)
                 }
             }
         }

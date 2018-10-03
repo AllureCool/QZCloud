@@ -9,7 +9,7 @@ class PdfViewModel: BaseViewModel() {
 
     private val repo by lazy { HttpRepository() }
 
-    val MediaInfoResult by lazy { MediatorLiveData<String>() }
+    val mediaInfoResult by lazy { MediatorLiveData<PdfDetailBean>() }
 
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
@@ -17,7 +17,7 @@ class PdfViewModel: BaseViewModel() {
         repo.getPdfInfo(path)
                 .subscribe({
                     if(it.success) {
-                        MediaInfoResult.value = it.data
+                        mediaInfoResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }

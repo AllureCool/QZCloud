@@ -30,6 +30,10 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     lateinit var observer: Observer<FileDetailBean>
     private val waitDownLoadList = ArrayList<Direcotory>()
 
+    companion object {
+        var savePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator
+    }
+
     private val mTaskDownloadListener = object : FileDownloadSampleListener() {
         override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             super.pending(task, soFarBytes, totalBytes)
@@ -102,10 +106,8 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     }
 
     fun startDownload(file: Direcotory) {
-        var savePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + file.name
-        when {
-            file.mime == Constants.MIME_IMG -> savePath = "$savePath.jpg"
-        }
+        savePath += file.name
+
         val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
                 .setPath(savePath)
                 .setTag(file)

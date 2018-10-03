@@ -28,7 +28,7 @@ android {
         abi {
             enable true
             reset()
-            include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi'
+            include 'armeabi-v7a'
             universalApk false
         }
     }
@@ -102,4 +102,6 @@ dependencies {
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     //ijk播放器
     implementation project(":qsvideoplayer")
+    //pdf库
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }
