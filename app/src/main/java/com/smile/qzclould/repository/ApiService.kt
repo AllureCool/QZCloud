@@ -6,6 +6,7 @@ import com.smile.qzclould.ui.cloud.bean.FileBean
 import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
 import com.smile.qzclould.ui.preview.pdf.PdfDetailBean
+import com.smile.qzclould.ui.preview.picture.PictureBean
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
@@ -114,4 +115,10 @@ interface ApiService {
      */
     @POST("/v1/preview/pdf")
     fun getPdfInfo(@Body requestBody: PathBody): Observable<Respone<PdfDetailBean>>
+
+    /**
+     * 获取图片预览信息
+     */
+    @POST("/v1/preview/image")
+    fun getPictureInfo(@Body requestBody: PathBody): Observable<Respone<PictureBean>>
 }

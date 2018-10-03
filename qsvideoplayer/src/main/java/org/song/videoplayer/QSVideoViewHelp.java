@@ -128,8 +128,10 @@ public abstract class QSVideoViewHelp extends QSVideoView implements HandleTouch
             if (view == videoView) {
                 if(!isShowControlView) {
                     Util.showStatusBar(view.getContext());
+                    Util.hideBottomUIMenu(view.getContext());
                 } else {
                     Util.hideStatusBar(view.getContext());
+                    Util.hideBottomUIMenu(view.getContext());
                 }
                 if (currentState == STATE_NORMAL || currentState == STATE_ERROR) {
                     //clickPlay();
@@ -331,6 +333,7 @@ public abstract class QSVideoViewHelp extends QSVideoView implements HandleTouch
     //隐藏控制ui
     protected void dismissControlView(int status, int mode) {
         Util.hideStatusBar(this.getContext());
+        Util.hideBottomUIMenu(this.getContext());
     }
 
     protected abstract void onBuffering(boolean isBuffering);//缓冲

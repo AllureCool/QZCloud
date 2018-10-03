@@ -30,6 +30,7 @@ class DownloadTaskAdapter: BaseQuickAdapter<DownloadTaskBean.Task, BaseViewHolde
                 item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
                 item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
                 item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
+                item.mime.contains(Constants.MIME_ZIP) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_zip))
                 else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
             }
         }

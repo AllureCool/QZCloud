@@ -14,6 +14,7 @@ object Constants {
     const val MIME_PDF = "application/pdf"
     const val MIME_EXCEL = "-excel"
     const val MIME_DOC = "application/msword"
+    const val MIME_ZIP = "application/zip"
 
     const val KEY_CLOUD_SP = "key_cloud_sp"
     const val USER_INFO = "user_info"

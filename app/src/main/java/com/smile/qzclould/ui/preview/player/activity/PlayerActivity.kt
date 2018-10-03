@@ -7,15 +7,16 @@ import android.widget.FrameLayout
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.manager.UserInfoManager
-import com.smile.qzclould.ui.preview.player.viewmodel.MediaViewModel
+import com.smile.qzclould.ui.preview.PreviewViewModel
 import com.smile.qzclould.ui.preview.player.uicomponent.SwitchClarityView
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_player.*
+import me.jessyan.autosize.internal.CancelAdapt
 
-class PlayerActivity: BaseActivity() {
+class PlayerActivity: BaseActivity(), CancelAdapt{
 
-    private val mModel by lazy { ViewModelProviders.of(this).get(MediaViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(PreviewViewModel::class.java) }
     private lateinit var mPath: String
     private var mIsLocalVideo: Boolean = false
     private var mFirstLoad: Boolean = true

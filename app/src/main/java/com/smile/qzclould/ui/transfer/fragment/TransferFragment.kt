@@ -56,6 +56,7 @@ class TransferFragment: BaseFragment() {
             mPage = 1
             loadOfflinTask(mPage)
         }
+        mRefreshLayout.setColorSchemeColors(resources.getColor(R.color.color_green_2EC17C))
     }
 
     override fun initViewModel() {

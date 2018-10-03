@@ -18,12 +18,15 @@ class FileDeleteDialog: BaseDialogFragment() {
         super.onStart()
         mWindow.setGravity(Gravity.BOTTOM)
         mWindow.setWindowAnimations(R.style.MyBottomDialog)
-        mWindow.setLayout(mWidth, ViewUtils.dip2px(60f).toInt())
+        mWindow.setLayout(mWidth, mHeight)
     }
 
     override fun initView() {
         rl_delete.setOnClickListener {
             mOnDialogClickListener?.onDeleteClick()
+            dismiss()
+        }
+        mFlDialog.setOnClickListener {
             dismiss()
         }
     }

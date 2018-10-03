@@ -8,6 +8,7 @@ import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.common.base.CloudDatabase
+import com.tencent.bugly.crashreport.CrashReport
 import com.tspoon.traceur.Traceur
 
 /**
@@ -43,6 +44,7 @@ class App : Application() {
         if (BuildConfig.DEBUG) {
             Traceur.enableLogging()
         }
+        CrashReport.initCrashReport(this, "2f2dbb867a", BuildConfig.DEBUG)
         Fresco.initialize(this)
         FileDownloader.setupOnApplicationOnCreate(this)
                 .connectionCreator(FileDownloadUrlConnection.Creator(FileDownloadUrlConnection.Configuration()

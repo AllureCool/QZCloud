@@ -13,8 +13,9 @@ import com.smile.qzclould.ui.task.HomeThirdFragment
 import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
 import kotlinx.android.synthetic.main.act_main.*
+import me.jessyan.autosize.internal.CancelAdapt
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), CancelAdapt {
 
     private var isQuit = false
     private val mFragments by lazy { mutableListOf<Fragment>() }

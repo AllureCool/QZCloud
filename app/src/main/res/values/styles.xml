@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
+    <style name="AppTheme.Splash" parent="AppTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@mipmap/bg_splash</item>
+    </style>
+
     <!--自定义Dialog样式-->
     <style name="MyDialogFragmentStyle" parent="AlertDialog.AppCompat">
         <item name="android:windowSoftInputMode">adjustResize</item>

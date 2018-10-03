@@ -3,17 +3,18 @@ package com.smile.qzclould.ui.preview.player.activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.text.TextUtils
+import com.gyf.barlibrary.ImmersionBar
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.manager.UserInfoManager
-import com.smile.qzclould.ui.preview.player.viewmodel.MediaViewModel
+import com.smile.qzclould.ui.preview.PreviewViewModel
 import kotlinx.android.synthetic.main.activity_audio_player.*
 import org.song.videoplayer.PlayListener
 import org.song.videoplayer.QSAudioManager
 
 class AudioPlayerActivity : BaseActivity() {
 
-    private val mModel by lazy { ViewModelProviders.of(this).get(MediaViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(PreviewViewModel::class.java) }
     private lateinit var mPath: String
     private var mIsLocalVideo: Boolean = false
     private var mFirstLoad: Boolean = true
@@ -22,6 +23,14 @@ class AudioPlayerActivity : BaseActivity() {
 
     override fun setLayoutId(): Int {
         return R.layout.activity_audio_player
+    }
+
+    override fun initImmersionBar() {
+        mImmersionBar = ImmersionBar.with(this)
+        mImmersionBar?.statusBarDarkFont(true, 0.2f)
+        mImmersionBar?.statusBarColor(R.color.color_white_ffffff)
+        mImmersionBar?.fitsSystemWindows(false)
+        mImmersionBar?.init()
     }
 
     override fun initData() {
@@ -82,6 +91,7 @@ class AudioPlayerActivity : BaseActivity() {
     private fun play(url: String) {
         audioManager.setUp(url, "")
         audioManager.play()
+        play.setImageDrawable(resources.getDrawable(R.mipmap.audio_pause))
     }
 
     override fun onResume() {

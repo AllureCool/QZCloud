@@ -20,6 +20,7 @@ import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.dialog.FileOperationDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.component.FileDeleteDialog
+import com.smile.qzclould.ui.preview.picture.PicturePreviewActivity
 import com.smile.qzclould.ui.player.PdfViewActivity
 import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
 import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
@@ -31,7 +32,6 @@ class HomeFirstFragment : BaseFragment() {
 
     private val mModel by lazy { ViewModelProviders.of(this).get(CloudViewModel::class.java) }
     private var mFileOperationDialog: FileOperationDialog? = null
-    private var mFileDeleteDialog: FileDeleteDialog? = null
     private val mDialog by lazy { BuildNewFolderDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { FileListAdapter(mModel) }
@@ -74,6 +74,8 @@ class HomeFirstFragment : BaseFragment() {
 
         mRvFile.layoutManager = mLayoutManager
         mAdapter.bindToRecyclerView(mRvFile)
+
+        mRefreshLayout.setColorSchemeColors(resources.getColor(R.color.color_green_2EC17C))
     }
 
     override fun initListener() {
@@ -135,6 +137,13 @@ class HomeFirstFragment : BaseFragment() {
                         bundle.putString("path", item.path)
                         bundle.putString("audio_name", item.name)
                         jumpActivity(AudioPlayerActivity::class.java, bundle)
+                    }
+
+                    item?.mime!!.contains(Constants.MIME_IMG) -> {
+                        val bundle = Bundle()
+                        bundle.putBoolean("isLocal", false)
+                        bundle.putString("path", item.path)
+                        jumpActivity(PicturePreviewActivity::class.java, bundle)
                     }
                     item?.mime!!.contains(Constants.MIME_DOC) || item?.mime!!.contains(Constants.MIME_PDF) || item?.mime!!.contains(Constants.MIME_EXCEL) || item?.mime!!.contains(Constants.MIME_TEXT) -> {
                         val bundle = Bundle()

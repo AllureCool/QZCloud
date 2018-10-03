@@ -140,7 +140,7 @@ public class Util {
      */
     public static boolean hideStatusBar(Context context) {
         Window w = scanForActivity(context).getWindow();
-        w.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+        w.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
         return true;
     }
 
@@ -151,7 +151,7 @@ public class Util {
      */
     public static boolean showStatusBar(Context context) {
         Window w = scanForActivity(context).getWindow();
-        w.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        w.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         return true;
     }
 
@@ -167,7 +167,7 @@ public class Util {
                     //int systemUiVisibility = a.getWindow().getDecorView().getRootView().getSystemUiVisibility();
                     a.getWindow().getDecorView().setSystemUiVisibility(
                             //systemUiVisibility |
-                                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                                     //| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     );
@@ -183,7 +183,7 @@ public class Util {
                 } else if (Build.VERSION.SDK_INT >= 19) {
                     a.getWindow().getDecorView().setSystemUiVisibility(
                             //systemUiVisibility |
-                                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN // hide status bar

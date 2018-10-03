@@ -21,3 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.shockwave.**
+
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

@@ -106,10 +106,10 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     }
 
     fun startDownload(file: Direcotory) {
-        savePath += file.name
+        val path = savePath + file.name
 
         val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
-                .setPath(savePath)
+                .setPath(path)
                 .setTag(file)
                 .setCallbackProgressTimes(750)
                 .setListener(mTaskDownloadListener)
@@ -184,6 +184,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
                 item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
                 item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
+                item.mime.contains(Constants.MIME_ZIP) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_zip))
                 else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
             }
         }
@@ -242,22 +243,6 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             }
         }
 
-        helper?.getView<Button>(R.id.btnDelete)?.setOnClickListener {
-            //            deleteTask(item?.fileDetail)
-            FileDownloader.getImpl().clear(item?.taskId, FileDownloadUtils.getDefaultSaveRootPath() + File.separator + item?.fileDetail?.name)
-//            helper?.getView<SwipeMenuLayout>(R.id.mSwipeLayout)?.quickClose()
-            doAsync {
-                val dao = App.getCloudDatabase()?.DirecotoryDao()
-                dao?.deleteDirecotory(item)
-            }
-            val index = helper.adapterPosition
-            mData.removeAt(index)
-            notifyDataSetChanged()
-            notifyItemRemoved(index)
-//            if (index != mData.size) { // 如果移除的是最后一个，忽略
-//                notifyItemRangeChanged(index, mData.size - index)
-//            }
-        }
 
     }
 

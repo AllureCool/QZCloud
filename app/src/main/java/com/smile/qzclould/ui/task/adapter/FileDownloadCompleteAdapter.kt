@@ -34,6 +34,7 @@ class FileDownloadCompleteAdapter: BaseQuickAdapter<File, BaseViewHolder>(R.layo
                 mimeType.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
                 mimeType.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
                 mimeType.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
+                mimeType.contains(Constants.MIME_ZIP) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_zip))
                 else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
             }
         }

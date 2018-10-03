@@ -32,7 +32,7 @@
             app:roundedCornerRadius="5dp"
             app:roundingBorderWidth="1.5dp"
             app:roundingBorderColor="@color/color_green_8AE1B8"
-            app:placeholderImage="@mipmap/img_default"
+            app:placeholderImage="@mipmap/icon_avatar_default"
             app:placeholderImageScaleType="fitXY"/>
 
         <TextView
@@ -154,7 +154,7 @@
         android:layout_height="47dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:layout_marginTop="259dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/bg_red_ff4d4f_redius_5"
         android:textSize="18sp"
         android:textColor="@color/color_white_ffffff"
