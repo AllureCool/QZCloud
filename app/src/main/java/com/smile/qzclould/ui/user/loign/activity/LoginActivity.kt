@@ -16,6 +16,7 @@ class LoginActivity : BaseActivity() {
         mImmersionBar?.statusBarDarkFont(true, 0.2f)
         mImmersionBar?.statusBarColor(R.color.color_white_ffffff)
         mImmersionBar?.fitsSystemWindows(false)
+        mImmersionBar?.keyboardEnable(true)
         mImmersionBar?.init()
     }
 
