@@ -2,15 +2,14 @@ package com.smile.qzclould.ui.task
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import androidx.navigation.Navigation
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.ui.component.FileDeleteDialog
-import com.smile.qzclould.ui.player.AudioPlayerActivity
-import com.smile.qzclould.ui.player.PlayerActivity
+import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
+import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
 import com.smile.qzclould.ui.task.adapter.FileDownloadCompleteAdapter
 import com.smile.qzclould.utils.FileUtils
 import com.smile.qzclould.utils.RxBus
@@ -66,14 +65,15 @@ class HomeThirdFragment: BaseFragment() {
             when {
                 mimeType!!.contains(Constants.MIME_VIDEO) -> {
                     val bundle = Bundle()
-                    bundle.putBoolean("isLocal", false)
+                    bundle.putBoolean("isLocal", true)
                     bundle.putString("path", (adapter.getItem(position) as File).absolutePath)
                     jumpActivity(PlayerActivity::class.java, bundle)
                 }
                 mimeType!!.contains(Constants.MIME_AUDIO) -> {
                     val bundle = Bundle()
-                    bundle.putBoolean("isLocal", false)
+                    bundle.putBoolean("isLocal", true)
                     bundle.putString("path", (adapter.getItem(position) as File).absolutePath)
+                    bundle.putString("audio_name", (adapter.getItem(position) as File).name)
                     jumpActivity(AudioPlayerActivity::class.java, bundle)
                 }
             }

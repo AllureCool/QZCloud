@@ -103,6 +103,14 @@ public class SuperVideoView extends QSVideoViewHelp {
 
     }
 
+    public void showClarityBtn(boolean show) {
+        if(show) {
+            switchDefinitionButton.setVisibility(VISIBLE);
+        } else {
+            switchDefinitionButton.setVisibility(GONE);
+        }
+    }
+
     @Override
     public void setUp(String url, Object... objects) {
         super.setUp(url, objects);

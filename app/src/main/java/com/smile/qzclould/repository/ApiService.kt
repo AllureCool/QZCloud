@@ -5,7 +5,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.bean.FileBean
 import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
-import com.smile.qzclould.ui.player.VideoDetailBean
+import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
@@ -107,4 +107,10 @@ interface ApiService {
      */
     @POST("/v1/preview/media")
     fun getMediaInfo(@Body requestBody: PathBody): Observable<Respone<VideoDetailBean>>
+
+    /**
+     * 获取pdf信息
+     */
+    @POST("/v1/preview/pdf")
+    fun getPdfInfo(@Body requestBody: PathBody): Observable<Respone<String>>
 }

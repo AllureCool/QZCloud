@@ -1,12 +1,15 @@
-package com.smile.qzclould.ui.player
+package com.smile.qzclould.ui.preview.player.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.os.Bundle
 import android.widget.FrameLayout
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.manager.UserInfoManager
-import com.smile.qzclould.repository.HttpRepository
+import com.smile.qzclould.ui.preview.player.viewmodel.MediaViewModel
+import com.smile.qzclould.ui.preview.player.uicomponent.SwitchClarityView
+import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_player.*
 
@@ -16,6 +19,8 @@ class PlayerActivity: BaseActivity() {
     private lateinit var mPath: String
     private var mIsLocalVideo: Boolean = false
     private var mFirstLoad: Boolean = true
+    private var mSwitchClarityView: SwitchClarityView? = null
+    private var mVideoDetail: VideoDetailBean? = null
 
     override fun setLayoutId(): Int {
         return R.layout.activity_player
@@ -38,14 +43,37 @@ class PlayerActivity: BaseActivity() {
         mVideoView.enterWindowFullscreen()
 
         mVideoView.setOnPlayerControlListener {
-            SwitchClarityView().show(supportFragmentManager, "clarity_view")
+            if(mSwitchClarityView == null) {
+                mSwitchClarityView = SwitchClarityView()
+            }
+
+            if(!mSwitchClarityView!!.isAdded) {
+                val bundle = Bundle()
+                bundle.putSerializable("video_infos", mVideoDetail)
+                mSwitchClarityView!!.arguments = bundle
+                mSwitchClarityView!!.show(supportFragmentManager, "clarity_view")
+            }
+            mSwitchClarityView?.setOnClaritySelectedListener(object : SwitchClarityView.OnClaritySelectedListener {
+                override fun onClaritySelected(info: VideoDetailBean.VideoInfo) {
+                    for (item in mVideoDetail!!.preview) {
+                        item.isPlay = false
+                    }
+                    info.isPlay = true
+                    play(info.url + "?token=" + UserInfoManager.get().getUserToken())
+                }
+            })
         }
+
+
     }
 
     override fun initViewModel() {
         mModel.MediaInfoResult.observe(this, Observer {
+            mVideoDetail = it
             if(!it!!.preview.isEmpty()) {
+                mVideoView.showClarityBtn(true)
                 play(it.preview[0].url + "?token=" + UserInfoManager.get().getUserToken())
+                it.preview[0].isPlay = true
             }
         })
     }

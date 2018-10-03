@@ -6,7 +6,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.bean.FileBean
 import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
-import com.smile.qzclould.ui.player.VideoDetailBean
+import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
@@ -165,5 +165,10 @@ class HttpRepository {
     fun getMediaInfo(path: String): Observable<Respone<VideoDetailBean>> {
         val body = PathBody(path)
         return service.getMediaInfo(body).doRequestAsync()
+    }
+
+    fun getPdfInfo(path: String): Observable<Respone<String>> {
+        val body = PathBody(path)
+        return service.getPdfInfo(body).doRequestAsync()
     }
 }

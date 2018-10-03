@@ -20,8 +20,8 @@ import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.dialog.FileOperationDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.component.FileDeleteDialog
-import com.smile.qzclould.ui.player.AudioPlayerActivity
-import com.smile.qzclould.ui.player.PlayerActivity
+import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
+import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_first.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -132,6 +132,7 @@ class HomeFirstFragment : BaseFragment() {
                         val bundle = Bundle()
                         bundle.putBoolean("isLocal", false)
                         bundle.putString("path", item.path)
+                        bundle.putString("audio_name", item.name)
                         jumpActivity(AudioPlayerActivity::class.java, bundle)
                     }
                 }

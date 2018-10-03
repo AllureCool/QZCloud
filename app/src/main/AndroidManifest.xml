@@ -33,10 +33,10 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.cloud.activity.FolderDetailActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.player.PlayerActivity"
+        <activity android:name="com.smile.qzclould.ui.preview.player.activity.PlayerActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <activity android:name=".ui.player.AudioPlayerActivity"
+        <activity android:name="com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity"
             android:screenOrientation="portrait"/>
 
         <meta-data
