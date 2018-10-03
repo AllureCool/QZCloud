@@ -39,7 +39,6 @@ class LocalDownloadFragment : BaseFragment() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mRvDownload.layoutManager = mLayoutManager
-//        mRvDownload.itemAnimator =NoAlphaItemAnimator()
         mRvDownload.itemAnimator = null
 
         mAdapter.setHasStableIds(true)

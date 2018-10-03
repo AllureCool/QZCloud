@@ -9,8 +9,9 @@ const val EVENT_DOWNLOAD = 3
 class FileControlEvent {
 
     var controlCode: Int = 0
-
-    constructor(controlCode: Int) {
+    var eventId: Int = 0
+    constructor(controlCode: Int, eventId: Int) {
         this.controlCode = controlCode
+        this.eventId = eventId
     }
 }

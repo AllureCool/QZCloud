@@ -24,6 +24,7 @@ import com.smile.qzclould.ui.preview.picture.PicturePreviewActivity
 import com.smile.qzclould.ui.player.PdfViewActivity
 import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
 import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
+import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_first.*
 import kotlinx.android.synthetic.main.view_search_bar.*
@@ -34,7 +35,7 @@ class HomeFirstFragment : BaseFragment() {
     private var mFileOperationDialog: FileOperationDialog? = null
     private val mDialog by lazy { BuildNewFolderDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
-    private val mAdapter by lazy { FileListAdapter(mModel) }
+    private val mAdapter by lazy { FileListAdapter(mModel, this@HomeFirstFragment.hashCode()) }
     private val mPageSize = 20
 
     private var mPage = 1
@@ -100,6 +101,9 @@ class HomeFirstFragment : BaseFragment() {
             }
 
             if (!mFileOperationDialog!!.isAdded) {
+                val bundle = Bundle()
+                bundle.putInt("eventId", this@HomeFirstFragment.hashCode())
+                mFileOperationDialog?.arguments = bundle
                 mFileOperationDialog?.show(childFragmentManager, "file_operation")
             }
 
@@ -112,9 +116,9 @@ class HomeFirstFragment : BaseFragment() {
             }
 
             override fun onItemClick(position: Int, item: Direcotory?) {
-
+                DLog.i(this@HomeFirstFragment.hashCode().toString() + "********************")
                 if (mFileOperationDialog != null && mFileOperationDialog!!.isAdded) {
-                    RxBus.post(FileControlEvent(EVENT_CANCEl))
+                    RxBus.post(FileControlEvent(EVENT_CANCEl, this@HomeFirstFragment.hashCode()))
                     mFileOperationDialog!!.dismissDialog()
                     return
                 }
@@ -235,6 +239,7 @@ class HomeFirstFragment : BaseFragment() {
         if (!mFileOperationDialog!!.isAdded) {
             val bundle = Bundle()
             bundle.putBoolean("show_download_btn", showDownloadBtn)
+            bundle.putInt("eventId", this@HomeFirstFragment.hashCode())
             mFileOperationDialog!!.arguments = bundle
             mFileOperationDialog?.show(childFragmentManager, "file_operation")
         }

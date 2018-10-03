@@ -29,6 +29,7 @@ class FileOperationDialog: BaseDialogFragment() {
     private val mExitAnimatorSet by lazy { AnimatorSet() }
 
     private var mShowDownloadBtn = true
+    private var mEventId: Int = 0
 
     override fun setLayoutId(): Int {
         return R.layout.dialog_file_operation
@@ -46,7 +47,7 @@ class FileOperationDialog: BaseDialogFragment() {
     }
 
     override fun initView() {
-
+        mEventId = arguments!!.getInt("eventId")
         mShowDownloadBtn = arguments!!.getBoolean("show_download_btn")
 
         if(mShowDownloadBtn) {
@@ -65,20 +66,20 @@ class FileOperationDialog: BaseDialogFragment() {
         }
 
         mTvCancel.setOnClickListener {
-            RxBus.post(FileControlEvent(EVENT_CANCEl))
+            RxBus.post(FileControlEvent(EVENT_CANCEl, mEventId))
             dismissDialog()
         }
         mTvSelectAll.setOnClickListener {
-            RxBus.post(FileControlEvent(EVENT_SELECTALL))
+            RxBus.post(FileControlEvent(EVENT_SELECTALL, mEventId))
         }
         mLlDownload.setOnClickListener {
-            RxBus.post(FileControlEvent(EVENT_DOWNLOAD))
+            RxBus.post(FileControlEvent(EVENT_DOWNLOAD, mEventId))
             dismissDialog()
             showToast(Constants.TOAST_SUCCESS, mActivity.getString(R.string.downloading))
         }
 
         mLlDelete.setOnClickListener {
-            RxBus.post(FileControlEvent(EVENT_DELETE))
+            RxBus.post(FileControlEvent(EVENT_DELETE, mEventId))
             dismissDialog()
         }
 
@@ -112,7 +113,7 @@ class FileOperationDialog: BaseDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        RxBus.post(FileControlEvent(EVENT_CANCEl))
+        RxBus.post(FileControlEvent(EVENT_CANCEl, mEventId))
         super.onDismiss(dialog)
     }
 }

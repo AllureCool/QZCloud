@@ -74,8 +74,9 @@ class MainActivity : BaseActivity(), CancelAdapt {
             // 利用handler延迟发送更改状态信息
             mHandler.sendEmptyMessageDelayed(0, 2000)
             return
+        } else {
+            System.exit(0)
         }
-        super.onBackPressed()
     }
 
 }

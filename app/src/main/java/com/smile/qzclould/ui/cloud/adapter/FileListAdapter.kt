@@ -28,10 +28,10 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private var mViewModel: CloudViewModel? = null
     lateinit var observer: Observer<String>
 
-    constructor(viewModel: CloudViewModel) : super(R.layout.item_file) {
+    constructor(viewModel: CloudViewModel, eventId: Int) : super(R.layout.item_file) {
         mViewModel = viewModel
         initViewModel()
-        initEvent()
+        initEvent(eventId)
     }
 
     fun setOnCheckListener(listener: OnCheckListener) {
@@ -94,45 +94,49 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         mViewModel?.removeResult?.observeForever(observer)
     }
 
-    private fun initEvent() {
+    private fun initEvent(eventId: Int) {
         mDispose = RxBus.toObservable(FileControlEvent::class.java)
                 .subscribe {
-                    when (it.controlCode) {
-                        EVENT_CANCEl -> {
-                            mSelectedList.clear()
-                            for (item in data) {
-                                item.isSelected = false
+                    if(it.eventId == eventId) {
+                        when (it.controlCode) {
+                            EVENT_CANCEl -> {
+                                mSelectedList.clear()
+                                for (item in data) {
+                                    item.isSelected = false
+                                }
+                                notifyDataSetChanged()
                             }
-                            notifyDataSetChanged()
-                        }
-                        EVENT_SELECTALL -> {
-                            mSelectedList.clear()
-                            for (item in data) {
-                                item.isSelected = true
-                                mSelectedList.add(item)
+                            EVENT_SELECTALL -> {
+                                mSelectedList.clear()
+                                for (item in data) {
+                                    item.isSelected = true
+                                    mSelectedList.add(item)
+                                }
+                                notifyDataSetChanged()
                             }
-                            notifyDataSetChanged()
-                        }
-                        EVENT_DOWNLOAD -> {
-                            val downloadList = mutableListOf<Direcotory>()
-                            for (file in mSelectedList) {
-                                if (file.mime != Constants.MIME_FOLDER) {
-                                    downloadList.add(file)
+                            EVENT_DOWNLOAD -> {
+                                val downloadList = mutableListOf<Direcotory>()
+                                for (file in mSelectedList) {
+                                    if (file.mime != Constants.MIME_FOLDER) {
+                                        downloadList.add(file)
+                                    }
+                                }
+                                mSelectedList.clear()
+                                for (item in data) {
+                                    item.isSelected = false
+                                }
+                                notifyDataSetChanged()
+                                doAsync {
+                                    val dao = App.getCloudDatabase()?.DirecotoryDao()
+                                    dao?.saveDirecotoryList(downloadList)
+                                    uiThread {
+                                        RxBus.post(FileDownloadEvent(true))
+                                    }
                                 }
                             }
-                            mSelectedList.clear()
-                            for (item in data) {
-                                item.isSelected = false
+                            EVENT_DELETE -> {
+                                removeFiles()
                             }
-                            notifyDataSetChanged()
-                            doAsync {
-                                val dao = App.getCloudDatabase()?.DirecotoryDao()
-                                dao?.saveDirecotoryList(downloadList)
-                                RxBus.post(FileDownloadEvent(true))
-                            }
-                        }
-                        EVENT_DELETE -> {
-                            removeFiles()
                         }
                     }
                 }

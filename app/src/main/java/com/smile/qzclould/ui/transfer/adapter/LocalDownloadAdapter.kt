@@ -39,6 +39,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             super.pending(task, soFarBytes, totalBytes)
             val itemData = task?.tag as Direcotory
             itemData?.downloadStatus = 5
+            itemData?.taskId = task.id
             notifyItemChanged(data.indexOf(itemData))
             updateFileInfo(itemData)
         }
@@ -84,8 +85,9 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             super.paused(task, soFarBytes, totalBytes)
             val itemData = task?.tag as Direcotory
+            val index = data.indexOf(itemData)
             itemData?.downloadStatus = 2
-            notifyItemChanged(data.indexOf(itemData))
+            notifyItemChanged(index)
             updateFileInfo(itemData)
         }
 

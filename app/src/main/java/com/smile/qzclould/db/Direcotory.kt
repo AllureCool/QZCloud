@@ -39,4 +39,11 @@ data class Direcotory(
         val rgt: Int,
         val version: Int,
         val locking: Boolean
-): Serializable
+): Serializable {
+        override fun equals(other: Any?): Boolean {
+                if(other is Direcotory) {
+                    return uuid.equals(other.uuid)
+                }
+                return false
+        }
+}
