@@ -25,9 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.user.loign.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.user.loign.activity.ModifyPwdActivity"
             android:screenOrientation="portrait"/>
