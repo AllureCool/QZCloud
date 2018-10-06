@@ -2,6 +2,7 @@ package com.smile.qzclould.ui.transfer.adapter
 
 import android.arch.lifecycle.Observer
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
@@ -10,6 +11,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.liulishuo.filedownloader.BaseDownloadTask
+import com.liulishuo.filedownloader.FileDownloadList
 import com.liulishuo.filedownloader.FileDownloadSampleListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.util.FileDownloadUtils
@@ -37,7 +39,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private val mTaskDownloadListener = object : FileDownloadSampleListener() {
         override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             super.pending(task, soFarBytes, totalBytes)
-            val itemData = task?.tag as Direcotory
+            val itemData = getFileBeanById(task?.tag as String)
             itemData?.downloadStatus = 5
             itemData?.taskId = task.id
             notifyItemChanged(data.indexOf(itemData))
@@ -46,7 +48,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         override fun started(task: BaseDownloadTask?) {
             super.started(task)
-            val itemData = task?.tag as Direcotory
+            val itemData = getFileBeanById(task?.tag as String)
             itemData?.downloadStatus = 1
             itemData?.taskId = task.id
             notifyItemChanged(data.indexOf(itemData))
@@ -59,7 +61,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             super.progress(task, soFarBytes, totalBytes)
-            val itemData = task?.tag as Direcotory
+            val itemData = getFileBeanById(task?.tag as String)
             itemData?.totalSize = totalBytes
             itemData?.downloadSize = soFarBytes
 
@@ -75,7 +77,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             super.error(task, e)
 
 
-            val itemData = task?.tag as Direcotory
+            val itemData = getFileBeanById(task?.tag as String)
 //            mViewModel.loadFileDetail(itemData!!.path, task?.tag as Int)
             itemData?.downloadStatus = 3
             notifyItemChanged(data.indexOf(itemData))
@@ -84,7 +86,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             super.paused(task, soFarBytes, totalBytes)
-            val itemData = task?.tag as Direcotory
+            val itemData = getFileBeanById(task?.tag as String)
             val index = data.indexOf(itemData)
             itemData?.downloadStatus = 2
             notifyItemChanged(index)
@@ -93,7 +95,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         override fun completed(task: BaseDownloadTask?) {
             super.completed(task)
-            val itemData = task?.tag as Direcotory
+            val itemData = getFileBeanById(task?.tag as String)
             data.remove(itemData)
             notifyDataSetChanged()
 //            notifyItemRemoved(index)
@@ -112,10 +114,15 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
                 .setPath(path)
-                .setTag(file)
+                .setTag(file.uuid)
                 .setCallbackProgressTimes(750)
                 .setListener(mTaskDownloadListener)
-        task.start()
+        file.taskId = task.id
+        task?.start()
+    }
+
+    fun getFileBeanById(uuid:String):Direcotory?{
+        return data.firstOrNull { TextUtils.equals(uuid,it?.uuid) }
     }
 
     override fun setNewData(data: List<Direcotory>?) {
@@ -130,7 +137,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                         getDownloadInfo(item.path, data.indexOf(item))
                     }
                 }
-                0 -> {
+                0, 3 -> {
                     getDownloadInfo(item.path, data.indexOf(item))
                 }
             }
