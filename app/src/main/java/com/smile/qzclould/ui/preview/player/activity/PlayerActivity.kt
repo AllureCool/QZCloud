@@ -12,9 +12,8 @@ import com.smile.qzclould.ui.preview.player.uicomponent.SwitchClarityView
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_player.*
-import me.jessyan.autosize.internal.CancelAdapt
 
-class PlayerActivity: BaseActivity(), CancelAdapt{
+class PlayerActivity: BaseActivity(){
 
     private val mModel by lazy { ViewModelProviders.of(this).get(PreviewViewModel::class.java) }
     private lateinit var mPath: String
@@ -80,6 +79,9 @@ class PlayerActivity: BaseActivity(), CancelAdapt{
     }
 
     private fun play(url: String) {
+        if(mIsLocalVideo) {
+            mVideoView.setiMediaControl(1)
+        }
         mVideoView.setUp(url, "")
         mVideoView.play()
     }

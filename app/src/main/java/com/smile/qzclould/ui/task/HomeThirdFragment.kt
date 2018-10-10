@@ -17,6 +17,7 @@ import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
 import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
 import com.smile.qzclould.ui.task.adapter.FileDownloadCompleteAdapter
 import com.smile.qzclould.utils.CallOtherOpenFile
+import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.FileUtils
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_third.*
@@ -24,17 +25,20 @@ import java.io.File
 
 class HomeThirdFragment: BaseFragment() {
 
-    private val path = FileDownloadUtils.getDefaultSaveRootPath() + File.separator
+    private val path = FileUtils.createDir() + File.separator
     private val mAdapter by lazy { FileDownloadCompleteAdapter() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mFileDeleteDialog by lazy { FileDeleteDialog() }
     private var mDeleteFile: File ? = null
 
     private fun loadAlreadyDownloadFiles(): MutableList<File> {
+        DLog.i(path + "*****************")
         val file = File(path)
         val list = mutableListOf<File>()
-        for (item in file.listFiles()) {
-            list.add(item)
+        if(file.listFiles().isNotEmpty()) {
+            for (item in file.listFiles()) {
+                list.add(item)
+            }
         }
         return list
     }

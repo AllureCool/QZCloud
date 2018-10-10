@@ -3,6 +3,8 @@ package com.smile.qzclould.common
 import android.app.Application
 import android.arch.persistence.room.Room
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
@@ -53,5 +55,22 @@ class App : Application() {
                 ))
                 .maxNetworkThreadCount(3)
                 .commit()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        if(newConfig?.fontScale != 1f) {
+            resources
+        }
+        super.onConfigurationChanged(newConfig)
+    }
+
+    override fun getResources(): Resources {
+        val res = super.getResources()
+        if(res.configuration.fontScale != 1f) {
+            val newConfig = Configuration()
+            newConfig.setToDefaults()
+            res.updateConfiguration(newConfig, res.displayMetrics)
+        }
+        return res
     }
 }

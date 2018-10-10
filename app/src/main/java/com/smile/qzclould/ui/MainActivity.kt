@@ -7,15 +7,17 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.widget.Toast
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
+import com.smile.qzclould.common.Constants
+import com.smile.qzclould.event.BackPressEvent
 import com.smile.qzclould.ui.cloud.fragment.CloudBoardFragment
 import com.smile.qzclould.ui.cloud.fragment.HomeFirstFragment
 import com.smile.qzclould.ui.task.HomeThirdFragment
 import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
+import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.act_main.*
-import me.jessyan.autosize.internal.CancelAdapt
 
-class MainActivity : BaseActivity(), CancelAdapt {
+class MainActivity : BaseActivity() {
 
     private var isQuit = false
     private val mFragments by lazy { mutableListOf<Fragment>() }
@@ -61,9 +63,8 @@ class MainActivity : BaseActivity(), CancelAdapt {
 
     override fun onBackPressed() {
         if (mFragments[mVpContainer.currentItem] is CloudBoardFragment) {
-            val fragment = mFragments[mVpContainer.currentItem] as CloudBoardFragment
-
-            if (fragment.onBackPressed()) {
+            if(!Constants.pathList.isEmpty()) {
+                RxBus.post(BackPressEvent())
                 return
             }
         }

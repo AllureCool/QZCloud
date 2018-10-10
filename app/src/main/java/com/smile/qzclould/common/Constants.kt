@@ -6,6 +6,9 @@ package com.smile.qzclould.common
  */
 
 object Constants {
+
+    var pathList = mutableListOf<String>()
+
     const val MIME_IMG = "image/"
     const val MIME_FOLDER = "application/x-directory"
     const val MIME_TEXT = "text/"

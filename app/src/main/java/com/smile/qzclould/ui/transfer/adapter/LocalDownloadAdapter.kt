@@ -22,6 +22,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
+import com.smile.qzclould.utils.FileUtils
 import com.smile.qzclould.utils.RxBus
 import io.netopen.hotbitmapgg.library.view.RingProgressBar
 import org.jetbrains.anko.doAsync
@@ -33,7 +34,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private val waitDownLoadList = ArrayList<Direcotory>()
 
     companion object {
-        var savePath = FileDownloadUtils.getDefaultSaveRootPath() + File.separator
+        var savePath = FileUtils.createDir() + File.separator
     }
 
     private val mTaskDownloadListener = object : FileDownloadSampleListener() {

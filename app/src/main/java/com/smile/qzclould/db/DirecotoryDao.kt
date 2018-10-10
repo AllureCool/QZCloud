@@ -16,6 +16,9 @@ interface DirecotoryDao {
     @Delete
     fun deleteDirecotory(direcotory: Direcotory)
 
+    @Delete
+    fun deleteDirecotory(direcotoryList: List<Direcotory>)
+
     @Query("SELECT * FROM TBDownloadFile")
     fun loadDirecotory(): List<Direcotory>
 }

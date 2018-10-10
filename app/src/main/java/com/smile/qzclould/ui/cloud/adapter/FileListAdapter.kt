@@ -1,6 +1,8 @@
 package com.smile.qzclould.ui.cloud.adapter
 
+import android.Manifest
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,10 +14,14 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.*
+import com.smile.qzclould.manager.UserInfoManager
+import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
+import com.smile.qzclould.ui.user.loign.activity.LoginActivity
 import com.smile.qzclould.utils.DateUtils
 import com.smile.qzclould.utils.RxBus
 import es.dmoral.toasty.Toasty
+import hei.permission.PermissionActivity
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -115,24 +121,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                                 notifyDataSetChanged()
                             }
                             EVENT_DOWNLOAD -> {
-                                val downloadList = mutableListOf<Direcotory>()
-                                for (file in mSelectedList) {
-                                    if (file.mime != Constants.MIME_FOLDER) {
-                                        downloadList.add(file)
-                                    }
-                                }
-                                mSelectedList.clear()
-                                for (item in data) {
-                                    item.isSelected = false
-                                }
-                                notifyDataSetChanged()
-                                doAsync {
-                                    val dao = App.getCloudDatabase()?.DirecotoryDao()
-                                    dao?.saveDirecotoryList(downloadList)
-                                    uiThread {
-                                        RxBus.post(FileDownloadEvent(true))
-                                    }
-                                }
+                                checkPermission()
                             }
                             EVENT_DELETE -> {
                                 removeFiles()
@@ -140,6 +129,31 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                         }
                     }
                 }
+    }
+
+    private fun checkPermission() {
+        (mContext as PermissionActivity).checkPermission(PermissionActivity.CheckPermListener {
+            val downloadList = mutableListOf<Direcotory>()
+            for (file in mSelectedList) {
+                if (file.mime != Constants.MIME_FOLDER) {
+                    downloadList.add(file)
+                }
+            }
+            mSelectedList.clear()
+            for (item in data) {
+                item.isSelected = false
+            }
+            notifyDataSetChanged()
+            doAsync {
+                val dao = App.getCloudDatabase()?.DirecotoryDao()
+                dao?.saveDirecotoryList(downloadList)
+                uiThread {
+                    RxBus.post(FileDownloadEvent(true))
+                }
+            }
+        }, R.string.need_storage_permission,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     private fun removeFiles() {

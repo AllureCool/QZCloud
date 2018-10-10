@@ -91,7 +91,6 @@ public class SuperVideoView extends QSVideoViewHelp {
         changeViews.add(startButton);
         changeViews.add(lockButton);
         changeViews.add(progressBar);
-//        setiMediaControl(1);
         switchDefinitionButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -79,7 +79,9 @@ class VerifyCodeInputFragment : BaseFragment() {
         }
         mBtnGetCode.setOnClickListener {
             showLoading()
-            mModel.sendRegisterMessage(mCountryCode!!, mPhoneNum!!)
+            if(mCountryCode != null && mPhoneNum != null) {
+                mModel.sendRegisterMessage(mCountryCode!!, mPhoneNum!!)
+            }
         }
         mCodeInput.setCodeInputListener(object : CodeInputCallback<CodeInputEditText> {
             override fun onInputFinish(ci: CodeInputEditText, inputResult: String) {

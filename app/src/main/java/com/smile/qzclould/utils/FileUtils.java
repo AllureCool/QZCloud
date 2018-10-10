@@ -1,8 +1,44 @@
 package com.smile.qzclould.utils;
 
+import android.os.Environment;
+
 import java.io.File;
 
 public class FileUtils {
+
+    public static String createDir() {
+        String dir = getSDPath() + File.separator + "6pan";
+        File path = new File(dir);// 创建目录
+        if (!path.exists()) {
+            path.mkdirs();// 创建一个目录
+        }
+
+        return dir;
+    }
+
+    public static File createDir(String path) {
+        File file=new File(path);
+        if (!file.exists()) {
+            file.mkdirs();// 创建一个目录
+        }
+
+        return file;
+    }
+
+    /**
+     * @return 获得andorid sdcard路径
+     */
+    public static String getSDPath() {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
+        if (sdCardExist) {
+            sdDir = Environment.getExternalStorageDirectory();
+        } else {
+            sdDir = Environment.getDownloadCacheDirectory();
+        }
+        return sdDir.toString();
+    }
 
     public static String getMIMEType(File file) {
         String type = "*/*";
@@ -224,6 +260,7 @@ public class FileUtils {
             {".mol", "chemical/x-mdl-molfile"},
             {".mop", "chemical/x-mopac-input"},
             {".mov", "video/quicktime"},
+            {".mkv", "video/quicktime"},
             {".movie", "video/x-sgi-movie"},
             {".mp2", "video/mpeg"},
             {".mp3", "audio/mpeg"},

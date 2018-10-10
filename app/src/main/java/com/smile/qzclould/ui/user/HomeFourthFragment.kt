@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.Navigation
+import com.liulishuo.filedownloader.FileDownloader
+import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
@@ -14,8 +16,10 @@ import com.smile.qzclould.ui.user.loign.activity.LoginActivity
 import com.smile.qzclould.ui.user.loign.activity.ModifyPwdActivity
 import com.smile.qzclould.ui.user.loign.fragment.PwdInputFragment
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.utils.FileUtils
 import kotlinx.android.synthetic.main.frag_home_fourth.*
 import org.jetbrains.anko.doAsync
+import java.io.File
 
 class HomeFourthFragment: BaseFragment() {
     private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
@@ -44,12 +48,23 @@ class HomeFourthFragment: BaseFragment() {
 
     override fun initViewModel() {
         mModel.logoutResult.observe(this, Observer {
+            FileDownloader.getImpl().clearAllTaskData()
+            val dao = App.getCloudDatabase()?.DirecotoryDao()
+            doAsync {
+                val downloadList = dao?.loadDirecotory()
+                for (item in downloadList!!) {
+                    val tempPath = FileDownloadUtils.getTempPath(FileUtils.createDir() + File.separator + item.name)
+                    val file = File(tempPath)
+                    file.deleteRecursively()
+                }
+                dao.deleteDirecotory(dao.loadDirecotory())
+            }
+
             UserInfoManager.get().logout()
             stopLoading()
             showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.logout_success))
             jumpActivity(LoginActivity::class.java)
             mActivity?.finish()
-
         })
 
         mModel.verifyCodeResult.observe(this, Observer {

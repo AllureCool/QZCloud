@@ -64,9 +64,11 @@ class PwdInputFragment : BaseFragment() {
 
         mBtnComplete.setOnClickListener {
             showLoading()
-            when {
-                mJumpType == TYPE_REGISTER ->  mModel.register(mPhoneInfo!!, mVerifyCode!!, randomNickname(10), mEtPwd.text.toString())
-                mJumpType == TYPE_MODIFY_PWD -> mModel.changePasswordByMessage(mPhoneInfo!!, mVerifyCode!!, mEtPwd.text.toString())
+            if(mPhoneInfo != null && mVerifyCode != null) {
+                when {
+                    mJumpType == TYPE_REGISTER ->  mModel.register(mPhoneInfo!!, mVerifyCode!!, randomNickname(10), mEtPwd.text.toString())
+                    mJumpType == TYPE_MODIFY_PWD -> mModel.changePasswordByMessage(mPhoneInfo!!, mVerifyCode!!, mEtPwd.text.toString())
+                }
             }
 
         }

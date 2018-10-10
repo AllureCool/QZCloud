@@ -20,13 +20,13 @@ import com.smile.qzclould.utils.ViewUtils
 import kotlinx.android.synthetic.main.dialog_file_operation.*
 
 class FileOperationDialog: BaseDialogFragment() {
-    private val mTopEnterAnimator by lazy { ObjectAnimator.ofFloat(mFlTop, "translationY", -ViewUtils.dip2px(60f), 0f) }
-    private val mTopExitAnimator by lazy { ObjectAnimator.ofFloat(mFlTop, "translationY", 0f, -ViewUtils.dip2px(60f)) }
-    private val mBottomEnterAnimator by lazy { ObjectAnimator.ofFloat(mFlBottom, "translationY", ViewUtils.dip2px(60f), 0f) }
-    private val mBottomExitAnimator by lazy { ObjectAnimator.ofFloat(mFlBottom, "translationY", 0f, ViewUtils.dip2px(60f)) }
+    private lateinit var mTopEnterAnimator: ObjectAnimator
+    private lateinit var mTopExitAnimator: ObjectAnimator
+    private lateinit var mBottomEnterAnimator: ObjectAnimator
+    private lateinit var mBottomExitAnimator: ObjectAnimator
 
-    private val mEnterAnimatorSet by lazy { AnimatorSet() }
-    private val mExitAnimatorSet by lazy { AnimatorSet() }
+    private lateinit var mEnterAnimatorSet: AnimatorSet
+    private lateinit var mExitAnimatorSet: AnimatorSet
 
     private var mShowDownloadBtn = true
     private var mEventId: Int = 0
@@ -82,6 +82,14 @@ class FileOperationDialog: BaseDialogFragment() {
             RxBus.post(FileControlEvent(EVENT_DELETE, mEventId))
             dismissDialog()
         }
+
+        mTopEnterAnimator = ObjectAnimator.ofFloat(mFlTop, "translationY", -ViewUtils.dip2px(60f), 0f)
+        mTopExitAnimator = ObjectAnimator.ofFloat(mFlTop, "translationY", 0f, -ViewUtils.dip2px(60f))
+        mBottomEnterAnimator = ObjectAnimator.ofFloat(mFlBottom, "translationY", ViewUtils.dip2px(60f), 0f)
+        mBottomExitAnimator = ObjectAnimator.ofFloat(mFlBottom, "translationY", 0f, ViewUtils.dip2px(60f))
+
+        mEnterAnimatorSet = AnimatorSet()
+        mExitAnimatorSet = AnimatorSet()
 
         mEnterAnimatorSet.play(mTopEnterAnimator).with(mBottomEnterAnimator)
         mEnterAnimatorSet.duration = 200

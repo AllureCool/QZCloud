@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.gyf.barlibrary.ImmersionBar
 import com.smile.qzclould.common.base.Backable
+import hei.permission.PermissionActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -18,7 +19,7 @@ import io.reactivex.disposables.Disposable
  * Created by wangzhg on 2018/7/12
  * Describe:
  */
-open abstract class BaseActivity: AppCompatActivity() {
+open abstract class BaseActivity: PermissionActivity() {
     private var mCompositeDisposable = CompositeDisposable()
     private var mImm: InputMethodManager? = null
     protected var mImmersionBar: ImmersionBar? = null

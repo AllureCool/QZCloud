@@ -45,7 +45,9 @@ class LoginFragment : BaseFragment() {
 
         mBtnLogin.setOnClickListener {
             showLoading()
-            mModel.login(mPhoneNum!!, mPassword!!)
+            if(mPhoneNum != null && mPassword != null) {
+                mModel.login(mPhoneNum!!, mPassword!!)
+            }
         }
 
         mEtPhoneNum.addTextChangedListener(object: TextWatcher {
@@ -70,6 +72,14 @@ class LoginFragment : BaseFragment() {
                 mBtnLogin.isEnabled = !TextUtils.isEmpty(mPhoneNum) && !TextUtils.isEmpty(mPassword)
             }
         })
+
+        mBtnForgetPwd.setOnClickListener {
+            if(TextUtils.isEmpty(mEtPhoneNum.text.toString())) {
+                showToast(Constants.TOAST_ERROR, getString(R.string.please_input_phone_num))
+            } else {
+                Navigation.findNavController(it).navigate(R.id.action_loginFragment_to_verifyCodeInputFragment)
+            }
+        }
     }
 
     override fun initViewModel() {

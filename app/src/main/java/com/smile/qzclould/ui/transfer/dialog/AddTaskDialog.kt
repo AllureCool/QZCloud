@@ -65,9 +65,9 @@ class AddTaskDialog: BaseDialogFragment() {
         })
     }
 
-    private fun getClipboardText(): String {
+    private fun getClipboardText(): String? {
         val data = cm.primaryClip
-        val item = data.getItemAt(0)
-        return item.text.toString()
+        val item = data?.getItemAt(0)
+        return item?.text.toString()
     }
 }

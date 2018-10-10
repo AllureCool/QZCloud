@@ -13,7 +13,6 @@ class CloudBoardFragment : BaseFragment() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
     }
 
     override fun onBackPressed(): Boolean {

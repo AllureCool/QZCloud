@@ -91,7 +91,7 @@ dependencies {
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
     //今日头条屏幕适配
-    implementation 'me.jessyan:autosize:0.7.0'
+//    implementation 'me.jessyan:autosize:0.7.0'
 
     //bottomBar
     implementation 'com.roughike:bottom-bar:2.3.1'
@@ -128,4 +128,7 @@ dependencies {
 
     //pdf库
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+    //permission
+    implementation project(':permlib')
 }

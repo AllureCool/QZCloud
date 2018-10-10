@@ -1,1 +1,1 @@
-include ':app', ':codeinputlib', ':qsvideoplayer'
+include ':app', ':codeinputlib', ':qsvideoplayer', ':permlib'

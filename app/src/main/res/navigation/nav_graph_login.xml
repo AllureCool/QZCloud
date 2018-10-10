@@ -13,6 +13,11 @@
             app:destination="@id/registerFragment"
             app:enterAnim="@anim/anim_frag_enter"
             app:popExitAnim="@anim/anim_frag_exit" />
+        <action
+            android:id="@+id/action_loginFragment_to_verifyCodeInputFragment"
+            app:destination="@id/verifyCodeInputFragment"
+            app:enterAnim="@anim/anim_frag_enter"
+            app:popExitAnim="@anim/anim_frag_exit"/>
     </fragment>
     <fragment
         android:id="@+id/registerFragment"

@@ -12,6 +12,7 @@ import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.db.Direcotory
+import com.smile.qzclould.event.BackPressEvent
 import com.smile.qzclould.event.ClickThroughEvent
 import com.smile.qzclould.event.EVENT_CANCEl
 import com.smile.qzclould.event.FileControlEvent
@@ -53,8 +54,8 @@ class HomeFirstFragment : BaseFragment() {
         if (arguments != null && arguments!!.getString("file_path") != null) {
             mFilePath = arguments!!.getString("file_path")
             mFileName = arguments!!.getString("file_name")
+            Constants.pathList.add(mFileName)
         }
-
         listFileByPath()
     }
 
@@ -68,7 +69,9 @@ class HomeFirstFragment : BaseFragment() {
         }
 
         mTvFileName.setOnClickListener {
-            if (!Navigation.findNavController(it).navigateUp()) {
+            if (Navigation.findNavController(it).navigateUp()) {
+                Constants.pathList.remove(mFileName)
+            } else {
                 mActivity?.finish()
             }
         }
@@ -225,6 +228,16 @@ class HomeFirstFragment : BaseFragment() {
                     mRvFile?.dispatchTouchEvent(it.event)
                 }
                 .autoDispose()
+        RxBus.toObservable(BackPressEvent::class.java)
+                .subscribe{
+                    if(isVisible) {
+                        DLog.i("visible---------------------------------")
+                        if(Navigation.findNavController(mRvFile).navigateUp()) {
+                            Constants.pathList.remove(mFileName)
+                        }
+                    }
+                }
+                .autoDispose()
     }
 
     private fun listFileByPath() {
@@ -241,14 +254,10 @@ class HomeFirstFragment : BaseFragment() {
             bundle.putBoolean("show_download_btn", showDownloadBtn)
             bundle.putInt("eventId", this@HomeFirstFragment.hashCode())
             mFileOperationDialog!!.arguments = bundle
-            mFileOperationDialog?.show(childFragmentManager, "file_operation")
-        }
-    }
 
-    override fun onBackPressed(): Boolean {
-        if (!Navigation.findNavController(mTvFileName).navigateUp()) {
-            return false
+            val ft = childFragmentManager.beginTransaction()
+            ft.add(mFileOperationDialog, mFileOperationDialog?.javaClass?.simpleName)
+            ft.commitAllowingStateLoss()
         }
-        return true
     }
 }

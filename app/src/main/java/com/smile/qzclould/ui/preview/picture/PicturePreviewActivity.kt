@@ -3,10 +3,12 @@ package com.smile.qzclould.ui.preview.picture
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
+import com.facebook.drawee.drawable.ScalingUtils
 import com.gyf.barlibrary.ImmersionBar
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.ui.preview.PreviewViewModel
+import com.smile.qzclould.uicompment.ImageLoadingDrawable
 import kotlinx.android.synthetic.main.activity_picture_preview.*
 
 class PicturePreviewActivity: BaseActivity() {
@@ -37,6 +39,7 @@ class PicturePreviewActivity: BaseActivity() {
     }
 
     override fun initView() {
+        mPhotoView.hierarchy?.setProgressBarImage(ImageLoadingDrawable(), ScalingUtils.ScaleType.CENTER_INSIDE)
         mIvBack.setOnClickListener {
             finish()
         }
