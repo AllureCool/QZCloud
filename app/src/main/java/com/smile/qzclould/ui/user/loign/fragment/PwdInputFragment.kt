@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
@@ -14,6 +13,7 @@ import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.utils.CommonUtils
 import kotlinx.android.synthetic.main.frag_pwd_input.*
 import java.util.*
 
@@ -66,8 +66,8 @@ class PwdInputFragment : BaseFragment() {
             showLoading()
             if(mPhoneInfo != null && mVerifyCode != null) {
                 when {
-                    mJumpType == TYPE_REGISTER ->  mModel.register(mPhoneInfo!!, mVerifyCode!!, randomNickname(10), mEtPwd.text.toString())
-                    mJumpType == TYPE_MODIFY_PWD -> mModel.changePasswordByMessage(mPhoneInfo!!, mVerifyCode!!, mEtPwd.text.toString())
+                    mJumpType == TYPE_REGISTER ->  mModel.register(mPhoneInfo!!, mVerifyCode!!, randomNickname(10), CommonUtils.encodeMD5(mEtPwd.text.toString()))
+                    mJumpType == TYPE_MODIFY_PWD -> mModel.changePasswordByMessage(mPhoneInfo!!, mVerifyCode!!, CommonUtils.encodeMD5(mEtPwd.text.toString()))
                 }
             }
 

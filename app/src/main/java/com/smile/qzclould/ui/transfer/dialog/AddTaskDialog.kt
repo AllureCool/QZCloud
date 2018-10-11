@@ -11,6 +11,7 @@ import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.common.base.BaseDialogFragment
 import com.smile.qzclould.event.RefreshOfflineTaskListEvent
+import com.smile.qzclould.event.SelectDownloadPathEvent
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.dialog_add_download_task.*
@@ -21,6 +22,7 @@ class AddTaskDialog: BaseDialogFragment() {
 
     private val mModel by lazy { ViewModelProviders.of(this).get(TransferViewModel::class.java) }
     private val cm by lazy { mActivity.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager }
+    private var mDownLoadPath = "/"
 
     override fun setLayoutId(): Int {
         return R.layout.dialog_add_download_task
@@ -50,12 +52,23 @@ class AddTaskDialog: BaseDialogFragment() {
         mQuickPaste.setOnClickListener {
             mEtDownloadUrl.setText(getClipboardText())
         }
+        mTvPath.setOnClickListener {
+            val selectPathDialog = SelectDownloadPathDialog()
+            val ft = childFragmentManager.beginTransaction()
+            ft.add(selectPathDialog, selectPathDialog?.javaClass?.simpleName)
+            ft.commitAllowingStateLoss()
+        }
         initViewModel()
     }
 
     fun initViewModel() {
+        RxBus.toObservable(SelectDownloadPathEvent::class.java)
+                .subscribe {
+                    mDownLoadPath = it.path
+                    mTvPath?.text = it.path
+                }
         mModel.parseUrlResult.observe(this, Observer {
-            mModel.offlineDownloadStart(it!!.taskHash, "", arrayOf())
+            mModel.offlineDownloadStart(it!!.taskHash, mDownLoadPath, arrayOf())
         })
 
         mModel.offlineDownloadResult.observe(this, Observer {

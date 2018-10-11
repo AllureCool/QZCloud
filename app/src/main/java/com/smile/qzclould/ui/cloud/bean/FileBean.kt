@@ -8,5 +8,6 @@ data class FileBean(
       val pageSize: Int,
       val totalCount: Int,
       val totalPage: Int,
-      val list: List<Direcotory>
+      val list: List<Direcotory>,
+      val info: Direcotory
 ): Serializable

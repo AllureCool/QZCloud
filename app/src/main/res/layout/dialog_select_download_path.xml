@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_white_ffffff">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/mIvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:tint="@color/color_gray_919191"
+            android:src="@drawable/icon_back_white"/>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/please_select_download_path"
+            android:textSize="15sp"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/mLine"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_gray_D9D9D9"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRvFolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@+id/mBtnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/confirm"
+        android:gravity="center"
+        android:background="@color/color_green_2EC17C"
+        android:textColor="@color/color_white_ffffff"
+        android:textSize="15sp"/>
+</LinearLayout>
