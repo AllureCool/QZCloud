@@ -7,8 +7,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
+import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.FileDownloadEvent
 import com.smile.qzclould.event.RefreshOfflineTaskListEvent
+import com.smile.qzclould.ui.component.FileDeleteDialog
 import com.smile.qzclould.ui.transfer.adapter.DownloadTaskAdapter
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.dialog.AddTaskDialog
@@ -26,6 +28,8 @@ class TransferFragment: BaseFragment() {
     private val mModel by lazy { ViewModelProviders.of(this).get(TransferViewModel::class.java) }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { DownloadTaskAdapter() }
+    private val mFileDeleteDialog by lazy { FileDeleteDialog() }
+    private var mDeleteFile: DownloadTaskBean.Task? = null
     private var mDownloadType = LOCAL_DOWNLOAD
     private var mPage = 1
 
@@ -77,12 +81,36 @@ class TransferFragment: BaseFragment() {
             }
             mPage++
         })
+
+        mModel.removeResult.observe(this, Observer {
+            mAdapter.data.remove(mDeleteFile)
+            mAdapter.notifyDataSetChanged()
+            if(mAdapter.data.isEmpty()) {
+                mAdapter.setEmptyView(R.layout.view_empty)
+            }
+        })
     }
 
     override fun initListener() {
         mFlTask.setOnClickListener {
             val addTaskDialog = AddTaskDialog()
             addTaskDialog.show(childFragmentManager, "add_task_dialog")
+        }
+
+        mFileDeleteDialog.setOnDialogClickListener(object : FileDeleteDialog.OnDialogClickListener {
+            override fun onDeleteClick() {
+                val paths = listOf(mDeleteFile!!.filePath)
+                mModel.removeFile(paths)
+            }
+        })
+
+        mAdapter.setOnItemLongClickListener { adapter, view, position ->
+            mDeleteFile = adapter.getItem(position) as DownloadTaskBean.Task
+
+            if(!mFileDeleteDialog.isAdded) {
+                mFileDeleteDialog.showNow(childFragmentManager, "file_delete_dialog")
+            }
+            return@setOnItemLongClickListener true
         }
     }
 
