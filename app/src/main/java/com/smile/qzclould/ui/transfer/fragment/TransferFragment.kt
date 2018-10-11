@@ -99,8 +99,8 @@ class TransferFragment: BaseFragment() {
 
         mFileDeleteDialog.setOnDialogClickListener(object : FileDeleteDialog.OnDialogClickListener {
             override fun onDeleteClick() {
-                val paths = listOf(mDeleteFile!!.filePath)
-                mModel.removeFile(paths)
+
+                mModel.removeFile(mDeleteFile!!.taskId)
             }
         })
 

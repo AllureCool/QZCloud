@@ -118,6 +118,12 @@ interface ApiService {
     fun removeFile(@Body requestBody: PathArrayBody): Observable<Respone<String>>
 
     /**
+     * 删除离线任务
+     */
+    @POST("/v1/offline/remove")
+    fun removeOfflineFile(@Body requestBody: OfflinRemoveBody): Observable<Respone<String>>
+
+    /**
      * 预览媒体文件
      */
     @POST("/v1/preview/media")

@@ -119,8 +119,8 @@ class TransferViewModel : BaseViewModel() {
         return filterList
     }
 
-    fun removeFile(path: List<String>) {
-        repo.removeFile(path)
+    fun removeFile(taskId: String) {
+        repo.removeOfflineFile(taskId)
                 .subscribe({
                     if (it.success) {
                         removeResult.value = it.data

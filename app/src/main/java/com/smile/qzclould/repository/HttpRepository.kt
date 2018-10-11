@@ -174,6 +174,11 @@ class HttpRepository {
         return service.removeFile(body).doRequestAsync()
     }
 
+    fun removeOfflineFile(taskId: String): Observable<Respone<String>> {
+        val body = OfflinRemoveBody(taskId)
+        return service.removeOfflineFile(body).doRequestAsync()
+    }
+
     fun getMediaInfo(path: String): Observable<Respone<VideoDetailBean>> {
         val body = PathBody(path)
         return service.getMediaInfo(body).doRequestAsync()
