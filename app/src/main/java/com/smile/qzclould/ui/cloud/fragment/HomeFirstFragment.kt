@@ -218,7 +218,7 @@ class HomeFirstFragment : BaseFragment() {
         mModel.errorStatus.observe(this, Observer {
             mRefreshLayout.isRefreshing = false
             stopLoading()
-            showToast(Constants.TOAST_ERROR, it?.errorMessage!!)
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
 

@@ -14,6 +14,7 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
+import com.smile.qzclould.ui.user.loign.activity.ModifyPwdActivity
 import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
 import com.smile.qzclould.utils.CommonUtils
 import com.smile.qzclould.utils.DLog
@@ -75,9 +76,10 @@ class LoginFragment : BaseFragment() {
 
         mBtnForgetPwd.setOnClickListener {
             if(TextUtils.isEmpty(mEtPhoneNum.text.toString())) {
-                showToast(Constants.TOAST_ERROR, getString(R.string.please_input_phone_num))
+                showToast(Constants.TOAST_NORMAL, getString(R.string.please_input_phone_num))
             } else {
-                Navigation.findNavController(it).navigate(R.id.action_loginFragment_to_verifyCodeInputFragment)
+                showLoading()
+                mModel.sendForgetPwdMessage(mEtPhoneNum.text.toString())
             }
         }
     }
@@ -92,9 +94,19 @@ class LoginFragment : BaseFragment() {
             mActivity?.finish()
         })
 
+        mModel.verifyCodeResult.observe(this, Observer {
+            stopLoading()
+            showToast(Constants.TOAST_SUCCESS, mActivity?.getString(R.string.send_success)!!)
+            val bundle = Bundle()
+            bundle.putString("phone_info", it)
+            bundle.putString("toolbar_title", App.instance.getString(R.string.reset_pwd))
+            bundle.putInt("jump_type", PwdInputFragment.TYPE_RESET_PWD)
+            Navigation.findNavController(mEtPhoneNum).navigate(R.id.action_loginFragment_to_verifyCodeInputFragment, bundle)
+        })
+
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
-            showToast(Constants.TOAST_ERROR, it?.errorMessage!!)
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
 }

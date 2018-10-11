@@ -24,4 +24,5 @@ object Constants {
     const val USER_TOKEN = "user_token"
     const val TOAST_SUCCESS = 0
     const val TOAST_ERROR = 1
+    const val TOAST_NORMAL = 2
 }

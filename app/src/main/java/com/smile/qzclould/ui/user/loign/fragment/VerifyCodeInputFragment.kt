@@ -72,15 +72,30 @@ class VerifyCodeInputFragment : BaseFragment() {
 
     override fun initListener() {
         mBackBtn.setOnClickListener {
-            when {
-                mJumpType == PwdInputFragment.TYPE_REGISTER -> Navigation.findNavController(it).navigateUp()
-                mJumpType == PwdInputFragment.TYPE_MODIFY_PWD -> mActivity?.finish()
+            when(mJumpType) {
+                PwdInputFragment.TYPE_REGISTER -> Navigation.findNavController(it).navigateUp()
+                PwdInputFragment.TYPE_MODIFY_PWD -> mActivity?.finish()
+                PwdInputFragment.TYPE_RESET_PWD -> Navigation.findNavController(it).navigateUp()
             }
         }
         mBtnGetCode.setOnClickListener {
             showLoading()
-            if(mCountryCode != null && mPhoneNum != null) {
-                mModel.sendRegisterMessage(mCountryCode!!, mPhoneNum!!)
+            when(mJumpType) {
+                PwdInputFragment.TYPE_REGISTER -> {
+                    if(mCountryCode != null && mPhoneNum != null) {
+                        mModel.sendRegisterMessage(mCountryCode!!, mPhoneNum!!)
+                    }
+                }
+
+                PwdInputFragment.TYPE_MODIFY_PWD -> {
+                    mModel.sendChangePasswordMessage()
+                }
+
+                PwdInputFragment.TYPE_RESET_PWD -> {
+                    if(mPhoneNum != null) {
+                        mModel.sendForgetPwdMessage(mPhoneNum!!)
+                    }
+                }
             }
         }
         mCodeInput.setCodeInputListener(object : CodeInputCallback<CodeInputEditText> {
@@ -99,12 +114,15 @@ class VerifyCodeInputFragment : BaseFragment() {
             bundle.putString("phone_num", mPhoneNum)
             bundle.putString("phone_info", mPhoneInfo)
             bundle.putInt("jump_type", mJumpType)
-            when {
-                mJumpType == PwdInputFragment.TYPE_REGISTER -> {
+            when(mJumpType) {
+                PwdInputFragment.TYPE_REGISTER -> {
                     Navigation.findNavController(it).navigate(R.id.action_verifyCodeInputFragment_to_pwdInputFragment, bundle)
                 }
-                mJumpType == PwdInputFragment.TYPE_MODIFY_PWD -> {
+                PwdInputFragment.TYPE_MODIFY_PWD -> {
                     Navigation.findNavController(it).navigate(R.id.action_verifyCodeInputFragment3_to_pwdInputFragment3, bundle)
+                }
+                PwdInputFragment.TYPE_RESET_PWD -> {
+                    Navigation.findNavController(it).navigate(R.id.action_verifyCodeInputFragment_to_pwdInputFragment, bundle)
                 }
             }
 
@@ -120,7 +138,7 @@ class VerifyCodeInputFragment : BaseFragment() {
 
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
-            showToast(Constants.TOAST_ERROR, it?.errorMessage!!)
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
 

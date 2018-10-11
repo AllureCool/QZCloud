@@ -15,6 +15,7 @@
     <string name="please_select_country_code">请选择区号</string>
     <string name="user_center">个人中心</string>
     <string name="modify_pwd">修改密码</string>
+    <string name="reset_pwd">重置密码</string>
     <string name="user_feedback">用户反馈</string>
     <string name="about">关于</string>
     <string name="logout">退出</string>

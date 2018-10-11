@@ -89,7 +89,7 @@ class RegisterFragment: BaseFragment() {
 
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
-            showToast(Constants.TOAST_ERROR, it?.errorMessage!!)
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
 

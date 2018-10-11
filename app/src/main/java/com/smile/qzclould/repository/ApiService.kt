@@ -13,6 +13,7 @@ import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import io.reactivex.Observable
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 /**
@@ -51,10 +52,22 @@ interface ApiService {
     fun sendChangePasswordMessage(@Body requestBody: ChangePwdSendMsgBody): Observable<Respone<String>>
 
     /**
+     * 忘记密码发送验证码
+     */
+    @POST("/v1/user/sendChangePasswordMessage2")
+    fun sendForgetPwdMessage(@Body requestBody: ForgetPwdMsgBody): Observable<Respone<String>>
+
+    /**
      * 更改密码接口
      */
     @POST("/v1/user/changePasswordByMessage")
     fun changePasswordByMessage(@Body requestBody: ChangePwdBody): Observable<Respone<Boolean>>
+
+    /**
+     * 重置密码
+     */
+    @POST("/v1/user/changePasswordByMessage2")
+    fun resetPwdByMessage(@Body requestBody: ChangePwdBody): Observable<Respone<Boolean>>
 
     /**
      * 新建文件夹

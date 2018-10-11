@@ -119,9 +119,19 @@ class HttpRepository {
         return service.sendChangePasswordMessage(body).doRequestAsync()
     }
 
+    fun sendForgetPwdMessage(phone: String): Observable<Respone<String>> {
+        val body = ForgetPwdMsgBody(phone)
+        return service.sendForgetPwdMessage(body).doRequestAsync()
+    }
+
     fun changePasswordByMessage(phoneInfo: String, code: String, newPassword: String): Observable<Respone<Boolean>> {
         val body = ChangePwdBody(phoneInfo, code, newPassword)
         return service.changePasswordByMessage(body).doRequestAsync()
+    }
+
+    fun resetPwdByMessage(phoneInfo: String, code: String, newPassword: String): Observable<Respone<Boolean>> {
+        val body = ChangePwdBody(phoneInfo, code, newPassword)
+        return service.resetPwdByMessage(body).doRequestAsync()
     }
 
     fun createDirectory(directoryName: String, parentUUid: String = ""): Observable<Respone<Direcotory>> {

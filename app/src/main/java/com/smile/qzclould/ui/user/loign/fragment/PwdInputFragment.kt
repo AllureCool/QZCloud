@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
@@ -22,6 +23,7 @@ class PwdInputFragment : BaseFragment() {
     companion object {
         const val TYPE_REGISTER = 0
         const val TYPE_MODIFY_PWD = 1
+        const val TYPE_RESET_PWD = 2
     }
 
     private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
@@ -68,9 +70,9 @@ class PwdInputFragment : BaseFragment() {
                 when {
                     mJumpType == TYPE_REGISTER ->  mModel.register(mPhoneInfo!!, mVerifyCode!!, randomNickname(10), CommonUtils.encodeMD5(mEtPwd.text.toString()))
                     mJumpType == TYPE_MODIFY_PWD -> mModel.changePasswordByMessage(mPhoneInfo!!, mVerifyCode!!, CommonUtils.encodeMD5(mEtPwd.text.toString()))
+                    mJumpType == TYPE_RESET_PWD -> mModel.resetPwdByMessage(mPhoneInfo!!, mVerifyCode!!, CommonUtils.encodeMD5(mEtPwd.text.toString()))
                 }
             }
-
         }
     }
 
@@ -87,12 +89,19 @@ class PwdInputFragment : BaseFragment() {
         mModel.modifyPwdResult.observe(this, Observer {
             stopLoading()
             showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.modify_pwd_success))
-            mActivity?.finish()
+            when(mJumpType) {
+                TYPE_RESET_PWD -> {
+                    Navigation.findNavController(mEtPwd).popBackStack(R.id.loginFragment, true)
+                }
+                TYPE_MODIFY_PWD -> {
+                    mActivity?.finish()
+                }
+            }
         })
 
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
-            showToast(Constants.TOAST_ERROR, it?.errorMessage!!)
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
 

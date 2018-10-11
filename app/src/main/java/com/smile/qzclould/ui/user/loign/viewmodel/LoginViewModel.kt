@@ -95,8 +95,37 @@ class LoginViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
+    fun sendForgetPwdMessage(phone: String) {
+        repo.sendForgetPwdMessage(phone)
+                .subscribe({
+                    if (it.success) {
+                        UserInfoManager.get().saveUserToken(it.token)
+                        verifyCodeResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
     fun changePasswordByMessage(phoneInfo: String, code: String, newPassword: String) {
         repo.changePasswordByMessage(phoneInfo, code, newPassword)
+                .subscribe({
+                    if(it.success) {
+                        modifyPwdResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun resetPwdByMessage(phoneInfo: String, code: String, newPassword: String) {
+        repo.resetPwdByMessage(phoneInfo, code, newPassword)
                 .subscribe({
                     if(it.success) {
                         modifyPwdResult.value = it.data

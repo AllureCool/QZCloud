@@ -159,6 +159,7 @@ abstract class BaseFragment: Fragment(), Backable {
         when {
             status == Constants.TOAST_SUCCESS -> Toasty.success(App.instance, msg).show()
             status == Constants.TOAST_ERROR -> Toasty.error(App.instance, msg).show()
+            status == Constants.TOAST_NORMAL -> Toasty.normal(App.instance, msg).show()
         }
     }
 
