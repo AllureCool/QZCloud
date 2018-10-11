@@ -52,7 +52,7 @@ class AddTaskDialog: BaseDialogFragment() {
         mQuickPaste.setOnClickListener {
             mEtDownloadUrl.setText(getClipboardText())
         }
-        mTvPath.setOnClickListener {
+        mLlPath.setOnClickListener {
             val selectPathDialog = SelectDownloadPathDialog()
             val ft = childFragmentManager.beginTransaction()
             ft.add(selectPathDialog, selectPathDialog?.javaClass?.simpleName)

@@ -32,8 +32,6 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.user.loign.activity.ModifyPwdActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.cloud.activity.FolderDetailActivity"
-            android:screenOrientation="portrait"/>
         <activity android:name="com.smile.qzclould.ui.preview.player.activity.PlayerActivity"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"/>

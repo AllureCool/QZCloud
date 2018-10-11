@@ -80,7 +80,7 @@ class TransferFragment: BaseFragment() {
     }
 
     override fun initListener() {
-        mAddTaskBtn.setOnClickListener {
+        mFlTask.setOnClickListener {
             val addTaskDialog = AddTaskDialog()
             addTaskDialog.show(childFragmentManager, "add_task_dialog")
         }
