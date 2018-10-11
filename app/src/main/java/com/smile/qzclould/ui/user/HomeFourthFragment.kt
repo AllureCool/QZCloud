@@ -8,7 +8,6 @@ import androidx.navigation.Navigation
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
-import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
@@ -20,6 +19,9 @@ import com.smile.qzclould.utils.FileUtils
 import kotlinx.android.synthetic.main.frag_home_fourth.*
 import org.jetbrains.anko.doAsync
 import java.io.File
+import android.net.Uri
+import com.smile.qzclould.R
+
 
 class HomeFourthFragment: BaseFragment() {
     private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
@@ -43,6 +45,10 @@ class HomeFourthFragment: BaseFragment() {
         mBtnModifyPwd.setOnClickListener {
             showLoading()
             mModel.sendChangePasswordMessage()
+        }
+
+        mBtnFeedback.setOnClickListener {
+            joinQQGroup("5tLjB6LJfsZXB6bKdOH5ytFmPnLChR-q")
         }
     }
 
@@ -82,4 +88,27 @@ class HomeFourthFragment: BaseFragment() {
             showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
+
+    /****************
+     *
+     * 发起添加群流程。群号：6pan安卓客户端反馈(132665926) 的 key 为： 5tLjB6LJfsZXB6bKdOH5ytFmPnLChR-q
+     * 调用 joinQQGroup(5tLjB6LJfsZXB6bKdOH5ytFmPnLChR-q) 即可发起手Q客户端申请加群 6pan安卓客户端反馈(132665926)
+     *
+     * @param key 由官网生成的key
+     * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
+     */
+    fun joinQQGroup(key: String): Boolean {
+        val intent = Intent()
+        intent.data = Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D$key")
+        // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(intent)
+            return true
+        } catch (e: Exception) {
+            // 未安装手Q或安装的版本不支持
+            return false
+        }
+
+    }
+
 }
