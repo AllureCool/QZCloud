@@ -76,6 +76,18 @@ interface ApiService {
     fun createDirectory(@Body requestBody: CreateDirectoryBody): Observable<Respone<Direcotory>>
 
     /**
+     * 移动文件
+     */
+    @POST("/v1/files/move")
+    fun moveFile(@Body requestBody: MoveFileBody): Observable<Respone<String>>
+
+    /**
+     * 复制文件
+     */
+    @POST("/v1/files/copy")
+    fun copyFile(@Body requestBody: MoveFileBody): Observable<Respone<String>>
+
+    /**
      * 列出文件夹
      */
     @POST("/v1/files/list")

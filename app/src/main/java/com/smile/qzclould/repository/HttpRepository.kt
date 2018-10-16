@@ -193,4 +193,14 @@ class HttpRepository {
         val body = PathBody(path)
         return service.getPictureInfo(body).doRequestAsync()
     }
+
+    fun moveFile(path: List<String>, destPath: String): Observable<Respone<String>> {
+        val body = MoveFileBody(path, destPath)
+        return service.moveFile(body).doRequestAsync()
+    }
+
+    fun copyFile(path: List<String>, destPath: String): Observable<Respone<String>> {
+        val body = MoveFileBody(path, destPath)
+        return service.copyFile(body).doRequestAsync()
+    }
 }

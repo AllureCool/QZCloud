@@ -19,7 +19,7 @@
     <com.roughike.bottombar.BottomBar
         android:id="@+id/mBottomBar"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         app:bb_behavior="iconsOnly"
         app:bb_inActiveTabColor="@color/color_gray_D9D9D9"
         app:bb_tabXmlResource="@xml/bottombar_tabs"

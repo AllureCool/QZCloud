@@ -31,6 +31,8 @@ class FileOperationDialog: BaseDialogFragment() {
     private var mShowDownloadBtn = true
     private var mEventId: Int = 0
 
+    private var mMoreOptDialog: FileMoreOptDialog? = null
+
     override fun setLayoutId(): Int {
         return R.layout.dialog_file_operation
     }
@@ -83,6 +85,18 @@ class FileOperationDialog: BaseDialogFragment() {
             dismissDialog()
         }
 
+        mLlMore.setOnClickListener {
+            if(mMoreOptDialog == null) {
+                mMoreOptDialog = FileMoreOptDialog()
+            }
+            if(!mMoreOptDialog!!.isAdded) {
+                val bundle = Bundle()
+                bundle.putInt("eventId", mEventId)
+                mMoreOptDialog?.arguments = bundle
+                mMoreOptDialog?.show(childFragmentManager, "file_more_opt")
+            }
+        }
+
         mTopEnterAnimator = ObjectAnimator.ofFloat(mFlTop, "translationY", -ViewUtils.dip2px(60f), 0f)
         mTopExitAnimator = ObjectAnimator.ofFloat(mFlTop, "translationY", 0f, -ViewUtils.dip2px(60f))
         mBottomEnterAnimator = ObjectAnimator.ofFloat(mFlBottom, "translationY", ViewUtils.dip2px(60f), 0f)
@@ -92,11 +106,20 @@ class FileOperationDialog: BaseDialogFragment() {
         mExitAnimatorSet = AnimatorSet()
 
         mEnterAnimatorSet.play(mTopEnterAnimator).with(mBottomEnterAnimator)
-        mEnterAnimatorSet.duration = 200
+        mEnterAnimatorSet.duration = 300
         mEnterAnimatorSet.start()
 
         mExitAnimatorSet.play(mTopExitAnimator).with(mBottomExitAnimator)
-        mExitAnimatorSet.duration = 200
+        mExitAnimatorSet.duration = 300
+
+        initViewModel()
+    }
+
+    private fun initViewModel() {
+        RxBus.toObservable(SelectDownloadPathEvent::class.java)
+                .subscribe {
+                    dismissDialog()
+                }
     }
 
     fun dismissDialog() {
@@ -121,7 +144,7 @@ class FileOperationDialog: BaseDialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        RxBus.post(FileControlEvent(EVENT_CANCEl, mEventId))
+//        RxBus.post(FileControlEvent(EVENT_CANCEl, mEventId))
         super.onDismiss(dialog)
     }
 }

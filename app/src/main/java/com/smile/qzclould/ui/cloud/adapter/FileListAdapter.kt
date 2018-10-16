@@ -30,6 +30,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     private var mCheckListener: OnCheckListener? = null
     private var mDispose: Disposable? = null
+    private var mDispose1: Disposable? = null
     private val mSelectedList by lazy { mutableListOf<Direcotory>() }
     private var mViewModel: CloudViewModel? = null
     lateinit var observer: Observer<String>
@@ -47,17 +48,21 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     override fun convert(helper: BaseViewHolder?, item: Direcotory?) {
 
         with(helper?.getView<ImageView>(R.id.mIcon)) {
-            when {
-                item?.mime!!.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
-                item.mime.contains(Constants.MIME_IMG) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
-                item.mime.contains(Constants.MIME_AUDIO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_mp3))
-                item.mime.contains(Constants.MIME_TEXT) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_txt))
-                item.mime.contains(Constants.MIME_VIDEO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_video))
-                item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
-                item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
-                item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
-                item.mime.contains(Constants.MIME_ZIP) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_zip))
-                else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
+            if(item?.mime != null) {
+                when {
+                    item.mime.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
+                    item.mime.contains(Constants.MIME_IMG) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
+                    item.mime.contains(Constants.MIME_AUDIO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_mp3))
+                    item.mime.contains(Constants.MIME_TEXT) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_txt))
+                    item.mime.contains(Constants.MIME_VIDEO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_video))
+                    item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
+                    item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
+                    item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
+                    item.mime.contains(Constants.MIME_ZIP) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_zip))
+                    else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
+                }
+            } else {
+                this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
             }
         }
         helper?.setText(R.id.mTvFileName, item?.name)
@@ -98,6 +103,18 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             notifyDataSetChanged()
         }
         mViewModel?.removeResult?.observeForever(observer)
+
+        val moveObserver = Observer<String> {
+            Toasty.success(App.instance, mContext.getString(R.string.move_success)).show()
+            data.removeAll(mSelectedList)
+            notifyDataSetChanged()
+        }
+        mViewModel?.moveFileResult?.observeForever(moveObserver)
+
+        val copyObserver = Observer<String> {
+            Toasty.success(App.instance, mContext.getString(R.string.copy_success)).show()
+        }
+        mViewModel?.copyFileResult?.observeForever(copyObserver)
     }
 
     private fun initEvent(eventId: Int) {
@@ -126,6 +143,15 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                             EVENT_DELETE -> {
                                 removeFiles()
                             }
+                        }
+                    }
+                }
+        mDispose1 = RxBus.toObservable(SelectDownloadPathEvent::class.java)
+                .subscribe {
+                    if(it.eventId == eventId) {
+                        when(it.opt) {
+                            1 -> moveFiles(it.path)
+                            2 -> copyFiles(it.path)
                         }
                     }
                 }
@@ -172,10 +198,45 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         }
     }
 
+    private fun moveFiles(destPath: String) {
+        doAsync {
+            val moveList = mutableListOf<String>()
+            for (file in mSelectedList) {
+                moveList.add(file.path)
+            }
+            uiThread {
+                for (item in data) {
+                    item.isSelected = false
+                }
+                notifyDataSetChanged()
+                mViewModel?.moveFile(moveList, destPath)
+            }
+        }
+    }
+
+    private fun copyFiles(destPath: String) {
+        doAsync {
+            val copyList = mutableListOf<String>()
+            for (file in mSelectedList) {
+                copyList.add(file.path)
+            }
+            uiThread {
+                for (item in data) {
+                    item.isSelected = false
+                }
+                notifyDataSetChanged()
+                mViewModel?.copyFile(copyList, destPath)
+            }
+        }
+    }
+
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         if (!mDispose?.isDisposed!!) {
             mDispose?.dispose()
+        }
+        if (!mDispose1?.isDisposed!!) {
+            mDispose1?.dispose()
         }
     }
 

@@ -57,20 +57,5 @@ class App : Application() {
                 .commit()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        if(newConfig?.fontScale != 1f) {
-            resources
-        }
-        super.onConfigurationChanged(newConfig)
-    }
 
-    override fun getResources(): Resources {
-        val res = super.getResources()
-        if(res.configuration.fontScale != 1f) {
-            val newConfig = Configuration()
-            newConfig.setToDefaults()
-            res.updateConfiguration(newConfig, res.displayMetrics)
-        }
-        return res
-    }
 }

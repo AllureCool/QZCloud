@@ -54,4 +54,8 @@
     <string name="already_add_to_offlin_task">已添加到离线任务</string>
     <string name="empty_tip">空空如也</string>
     <string name="need_storage_permission">6盘需要您的存储权限</string>
+    <string name="move">移动</string>
+    <string name="copy">复制</string>
+    <string name="copy_success">文件复制成功</string>
+    <string name="move_success">文件移动成功</string>
 </resources>

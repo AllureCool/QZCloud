@@ -14,6 +14,8 @@ class CloudViewModel : BaseViewModel() {
     val listFileResult by lazy { MediatorLiveData<List<Direcotory>>() }
     val parseUrlResult by lazy { MediatorLiveData<ParseUrlResultBean>() }
     val removeResult by lazy { MediatorLiveData<String>() }
+    val moveFileResult by lazy { MediatorLiveData<String>() }
+    val copyFileResult by lazy { MediatorLiveData<String>() }
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
     fun createDirectory(name: String, parentUUid: String = "") {
@@ -93,6 +95,30 @@ class CloudViewModel : BaseViewModel() {
                 .subscribe({
                     if (it.success) {
                         removeResult.value = it.data
+                    }
+                }, {
+
+                })
+                .autoDispose()
+    }
+
+    fun moveFile(path: List<String>, destPath: String) {
+        repo.moveFile(path, destPath)
+                .subscribe({
+                    if(it.success) {
+                        moveFileResult.value = it.data
+                    }
+                }, {
+
+                })
+                .autoDispose()
+    }
+
+    fun copyFile(path: List<String>, destPath: String) {
+        repo.copyFile(path, destPath)
+                .subscribe({
+                    if(it.success) {
+                        copyFileResult.value = it.data
                     }
                 }, {
 

@@ -2,6 +2,8 @@ package com.smile.qielive.common
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -126,5 +128,22 @@ open abstract class BaseActivity: PermissionActivity() {
             return fragmentManager.findFragmentByTag(lastFragmentName)
         }
         return null
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        if(newConfig?.fontScale != 1f) {
+            resources
+        }
+        super.onConfigurationChanged(newConfig)
+    }
+
+    override fun getResources(): Resources {
+        val res = super.getResources()
+        if(res.configuration.fontScale != 1f) {
+            val newConfig = Configuration()
+            newConfig.setToDefaults()
+            res.updateConfiguration(newConfig, res.displayMetrics)
+        }
+        return res
     }
 }

@@ -24,6 +24,7 @@
     <View
         android:layout_width="271dp"
         android:layout_height="32dp"
+        android:visibility="gone"
         android:background="@drawable/bg_gray_f5f5f5_radius_5"
         android:layout_marginRight="8dp"
         app:layout_constraintTop_toTopOf="parent"

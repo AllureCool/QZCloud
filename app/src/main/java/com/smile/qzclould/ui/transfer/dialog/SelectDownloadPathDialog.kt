@@ -26,6 +26,8 @@ class SelectDownloadPathDialog: BaseDialogFragment() {
     private var mBackPath = mutableListOf<String>()
     private val mPageSize = 20
     private var mPage = 1
+    private var mOpt = 0 //0:离线下载 1:移动文件 2:复制文件
+    private var mEventId = 0
 
     override fun setLayoutId(): Int {
         return R.layout.dialog_select_download_path
@@ -41,6 +43,13 @@ class SelectDownloadPathDialog: BaseDialogFragment() {
         mWindow.setGravity(Gravity.BOTTOM)
         mWindow.setWindowAnimations(R.style.MyBottomDialog)
         mWindow.setLayout(mWidth, mHeight * 2 / 3)
+    }
+
+    override fun initData() {
+        if(arguments != null) {
+            mOpt = arguments?.getInt("file_opt", 0)!!
+            mEventId = arguments?.getInt("eventId", 0)!!
+        }
     }
 
     override fun initView() {
@@ -79,7 +88,7 @@ class SelectDownloadPathDialog: BaseDialogFragment() {
             if(mSelectPath == "/") {
                 Toasty.normal(mActivity, mActivity.getString(R.string.please_select_download_path)).show()
             } else {
-                RxBus.post(SelectDownloadPathEvent(mSelectPath))
+                RxBus.post(SelectDownloadPathEvent(mSelectPath, mOpt, mEventId))
                 dismiss()
             }
         }
