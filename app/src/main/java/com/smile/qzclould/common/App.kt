@@ -8,10 +8,14 @@ import android.content.res.Resources
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
+import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.common.base.CloudDatabase
+import com.tencent.bugly.Bugly
 import com.tencent.bugly.crashreport.CrashReport
 import com.tspoon.traceur.Traceur
+import org.jetbrains.anko.doAsync
+import java.io.File
 
 /**
  * Created by wangzhg on 2018/7/12
@@ -46,7 +50,7 @@ class App : Application() {
         if (BuildConfig.DEBUG) {
             Traceur.enableLogging()
         }
-        CrashReport.initCrashReport(this, "2f2dbb867a", BuildConfig.DEBUG)
+        Bugly.init(this, "2f2dbb867a", BuildConfig.DEBUG)
         Fresco.initialize(this)
         FileDownloader.setupOnApplicationOnCreate(this)
                 .connectionCreator(FileDownloadUrlConnection.Creator(FileDownloadUrlConnection.Configuration()
@@ -55,7 +59,17 @@ class App : Application() {
                 ))
                 .maxNetworkThreadCount(3)
                 .commit()
+        clearCache()
     }
 
-
+    private fun clearCache() {
+        doAsync {
+            val file = File(FileDownloadUtils.getDefaultSaveRootPath() + File.separator)
+            if(file.listFiles().isNotEmpty()) {
+                for (item in file.listFiles()) {
+                    item.deleteRecursively()
+                }
+            }
+        }
+    }
 }

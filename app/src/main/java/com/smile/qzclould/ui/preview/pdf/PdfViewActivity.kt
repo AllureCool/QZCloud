@@ -37,7 +37,7 @@ class PdfViewActivity : BaseActivity() {
             model.mediaInfoResult.observe(this, Observer<PdfDetailBean> {
                 if (!TextUtils.isEmpty(it?.url)) {
                     FileDownloadUtils.getDefaultSaveRootPath() + File.separator
-                    val file = LocalDownloadAdapter.savePath + name + ".pdf"
+                    val file = FileDownloadUtils.getDefaultSaveRootPath() + File.separator + name + ".pdf"
                     val task = FileDownloader.getImpl().create(it?.url!!)
                             .setPath(file)
                             .setTag(it?.url)
