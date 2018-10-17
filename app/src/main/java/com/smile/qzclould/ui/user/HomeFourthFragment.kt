@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.frag_home_fourth.*
 import org.jetbrains.anko.doAsync
 import java.io.File
 import android.net.Uri
+import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.R
 
 
@@ -34,6 +35,7 @@ class HomeFourthFragment: BaseFragment() {
     override fun initView(savedInstanceState: Bundle?) {
         mTvNick.text = mUserInfo?.nickName
         mTvPhone.text = mUserInfo?.phone
+        mTvVersion.text = "v${BuildConfig.VERSION_NAME}"
     }
 
     override fun initListener() {

@@ -133,9 +133,19 @@
             android:textSize="14sp"
             android:layout_marginLeft="16dp"
             android:text="@string/about" />
+        <TextView
+            android:id="@+id/mTvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="26dp"
+            android:layout_gravity="center_vertical|right"
+            android:textColor="@color/color_gray_919191"
+            android:textSize="14sp"
+            android:layout_marginLeft="16dp"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_gravity="center_vertical|right"
             android:src="@drawable/icon_back_white"
             android:layout_marginRight="15dp"
