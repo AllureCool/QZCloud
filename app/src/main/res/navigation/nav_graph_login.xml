@@ -14,8 +14,8 @@
             app:enterAnim="@anim/anim_frag_enter"
             app:popExitAnim="@anim/anim_frag_exit" />
         <action
-            android:id="@+id/action_loginFragment_to_verifyCodeInputFragment"
-            app:destination="@id/verifyCodeInputFragment"
+            android:id="@+id/action_loginFragment_to_phoneInputFragment"
+            app:destination="@id/phoneInputFragment"
             app:enterAnim="@anim/anim_frag_enter"
             app:popExitAnim="@anim/anim_frag_exit"/>
     </fragment>
@@ -43,4 +43,14 @@
         android:id="@+id/pwdInputFragment"
         android:name="com.smile.qzclould.ui.user.loign.fragment.PwdInputFragment"
         android:label="PwdInputFragment" />
+    <fragment
+        android:id="@+id/phoneInputFragment"
+        android:name="com.smile.qzclould.ui.user.loign.fragment.PhoneInputFragment"
+        android:label="PhoneInputFragment" >
+        <action
+            android:id="@+id/action_phoneInputFragment_to_verifyCodeInputFragment"
+            app:destination="@id/verifyCodeInputFragment"
+            app:enterAnim="@anim/anim_frag_enter"
+            app:popExitAnim="@anim/anim_frag_exit"/>
+    </fragment>
 </navigation>

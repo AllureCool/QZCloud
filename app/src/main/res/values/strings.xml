@@ -3,7 +3,7 @@
     <string name="classify">分类</string>
     <string name="upload">上传</string>
     <string name="my_folder">我的文件夹</string>
-    <string name="hint_et_phone">请输入手机号</string>
+    <string name="hint_et_phone">请输入手机号或用户名</string>
     <string name="hint_et_pwd">请输入密码</string>
     <string name="login">登录</string>
     <string name="forget_pwd">忘记密码</string>

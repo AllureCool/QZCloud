@@ -46,12 +46,12 @@ class LoginFragment : BaseFragment() {
 
         mBtnLogin.setOnClickListener {
             showLoading()
-            if(mPhoneNum != null && mPassword != null) {
+            if (mPhoneNum != null && mPassword != null) {
                 mModel.login(mPhoneNum!!, mPassword!!)
             }
         }
 
-        mEtPhoneNum.addTextChangedListener(object: TextWatcher {
+        mEtPhoneNum.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -62,7 +62,7 @@ class LoginFragment : BaseFragment() {
             }
         })
 
-        mEtPassword.addTextChangedListener(object: TextWatcher {
+        mEtPassword.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -75,12 +75,7 @@ class LoginFragment : BaseFragment() {
         })
 
         mBtnForgetPwd.setOnClickListener {
-            if(TextUtils.isEmpty(mEtPhoneNum.text.toString())) {
-                showToast(Constants.TOAST_NORMAL, getString(R.string.please_input_phone_num))
-            } else {
-                showLoading()
-                mModel.sendForgetPwdMessage(mEtPhoneNum.text.toString())
-            }
+            Navigation.findNavController(it).navigate(R.id.action_loginFragment_to_phoneInputFragment)
         }
     }
 
@@ -92,16 +87,6 @@ class LoginFragment : BaseFragment() {
             val intent = Intent(mActivity, MainActivity::class.java)
             startActivity(intent)
             mActivity?.finish()
-        })
-
-        mModel.verifyCodeResult.observe(this, Observer {
-            stopLoading()
-            showToast(Constants.TOAST_SUCCESS, mActivity?.getString(R.string.send_success)!!)
-            val bundle = Bundle()
-            bundle.putString("phone_info", it)
-            bundle.putString("toolbar_title", App.instance.getString(R.string.reset_pwd))
-            bundle.putInt("jump_type", PwdInputFragment.TYPE_RESET_PWD)
-            Navigation.findNavController(mEtPhoneNum).navigate(R.id.action_loginFragment_to_verifyCodeInputFragment, bundle)
         })
 
         mModel.errorStatus.observe(this, Observer {
