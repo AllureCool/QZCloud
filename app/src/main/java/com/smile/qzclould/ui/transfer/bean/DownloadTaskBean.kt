@@ -26,5 +26,5 @@ data class DownloadTaskBean(
             val size: Long,
             val errorCode: Int,
             val serverId: String
-    )
+    ): Serializable
 }

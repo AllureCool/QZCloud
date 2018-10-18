@@ -12,7 +12,7 @@ data class VideoDetailBean(
             val resolution: String,
             val duration: Long,
             val url: String
-    ) {
+    ): Serializable {
         var isPlay: Boolean = false //当前清晰度的流是否在播放
     }
 }

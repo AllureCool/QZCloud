@@ -19,22 +19,23 @@ android {
     }
     buildTypes {
         release {
+            minifyEnabled true
+            buildConfigField("boolean", "LOG_DEBUG", "false")
+            buildConfigField("boolean", "SHOWLOG", "false")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-fresco.pro'
+        }
+        debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("boolean", "LOG_DEBUG", "true")
+            buildConfigField("boolean", "SHOWLOG", "true")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro', 'proguard-fresco.pro'
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-//    splits {
-//        abi {
-//            enable true
-//            reset()
-//            include 'armeabi-v7a', 'armeabi'
-//            universalApk false
-//        }
-//    }
+
     buildToolsVersion '28.0.2'
 }
 
@@ -86,13 +87,6 @@ dependencies {
     //quickAdapter
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.38'
 
-    //pulltorefresh
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-12'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-12'
-
-    //MagicIndicator
-    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
-
     //今日头条屏幕适配
 //    implementation 'me.jessyan:autosize:0.7.0'
 
@@ -116,9 +110,6 @@ dependencies {
 
     //下载进度
     implementation 'com.github.HotBitmapGG:RingProgressBar:V1.2.3'
-
-    //侧滑删除
-    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 
     //ijk播放器
     implementation project(':qsvideoplayer')

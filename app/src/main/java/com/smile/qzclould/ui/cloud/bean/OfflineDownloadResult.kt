@@ -1,5 +1,7 @@
 package com.smile.qzclould.ui.cloud.bean
 
+import java.io.Serializable
+
 data class OfflineDownloadResult(
         val userId: Int,
         val taskId: String,
@@ -9,4 +11,4 @@ data class OfflineDownloadResult(
         val savePath: String,
         val filePath: String,
         val copied: Int
-)
+): Serializable

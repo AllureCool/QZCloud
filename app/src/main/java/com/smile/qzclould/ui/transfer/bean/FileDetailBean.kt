@@ -1,13 +1,12 @@
 package com.smile.qzclould.ui.transfer.bean
 
-import com.chad.library.adapter.base.BaseViewHolder
+import java.io.Serializable
 
 data class FileDetailBean(
         val uuid: String,
         val downloadAddress: String,
         val mime: String,
         val name: String
-) {
+): Serializable {
     var position: Int = 0
-//    var holder: BaseViewHolder? = null
 }
