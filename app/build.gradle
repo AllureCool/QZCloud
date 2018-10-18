@@ -13,6 +13,9 @@ android {
         versionCode 1001001
         versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
     }
     buildTypes {
         release {
@@ -24,14 +27,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'armeabi-v7a', 'armeabi'
-            universalApk false
-        }
-    }
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include 'armeabi-v7a', 'armeabi'
+//            universalApk false
+//        }
+//    }
     buildToolsVersion '28.0.2'
 }
 
