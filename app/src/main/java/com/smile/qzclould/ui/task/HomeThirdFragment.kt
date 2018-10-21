@@ -3,11 +3,15 @@ package com.smile.qzclould.ui.task
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.FileProvider
 import android.support.v7.widget.LinearLayoutManager
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
+import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.R
+import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.ui.component.FileDeleteDialog
@@ -118,11 +122,19 @@ class HomeThirdFragment: BaseFragment() {
     }
 
     fun getPdfFileIntent(file: File): Intent {
+
         val intent = Intent("android.intent.action.VIEW")
-        intent.addCategory("android.intent.category.DEFAULT")
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val uri = Uri.fromFile(file)
-        intent.setDataAndType(uri, FileUtils.getMIMEType(file))
+//        intent.addCategory("android.intent.category.DEFAULT")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            val uri = FileProvider.getUriForFile(App.instance, BuildConfig.APPLICATION_ID + ".fileProvider", file)
+            intent.setDataAndType(uri, FileUtils.getMIMEType(file))
+        } else {
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            val uri = Uri.fromFile(file)
+            intent.setDataAndType(uri, FileUtils.getMIMEType(file))
+        }
+
         return Intent.createChooser(intent, "Open File")
     }
     override fun initEvent() {

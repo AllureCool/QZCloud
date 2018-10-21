@@ -67,7 +67,11 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             itemData?.downloadSize = soFarBytes
 
             val percent = soFarBytes / totalBytes.toFloat()
-            itemData?.downProgress = (percent * 100).toInt()
+            var progress = (percent * 100).toInt()
+            if(progress < 0) {
+                progress = 0
+            }
+            itemData?.downProgress = progress
 
             itemData?.downloadStatus = 1
             notifyItemChanged(data.indexOf(itemData))
@@ -186,29 +190,29 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     override fun convert(helper: BaseViewHolder?, item: Direcotory) {
         with(helper?.getView<ImageView>(R.id.mIcon)) {
             when {
-                item?.mime!!.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
-                item.mime.contains(Constants.MIME_IMG) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
-                item.mime.contains(Constants.MIME_AUDIO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_mp3))
-                item.mime.contains(Constants.MIME_TEXT) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_txt))
-                item.mime.contains(Constants.MIME_VIDEO) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_video))
-                item.mime.contains(Constants.MIME_DOC) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_doc))
-                item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_excel))
-                item.mime.contains(Constants.MIME_PDF) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_pdf))
-                item.mime.contains(Constants.MIME_ZIP) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_mime_zip))
-                else -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_file_unkonw))
+                item?.mime!!.contains(Constants.MIME_FOLDER) -> this?.setImageResource(R.mipmap.img_directory)
+                item.mime.contains(Constants.MIME_IMG) -> this?.setImageResource(R.mipmap.img_image)
+                item.mime.contains(Constants.MIME_AUDIO) -> this?.setImageResource(R.mipmap.img_mime_mp3)
+                item.mime.contains(Constants.MIME_TEXT) -> this?.setImageResource(R.mipmap.img_mime_txt)
+                item.mime.contains(Constants.MIME_VIDEO) -> this?.setImageResource(R.mipmap.img_mime_video)
+                item.mime.contains(Constants.MIME_DOC) -> this?.setImageResource(R.mipmap.img_mime_doc)
+                item.mime.contains(Constants.MIME_EXCEL) -> this?.setImageResource(R.mipmap.img_mime_excel)
+                item.mime.contains(Constants.MIME_PDF) -> this?.setImageResource(R.mipmap.img_mime_pdf)
+                item.mime.contains(Constants.MIME_ZIP) -> this?.setImageResource(R.mipmap.img_mime_zip)
+                else -> this?.setImageResource(R.mipmap.img_file_unkonw)
             }
         }
         helper?.setText(R.id.mTvFileName, item.name)
 
         with(helper?.getView<ImageView>(R.id.mIvStatus)) {
-            this?.setImageDrawable(mContext.resources.getDrawable(when (item.downloadStatus) {
+            this?.setImageResource(when (item.downloadStatus) {
                 0 -> R.drawable.icon_download_24dp
                 1 -> R.drawable.icon_pause_24dp
                 2 -> R.drawable.icon_download_24dp
                 3 -> R.drawable.icon_download_24dp
                 5 -> R.drawable.ic_queue_24dp
                 else -> 0
-            }))
+            })
         }
 
         with(helper?.getView<RingProgressBar>(R.id.mDlProgress)) {
