@@ -22,6 +22,7 @@ import java.io.File
 import android.net.Uri
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.R
+import com.tencent.bugly.beta.Beta
 
 
 class HomeFourthFragment: BaseFragment() {
@@ -55,6 +56,10 @@ class HomeFourthFragment: BaseFragment() {
 
         mBtnFeedback.setOnClickListener {
             joinQQGroup("5tLjB6LJfsZXB6bKdOH5ytFmPnLChR-q")
+        }
+
+        mFlCheckUpdate.setOnClickListener {
+            Beta.checkUpgrade()
         }
     }
 

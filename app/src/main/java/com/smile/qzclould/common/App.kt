@@ -10,8 +10,10 @@ import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qzclould.BuildConfig
+import com.smile.qzclould.R
 import com.smile.qzclould.common.base.CloudDatabase
 import com.tencent.bugly.Bugly
+import com.tencent.bugly.beta.Beta
 import com.tencent.bugly.crashreport.CrashReport
 import com.tspoon.traceur.Traceur
 import org.jetbrains.anko.doAsync
@@ -51,6 +53,7 @@ class App : Application() {
             Traceur.enableLogging()
         }
         Bugly.init(this, "2f2dbb867a", BuildConfig.DEBUG)
+        Beta.checkUpgrade()
         Fresco.initialize(this)
         FileDownloader.setupOnApplicationOnCreate(this)
                 .connectionCreator(FileDownloadUrlConnection.Creator(FileDownloadUrlConnection.Configuration()
