@@ -19,6 +19,7 @@ class PlayerActivity: BaseActivity(){
     private lateinit var mPath: String
     private var mIsLocalVideo: Boolean = false
     private var mFirstLoad: Boolean = true
+    private var mHasPreview: Boolean = true
     private var mSwitchClarityView: SwitchClarityView? = null
     private var mVideoDetail: VideoDetailBean? = null
 
@@ -29,10 +30,15 @@ class PlayerActivity: BaseActivity(){
     override fun initData() {
         mIsLocalVideo = intent.getBundleExtra("bundle_extra").getBoolean("isLocal")
         mPath = intent.getBundleExtra("bundle_extra").getString("path")
+        mHasPreview = intent.getBundleExtra("bundle_extra").getBoolean("hasPreview")
         if(mIsLocalVideo) {
             play(mPath)
         } else {
-            mModel.getMediaInfo(mPath)
+            if(mHasPreview) {
+                mModel.getMediaInfo(mPath)
+            } else {
+                mModel.loadFileDetail(mPath)
+            }
         }
     }
 
@@ -75,6 +81,11 @@ class PlayerActivity: BaseActivity(){
                 play(it.preview[0].url + "?token=" + UserInfoManager.get().getUserToken())
                 it.preview[0].isPlay = true
             }
+        })
+
+        mModel.fileDetail.observe(this, Observer {
+            mVideoView.showClarityBtn(false)
+            play(it?.downloadAddress!!)
         })
     }
 

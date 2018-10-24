@@ -17,6 +17,7 @@
     <string name="modify_pwd">修改密码</string>
     <string name="reset_pwd">重置密码</string>
     <string name="user_feedback">用户反馈</string>
+    <string name="privacy_agreement">隐私协议</string>
     <string name="about">关于</string>
     <string name="logout">退出</string>
     <string name="send_success">验证码发送成功</string>
@@ -58,4 +59,5 @@
     <string name="copy">复制</string>
     <string name="copy_success">文件复制成功</string>
     <string name="move_success">文件移动成功</string>
+    <string name="transcoding_not_ok">转码尚未完成，是否尝试播放?</string>
 </resources>

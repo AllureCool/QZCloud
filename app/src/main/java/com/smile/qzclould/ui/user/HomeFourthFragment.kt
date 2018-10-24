@@ -49,6 +49,10 @@ class HomeFourthFragment: BaseFragment() {
             mModel.sendChangePasswordMessage()
         }
 
+        mBtnPrivacyAgreement.setOnClickListener {
+            jumpActivity(PrivacyAgreementActvity::class.java)
+        }
+
         mBtnFeedback.setOnClickListener {
             joinQQGroup("5tLjB6LJfsZXB6bKdOH5ytFmPnLChR-q")
         }

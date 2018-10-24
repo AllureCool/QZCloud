@@ -15,6 +15,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.*
 import com.smile.qzclould.ui.cloud.adapter.FileListAdapter
 import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
+import com.smile.qzclould.ui.cloud.dialog.ConfirmPlayDialog
 import com.smile.qzclould.ui.cloud.dialog.FileOperationDialog
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.component.FileDeleteDialog
@@ -32,6 +33,7 @@ class HomeFirstFragment : BaseFragment() {
     private val mModel by lazy { ViewModelProviders.of(this).get(CloudViewModel::class.java) }
     private var mFileOperationDialog: FileOperationDialog? = null
     private val mDialog by lazy { BuildNewFolderDialog() }
+    private val mPlayConfirmDialog by lazy { ConfirmPlayDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { FileListAdapter(mModel, this@HomeFirstFragment.hashCode()) }
     private val mPageSize = 20
@@ -133,7 +135,17 @@ class HomeFirstFragment : BaseFragment() {
                         val bundle = Bundle()
                         bundle.putBoolean("isLocal", false)
                         bundle.putString("path", item.path)
-                        jumpActivity(PlayerActivity::class.java, bundle)
+                        bundle.putBoolean("hasPreview", item.hasPreview)
+                        if(item.hasPreview) {
+                            jumpActivity(PlayerActivity::class.java, bundle)
+                        } else {
+                            mPlayConfirmDialog.show(childFragmentManager, this@HomeFirstFragment.hashCode().toString())
+                            mPlayConfirmDialog.setDialogClickListener(object: ConfirmPlayDialog.DialogButtonClickListener {
+                                override fun onConfirmClick() {
+                                    jumpActivity(PlayerActivity::class.java, bundle)
+                                }
+                            })
+                        }
                     }
                     item?.mime!!.contains(Constants.MIME_AUDIO) -> {
                         val bundle = Bundle()

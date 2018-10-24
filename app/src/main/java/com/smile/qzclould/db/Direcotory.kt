@@ -23,6 +23,7 @@ data class Direcotory(
         val size: Long, //文件大小(字节)
         val flag: Int, //总是 0
         val preview: Int, //预览状态
+        val hasPreview: Boolean,
         val recycle: Int, //0:正常文件，1:回收站
 
         var isSelected: Boolean, //是否选中
