@@ -10,8 +10,8 @@ android {
         applicationId "com.smile.qzclould"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 1001003
-        versionName "1.0.3"
+        versionCode 1001004
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'armeabi'
