@@ -10,7 +10,6 @@ import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.BackPressEvent
 import com.smile.qzclould.ui.cloud.fragment.CloudBoardFragment
-import com.smile.qzclould.ui.cloud.fragment.HomeFirstFragment
 import com.smile.qzclould.ui.task.HomeThirdFragment
 import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
@@ -59,11 +58,12 @@ class MainActivity : BaseActivity() {
                 it == R.id.tab_user -> mVpContainer.setCurrentItem(3, false)
             }
         }
+
     }
 
     override fun onBackPressed() {
         if (mFragments[mVpContainer.currentItem] is CloudBoardFragment) {
-            if(!Constants.pathList.isEmpty()) {
+            if (!Constants.pathList.isEmpty()) {
                 RxBus.post(BackPressEvent())
                 return
             }

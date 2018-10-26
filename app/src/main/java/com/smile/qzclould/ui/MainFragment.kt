@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
-import com.smile.qzclould.event.SwitchTabEvent
+import com.smile.qzclould.event.OfflinFileJumpEvent
 import com.smile.qzclould.ui.cloud.fragment.CloudBoardFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
 import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
@@ -41,9 +41,15 @@ class MainFragment: BaseFragment() {
     }
 
     override fun initEvent() {
-        RxBus.toObservable(SwitchTabEvent::class.java)
+//        RxBus.toObservable(SwitchTabEvent::class.java)
+//                .subscribe {
+//                    mVpContainer.setCurrentItem(it.index, false)
+//                }
+//                .autoDispose()
+
+        RxBus.toObservable(OfflinFileJumpEvent::class.java)
                 .subscribe {
-                    mVpContainer.setCurrentItem(it.index, false)
+                    mVpContainer.setCurrentItem(0, false)
                 }
                 .autoDispose()
     }

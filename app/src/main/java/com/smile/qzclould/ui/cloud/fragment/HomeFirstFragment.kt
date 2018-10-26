@@ -17,8 +17,8 @@ import com.smile.qzclould.ui.cloud.adapter.FileListAdapter
 import com.smile.qzclould.ui.cloud.dialog.BuildNewFolderDialog
 import com.smile.qzclould.ui.cloud.dialog.ConfirmPlayDialog
 import com.smile.qzclould.ui.cloud.dialog.FileOperationDialog
+import com.smile.qzclould.ui.cloud.menu.DismissControlPopup
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
-import com.smile.qzclould.ui.component.FileDeleteDialog
 import com.smile.qzclould.ui.preview.picture.PicturePreviewActivity
 import com.smile.qzclould.ui.player.PdfViewActivity
 import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
@@ -36,6 +36,7 @@ class HomeFirstFragment : BaseFragment() {
     private val mPlayConfirmDialog by lazy { ConfirmPlayDialog() }
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { FileListAdapter(mModel, this@HomeFirstFragment.hashCode()) }
+    private val mSortMenu by lazy { DismissControlPopup(mActivity) }
     private val mPageSize = 20
 
     private var mPage = 1
@@ -54,6 +55,9 @@ class HomeFirstFragment : BaseFragment() {
             mFilePath = arguments!!.getString("file_path")
             mFileName = arguments!!.getString("file_name")
             Constants.pathList.add(mFileName)
+        } else if (mActivity?.intent != null && mActivity?.intent?.getBundleExtra("bundle_extra")?.getString("file_path") != null) {
+            mFilePath = mActivity?.intent?.getBundleExtra("bundle_extra")?.getString("file_path")!!
+            mFileName = "离线下载"
         }
         listFileByPath()
     }
@@ -77,7 +81,12 @@ class HomeFirstFragment : BaseFragment() {
 
         mRvFile.layoutManager = mLayoutManager
         mAdapter.bindToRecyclerView(mRvFile)
-
+        mSortMenu.setOnBeforeShowCallback { contentView, anchorView, hasShowAnimate ->
+            mSortMenu.isAllowDismissWhenTouchOutside = true
+            mSortMenu.setBackPressEnable(true)
+            mSortMenu.isAllowInterceptTouchEvent = true
+            return@setOnBeforeShowCallback true
+        }
         mRefreshLayout.setColorSchemeColors(resources.getColor(R.color.color_green_2EC17C))
     }
 
@@ -136,11 +145,11 @@ class HomeFirstFragment : BaseFragment() {
                         bundle.putBoolean("isLocal", false)
                         bundle.putString("path", item.path)
                         bundle.putBoolean("hasPreview", item.hasPreview)
-                        if(item.hasPreview) {
+                        if (item.hasPreview) {
                             jumpActivity(PlayerActivity::class.java, bundle)
                         } else {
                             mPlayConfirmDialog.show(childFragmentManager, this@HomeFirstFragment.hashCode().toString())
-                            mPlayConfirmDialog.setDialogClickListener(object: ConfirmPlayDialog.DialogButtonClickListener {
+                            mPlayConfirmDialog.setDialogClickListener(object : ConfirmPlayDialog.DialogButtonClickListener {
                                 override fun onConfirmClick() {
                                     jumpActivity(PlayerActivity::class.java, bundle)
                                 }
@@ -183,11 +192,13 @@ class HomeFirstFragment : BaseFragment() {
         }
 
         mBtnSort.setOnClickListener {
+            mSortMenu.setOrderType(mOrderType)
+            mSortMenu.showPopupWindow(it)
+        }
+
+        mSortMenu.setMenuSelectListener {
             mPage = 1
-            when {
-                mOrderType == 0 -> mOrderType = 1
-                mOrderType == 1 -> mOrderType = 0
-            }
+            mOrderType = it
             listFileByPath()
         }
     }
@@ -238,10 +249,10 @@ class HomeFirstFragment : BaseFragment() {
                 }
                 .autoDispose()
         RxBus.toObservable(BackPressEvent::class.java)
-                .subscribe{
-                    if(isVisible) {
+                .subscribe {
+                    if (isVisible) {
                         DLog.i("visible---------------------------------")
-                        if(Navigation.findNavController(mRvFile).navigateUp()) {
+                        if (Navigation.findNavController(mRvFile).navigateUp()) {
                             Constants.pathList.remove(mFileName)
                         }
                     }

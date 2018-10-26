@@ -7,8 +7,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
+import com.smile.qzclould.common.Constants
+import com.smile.qzclould.event.OfflinFileJumpEvent
 import com.smile.qzclould.event.RefreshOfflineTaskListEvent
 import com.smile.qzclould.ui.component.FileDeleteDialog
+import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
+import com.smile.qzclould.ui.transfer.activity.OfflineFilePreviewActivity
 import com.smile.qzclould.ui.transfer.adapter.DownloadTaskAdapter
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.dialog.AddTaskDialog
@@ -110,6 +114,20 @@ class TransferFragment: BaseFragment() {
             }
             return@setOnItemLongClickListener true
         }
+
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            val itemData = adapter.data[position] as DownloadTaskBean.Task
+            val bundle = Bundle()
+            bundle.putString("file_path", itemData.savePath)
+            jumpActivity(OfflineFilePreviewActivity::class.java, bundle)
+//            if(itemData.mime.contains(Constants.MIME_VIDEO)) {
+//                val bundle = Bundle()
+//                bundle.putBoolean("isLocal", false)
+//                bundle.putString("path", itemData.filePath)
+//                bundle.putBoolean("hasPreview", false)
+//                jumpActivity(PlayerActivity::class.java, bundle)
+//            }
+        }
     }
 
     override fun initEvent() {
@@ -122,7 +140,7 @@ class TransferFragment: BaseFragment() {
     }
 
     private fun loadOfflinTask(page: Int) {
-        mModel.loadOfflineTask(page, 20)
+        mModel.loadOfflineTask(page, 3)
 
     }
 }

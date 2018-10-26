@@ -62,4 +62,6 @@
     <string name="move_success">文件移动成功</string>
     <string name="transcoding_not_ok">转码尚未完成，是否尝试播放?</string>
     <string name="please_select_file">请选择要下载的文件</string>
+    <string name="sort_by_time">按时间倒序排序</string>
+    <string name="sort_by_file_name">按文件名称排序</string>
 </resources>

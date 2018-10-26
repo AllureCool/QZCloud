@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="180dp"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:background="@mipmap/bg_popup_menu">
+    <TextView
+        android:id="@+id/tv_order_by_name"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/sort_by_file_name"
+        android:textColor="@color/color_green_2EC17C"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="158dp"
+        android:layout_height="0.5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/color_gray_D9D9D9"/>
+
+    <TextView
+        android:id="@+id/tv_order_by_time"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/sort_by_time"
+        android:textColor="@color/color_black_5A5A5A"
+        android:textSize="14sp"/>
+
+
+</LinearLayout>
