@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
-import com.smile.qzclould.db.Direcotory
-import com.smile.qzclould.event.FileDownloadEvent
 import com.smile.qzclould.event.RefreshOfflineTaskListEvent
 import com.smile.qzclould.ui.component.FileDeleteDialog
 import com.smile.qzclould.ui.transfer.adapter.DownloadTaskAdapter

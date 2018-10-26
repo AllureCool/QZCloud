@@ -77,7 +77,6 @@ class FileOperationDialog: BaseDialogFragment() {
         mLlDownload.setOnClickListener {
             RxBus.post(FileControlEvent(EVENT_DOWNLOAD, mEventId))
             dismissDialog()
-            showToast(Constants.TOAST_SUCCESS, mActivity.getString(R.string.downloading))
         }
 
         mLlDelete.setOnClickListener {

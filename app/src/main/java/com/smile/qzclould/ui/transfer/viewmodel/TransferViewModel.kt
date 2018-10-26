@@ -98,7 +98,7 @@ class TransferViewModel : BaseViewModel() {
                 .subscribe({
                     if (it.success) {
 //                        if (filterList(it.data?.list)!!.isNotEmpty()) {
-                            folderListResult.value = filterList(it.data?.list)
+                        folderListResult.value = filterList(it.data?.list)
 //                        }
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)

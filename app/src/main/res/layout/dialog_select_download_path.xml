@@ -21,9 +21,18 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/mIvBack"
+            android:layout_centerVertical="true"
             android:text="@string/please_select_download_path"
             android:textSize="15sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/tvTitle"
+            android:text="(不选择默认为根目录)"
+            android:textSize="10sp"/>
     </RelativeLayout>
 
     <View

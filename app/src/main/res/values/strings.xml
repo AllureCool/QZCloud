@@ -51,7 +51,7 @@
     <string name="task_offline">离线任务</string>
     <string name="add_task">添加</string>
     <string name="please_input_download_url">请输入添加的资源</string>
-    <string name="please_select_download_path">请选择下载路径</string>
+    <string name="please_select_download_path">请选择目录</string>
     <string name="quick_paste">快速粘贴</string>
     <string name="already_add_to_offlin_task">已添加到离线任务</string>
     <string name="empty_tip">空空如也</string>
@@ -61,4 +61,5 @@
     <string name="copy_success">文件复制成功</string>
     <string name="move_success">文件移动成功</string>
     <string name="transcoding_not_ok">转码尚未完成，是否尝试播放?</string>
+    <string name="please_select_file">请选择要下载的文件</string>
 </resources>

@@ -85,12 +85,12 @@ class SelectDownloadPathDialog: BaseDialogFragment() {
         }
 
         mBtnConfirm.setOnClickListener {
-            if(mSelectPath == "/") {
-                Toasty.normal(mActivity, mActivity.getString(R.string.please_select_download_path)).show()
-            } else {
+//            if(mSelectPath == "/") {
+//                Toasty.normal(mActivity, mActivity.getString(R.string.please_select_download_path)).show()
+//            } else {
                 RxBus.post(SelectDownloadPathEvent(mSelectPath, mOpt, mEventId))
                 dismiss()
-            }
+//            }
         }
 
         initViewModel()

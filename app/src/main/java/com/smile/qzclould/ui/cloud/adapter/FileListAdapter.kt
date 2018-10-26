@@ -48,7 +48,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     override fun convert(helper: BaseViewHolder?, item: Direcotory?) {
 
         with(helper?.getView<ImageView>(R.id.mIcon)) {
-            if(item?.mime != null) {
+            if (item?.mime != null) {
                 when {
                     item.mime.contains(Constants.MIME_FOLDER) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_directory))
                     item.mime.contains(Constants.MIME_IMG) -> this?.setImageDrawable(mContext.resources.getDrawable(R.mipmap.img_image))
@@ -76,8 +76,12 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 this?.visibility = View.VISIBLE
             }
             this?.setOnClickListener {
-                mSelectedList.add(item)
-                item.isSelected = true
+                if (item.isSelected) {
+                    mSelectedList.remove(item)
+                } else {
+                    mSelectedList.add(item)
+                }
+                item.isSelected = !item.isSelected
                 notifyItemChanged(helper!!.adapterPosition)
                 mCheckListener?.onChecked(helper.adapterPosition, item)
             }
@@ -120,7 +124,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     private fun initEvent(eventId: Int) {
         mDispose = RxBus.toObservable(FileControlEvent::class.java)
                 .subscribe {
-                    if(it.eventId == eventId) {
+                    if (it.eventId == eventId) {
                         when (it.controlCode) {
                             EVENT_CANCEl -> {
                                 mSelectedList.clear()
@@ -148,8 +152,8 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 }
         mDispose1 = RxBus.toObservable(SelectDownloadPathEvent::class.java)
                 .subscribe {
-                    if(it.eventId == eventId) {
-                        when(it.opt) {
+                    if (it.eventId == eventId) {
+                        when (it.opt) {
                             1 -> moveFiles(it.path)
                             2 -> copyFiles(it.path)
                         }
@@ -170,11 +174,16 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 item.isSelected = false
             }
             notifyDataSetChanged()
-            doAsync {
-                val dao = App.getCloudDatabase()?.DirecotoryDao()
-                dao?.saveDirecotoryList(downloadList)
-                uiThread {
-                    RxBus.post(FileDownloadEvent(true))
+            if(downloadList.isEmpty()) {
+                Toasty.normal(mContext, mContext.getString(R.string.please_select_file)).show()
+            } else {
+                Toasty.success(mContext, mContext.getString(R.string.downloading)).show()
+                doAsync {
+                    val dao = App.getCloudDatabase()?.DirecotoryDao()
+                    dao?.saveDirecotoryList(downloadList)
+                    uiThread {
+                        RxBus.post(FileDownloadEvent(true))
+                    }
                 }
             }
         }, R.string.need_storage_permission,
