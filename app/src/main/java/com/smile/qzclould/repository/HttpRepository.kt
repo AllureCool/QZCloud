@@ -134,6 +134,11 @@ class HttpRepository {
         return service.resetPwdByMessage(body).doRequestAsync()
     }
 
+    fun changeUserName(name: String): Observable<Respone<String>> {
+        val body = ModifyNameBody(name)
+        return service.changeUserName(body).doRequestAsync()
+    }
+
     fun createDirectory(directoryName: String, parentUUid: String = ""): Observable<Respone<Direcotory>> {
         val body = CreateDirectoryBody(directoryName, parentUUid)
         return service.createDirectory(body).doRequestAsync()

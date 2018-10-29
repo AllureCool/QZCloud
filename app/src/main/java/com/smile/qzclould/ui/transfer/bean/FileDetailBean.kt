@@ -5,6 +5,7 @@ import java.io.Serializable
 data class FileDetailBean(
         val uuid: String,
         val downloadAddress: String,
+        val storeId: String,
         val mime: String,
         val name: String
 ): Serializable {

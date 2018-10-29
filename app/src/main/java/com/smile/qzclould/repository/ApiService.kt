@@ -70,6 +70,12 @@ interface ApiService {
     fun resetPwdByMessage(@Body requestBody: ChangePwdBody): Observable<Respone<Boolean>>
 
     /**
+     * 修改用户名
+     */
+    @POST("/v1/user/changeName")
+    fun changeUserName(@Body requestBody: ModifyNameBody): Observable<Respone<String>>
+
+    /**
      * 新建文件夹
      */
     @POST("/v1/files/createDirectory")

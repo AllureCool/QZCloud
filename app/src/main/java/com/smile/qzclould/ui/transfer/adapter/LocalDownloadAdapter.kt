@@ -22,10 +22,13 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.FileDownloadCompleteEvent
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
+import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.FileUtils
 import com.smile.qzclould.utils.RxBus
+import com.smile.qzclould.utils.WetagUtil
 import io.netopen.hotbitmapgg.library.view.RingProgressBar
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import java.io.File
 
 class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
@@ -101,12 +104,25 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         override fun completed(task: BaseDownloadTask?) {
             super.completed(task)
             val itemData = getFileBeanById(task?.tag as String)
-            data.remove(itemData)
-            notifyDataSetChanged()
-//            notifyItemRemoved(index)
-//            notifyItemRangeChanged(index, mData.size)
-            deleteFile(itemData)
-            RxBus.post(FileDownloadCompleteEvent())
+            doAsync {
+                val hashStr = WetagUtil.getEtagHash(File(savePath + itemData?.name))
+                uiThread {
+                    DLog.i("------" + hashStr + "************************" + itemData?.fileDetail!!.storeId)
+                    if(hashStr != itemData?.fileDetail!!.storeId) {
+                        val index = data.indexOf(itemData)
+                        itemData?.downloadStatus = 6
+                        itemData?.downProgress = 0
+                        notifyItemChanged(index)
+                        updateFileInfo(itemData)
+                        File(savePath + itemData?.name).deleteRecursively()
+                    } else {
+                        data.remove(itemData)
+                        notifyDataSetChanged()
+                        RxBus.post(FileDownloadCompleteEvent())
+                        deleteFile(itemData)
+                    }
+                }
+            }
         }
     }
 
@@ -116,7 +132,6 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     fun startDownload(file: Direcotory) {
         val path = savePath + file.name
-
         val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
                 .setPath(path)
                 .setTag(file.uuid)
@@ -211,6 +226,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 2 -> R.drawable.icon_download_24dp
                 3 -> R.drawable.icon_download_24dp
                 5 -> R.drawable.ic_queue_24dp
+                6 -> R.drawable.icon_download_24dp
                 else -> 0
             })
         }
@@ -221,7 +237,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
         with(helper?.getView<FrameLayout>(R.id.mFlDownload)) {
             when (item.downloadStatus) {
-                0, 1, 2, 3, 5 -> {
+                0, 1, 2, 3, 5, 6 -> {
                     this?.visibility = View.VISIBLE
                 }
                 4 -> {
@@ -238,13 +254,14 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 3 -> "下载失败"
                 4 -> "下载完成"
                 5 -> "队列中"
+                6 -> "文件损坏"
                 else -> ""
             }
         }
 
         helper?.getView<FrameLayout>(R.id.mFlDownload)?.setOnClickListener {
             when (item.downloadStatus) {
-                0, 3 -> {
+                0, 3, 6 -> {
                     getDownloadInfo(item.path, helper.adapterPosition)
                 }
                 2 -> {

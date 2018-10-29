@@ -5,7 +5,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import com.smile.qzclould.db.*
 
-@Database(entities = [User::class, Direcotory::class], version = 3, exportSchema = false)
+@Database(entities = [User::class, Direcotory::class], version = 4, exportSchema = false)
 @TypeConverters(NormalConverter::class)
 abstract class CloudDatabase : RoomDatabase() {
 
