@@ -13,7 +13,7 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
-import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.CommonUtils
 import kotlinx.android.synthetic.main.frag_pwd_input.*
 import java.util.*
@@ -26,7 +26,7 @@ class PwdInputFragment : BaseFragment() {
         const val TYPE_RESET_PWD = 2
     }
 
-    private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
     private var mVerifyCode: String? = null
     private var mPhoneNum: String? = null
     private var mPhoneInfo: String? = null

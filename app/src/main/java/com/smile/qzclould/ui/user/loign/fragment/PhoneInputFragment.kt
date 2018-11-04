@@ -10,12 +10,12 @@ import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
-import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import kotlinx.android.synthetic.main.frag_phone_input.*
 
 class PhoneInputFragment : BaseFragment() {
 
-    private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
 
     override fun getLayoutId(): Int {
         return R.layout.frag_phone_input

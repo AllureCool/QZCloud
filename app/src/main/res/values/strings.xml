@@ -10,6 +10,7 @@
     <string name="regist">用户注册</string>
     <string name="regist_title">注册</string>
     <string name="please_input_phone_num">请输入您的手机号</string>
+    <string name="please_input_nick_name">请输入昵称</string>
     <string name="please_input_verify_code">请输入您的验证码</string>
     <string name="next_step">下一步</string>
     <string name="please_select_country_code">请选择区号</string>
@@ -64,4 +65,9 @@
     <string name="please_select_file">请选择要下载的文件</string>
     <string name="sort_by_time">按时间倒序排序</string>
     <string name="sort_by_file_name">按文件名称排序</string>
+    <string name="user_info">用户信息</string>
+    <string name="avatar">头像</string>
+    <string name="nick_name">昵称</string>
+    <string name="save">保存</string>
+    <string name="error_modify_nick">修改昵称失败</string>
 </resources>

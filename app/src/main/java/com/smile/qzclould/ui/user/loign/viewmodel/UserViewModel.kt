@@ -7,7 +7,7 @@ import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 
-class LoginViewModel : BaseViewModel() {
+class UserViewModel : BaseViewModel() {
     val repo by lazy { HttpRepository() }
 
     val verifyCodeResult by lazy { MediatorLiveData<String>() }
@@ -17,6 +17,8 @@ class LoginViewModel : BaseViewModel() {
     val logoutResult by lazy { MediatorLiveData<Boolean>() }
 
     val modifyPwdResult by lazy { MediatorLiveData<Boolean>() }
+
+    val modifyNameResult by lazy { MediatorLiveData<String>() }
 
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
@@ -129,6 +131,20 @@ class LoginViewModel : BaseViewModel() {
                 .subscribe({
                     if(it.success) {
                         modifyPwdResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun modifyName(nickName: String) {
+        repo.changeUserName(nickName)
+                .subscribe({
+                    if(it.success) {
+                        modifyNameResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }

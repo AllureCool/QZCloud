@@ -16,13 +16,13 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.SelectCountryCodeEvent
 import com.smile.qzclould.ui.user.loign.dialog.SelectCountryCodeDialog
-import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_register.*
 
 class RegisterFragment: BaseFragment() {
 
-    private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
     private var mCountryCode = "86"
     private var mPhoneNum = ""
 

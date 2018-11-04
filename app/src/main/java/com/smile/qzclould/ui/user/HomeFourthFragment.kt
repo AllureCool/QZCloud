@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import androidx.navigation.Navigation
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
@@ -14,7 +13,7 @@ import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.user.loign.activity.LoginActivity
 import com.smile.qzclould.ui.user.loign.activity.ModifyPwdActivity
 import com.smile.qzclould.ui.user.loign.fragment.PwdInputFragment
-import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.FileUtils
 import kotlinx.android.synthetic.main.frag_home_fourth.*
 import org.jetbrains.anko.doAsync
@@ -22,21 +21,38 @@ import java.io.File
 import android.net.Uri
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.R
+import com.smile.qzclould.event.RefreshUserInfoEvent
+import com.smile.qzclould.ui.user.info.UserInfoActivity
+import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
+import com.smile.qzclould.utils.RxBus
 import com.tencent.bugly.beta.Beta
 
 
 class HomeFourthFragment: BaseFragment() {
-    private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
-    private val mUserInfo by lazy { UserInfoManager.get().getUserInfo() }
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
+    private var mUserInfo:UserInfoBean? = null
 
     override fun getLayoutId(): Int {
         return R.layout.frag_home_fourth
+    }
+
+    override fun initData() {
+        mUserInfo = UserInfoManager.get().getUserInfo()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         mTvNick.text = mUserInfo?.nickName
         mTvPhone.text = mUserInfo?.phone
         mTvVersion.text = "v${BuildConfig.VERSION_NAME}"
+    }
+
+    override fun initEvent() {
+        RxBus.toObservable(RefreshUserInfoEvent::class.java)
+                .subscribe {
+                    mUserInfo = UserInfoManager.get().getUserInfo()
+                    mTvNick.text = mUserInfo?.nickName
+                }
+                .autoDispose()
     }
 
     override fun initListener() {
@@ -60,6 +76,10 @@ class HomeFourthFragment: BaseFragment() {
 
         mFlCheckUpdate.setOnClickListener {
             Beta.checkUpgrade()
+        }
+
+        mClUserInfo.setOnClickListener {
+            jumpActivity(UserInfoActivity::class.java)
         }
     }
 

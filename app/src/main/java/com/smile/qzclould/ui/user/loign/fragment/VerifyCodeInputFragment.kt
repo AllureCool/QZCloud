@@ -13,17 +13,16 @@ import com.github.glomadrian.codeinputlib.callback.CodeInputCallback
 import com.gyf.barlibrary.ImmersionBar
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
-import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.ModifyPwdEvent
-import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_verify_code.*
 
 class VerifyCodeInputFragment : BaseFragment() {
 
     private var mCountDownTimer: CountDownTimer? = null
-    private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
     private var mToolbarTitle: String? = null
     private var mCountryCode: String? = null
     private var mPhoneNum: String? = null

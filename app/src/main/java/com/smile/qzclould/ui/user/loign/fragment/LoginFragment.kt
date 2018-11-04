@@ -14,15 +14,14 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
-import com.smile.qzclould.ui.user.loign.activity.ModifyPwdActivity
-import com.smile.qzclould.ui.user.loign.viewmodel.LoginViewModel
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.CommonUtils
 import com.smile.qzclould.utils.DLog
 import kotlinx.android.synthetic.main.login_fragment.*
 
 class LoginFragment : BaseFragment() {
 
-    private val mModel by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
 
     private var mPhoneNum: String? = null
     private var mPassword: String? = null

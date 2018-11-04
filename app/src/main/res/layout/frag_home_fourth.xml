@@ -18,6 +18,7 @@
         android:background="@color/color_green_2EC17C" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/mClUserInfo"
         android:layout_width="match_parent"
         android:layout_height="85dp"
         android:background="@color/color_green_2EC17C">
@@ -56,7 +57,17 @@
             tools:text="185****1205"
             app:layout_constraintLeft_toRightOf="@id/mIvAvatar"
             app:layout_constraintBottom_toBottomOf="@id/mIvAvatar"/>
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:src="@drawable/icon_back_white"
+            android:layout_marginRight="15dp"
+            android:rotation="180"
+            android:tint="@color/color_white_ffffff"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
     <FrameLayout
