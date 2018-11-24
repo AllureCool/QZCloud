@@ -84,7 +84,7 @@ class HttpRepository {
             })
             val retrofit = Retrofit.Builder()
                     .baseUrl(HOST)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(CustomGsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(okHttpClient.build())
                     .build()

@@ -22,6 +22,8 @@ class UserViewModel : BaseViewModel() {
 
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
+    val logoutError by lazy { MediatorLiveData<ErrorStatus>() }
+
 
     fun login(name: String, pwd: String) {
         repo.login(name, pwd)
@@ -74,10 +76,10 @@ class UserViewModel : BaseViewModel() {
                     if(it.success) {
                         logoutResult.value = it.data
                     } else {
-                        errorStatus.value = ErrorStatus(it.status, it.message)
+                        logoutError.value = ErrorStatus(it.status, it.message)
                     }
                 }, {
-                    errorStatus.value = ErrorStatus(100, it.message)
+                    logoutError.value = ErrorStatus(100, it.message)
                 })
                 .autoDispose()
     }

@@ -4,14 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
 
+//alias:qccloud  password:P@ssw0rd
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.smile.qzclould"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 1001004
-        versionName "1.0.4"
+        versionCode 1001005
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'armeabi'

@@ -118,6 +118,11 @@ class HomeFourthFragment: BaseFragment() {
             stopLoading()
             showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
+
+        mModel.logoutError.observe(this, Observer {
+            stopLoading()
+            UserInfoManager.get().logout()
+        })
     }
 
     /****************
