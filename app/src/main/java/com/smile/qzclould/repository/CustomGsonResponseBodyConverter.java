@@ -34,7 +34,6 @@ public class CustomGsonResponseBodyConverter<T> implements Converter<ResponseBod
         String response = value.string();
         HttpStatus httpStatus = gson.fromJson(response, HttpStatus.class);
         if (httpStatus.hasToken()) {
-            DLog.i(httpStatus.getToken() + "**********************");
             UserInfoManager.Companion.get().saveUserToken(httpStatus.getToken());
         }
 

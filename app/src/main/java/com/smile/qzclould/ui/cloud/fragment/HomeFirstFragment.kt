@@ -2,9 +2,11 @@ package com.smile.qzclould.ui.cloud.fragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Base64
 import android.view.View
 import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
@@ -24,12 +26,18 @@ import com.smile.qzclould.ui.player.PdfViewActivity
 import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
 import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
 import com.smile.qzclould.utils.DLog
+import com.smile.qzclould.utils.EncodeUtils
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_first.*
 import kotlinx.android.synthetic.main.view_search_bar.*
+import com.imnjh.imagepicker.SImagePicker
+import com.smile.qzclould.uicompment.SingleFileLimitInterceptor
+import com.imnjh.imagepicker.activity.PhotoPickerActivity
+import android.app.Activity
+
 
 class HomeFirstFragment : BaseFragment() {
-
+    val REQUEST_CODE_SELECT = 100
     private val mModel by lazy { ViewModelProviders.of(this).get(CloudViewModel::class.java) }
     private var mFileOperationDialog: FileOperationDialog? = null
     private val mDialog by lazy { BuildNewFolderDialog() }
@@ -63,7 +71,6 @@ class HomeFirstFragment : BaseFragment() {
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
         if (!TextUtils.isEmpty(mFileName)) {
             mTvFileName.visibility = View.VISIBLE
             mTvFileName.text = mFileName
@@ -77,6 +84,16 @@ class HomeFirstFragment : BaseFragment() {
             } else {
                 mActivity?.finish()
             }
+        }
+
+        mTvUpload.setOnClickListener {
+            SImagePicker
+                    .from(mActivity)
+                    .maxCount(Int.MAX_VALUE)
+                    .rowCount(3)
+                    .pickMode(SImagePicker.MODE_IMAGE)
+                    .fileInterceptor(SingleFileLimitInterceptor())
+                    .forResult(REQUEST_CODE_SELECT)
         }
 
         mRvFile.layoutManager = mLayoutManager
@@ -240,6 +257,12 @@ class HomeFirstFragment : BaseFragment() {
             stopLoading()
             showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
+        var md5 = EncodeUtils.md5Byte("{\"accessKeySecret\":\"张宝华\"}")
+        var contentMd5 = Base64.encodeToString(md5, Base64.NO_WRAP)
+//        DLog.i(contentMd5 + "**********************")
+
+        var signature = Base64.encodeToString(EncodeUtils.hmacSha1("POST1548179660299content-md5: CprM/TvhcReejHlhO4jvVg==qingzhen-token: 2223323user-timestamp: 1548179660299/v2/system/sign?papaya=ee","张宝华").toByteArray(), Base64.NO_WRAP)
+        DLog.i(contentMd5 + "**********************")
     }
 
     override fun initEvent() {
@@ -276,8 +299,16 @@ class HomeFirstFragment : BaseFragment() {
             mFileOperationDialog!!.arguments = bundle
 
             val ft = childFragmentManager.beginTransaction()
-            ft.add(mFileOperationDialog, mFileOperationDialog?.javaClass?.simpleName)
+            ft.add(mFileOperationDialog!!, mFileOperationDialog?.javaClass?.simpleName)
             ft.commitAllowingStateLoss()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode === Activity.RESULT_OK && requestCode === REQUEST_CODE_SELECT) {
+            val pathList = data?.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION)
+            val original = data?.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false)
         }
     }
 }

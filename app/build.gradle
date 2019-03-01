@@ -6,13 +6,14 @@ apply plugin: 'androidx.navigation.safeargs'
 
 //alias:qccloud  password:P@ssw0rd
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.smile.qzclould"
         minSdkVersion 17
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1001005
         versionName "1.0.5"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a', 'armeabi'
@@ -56,7 +57,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     implementation 'org.jetbrains.anko:anko-common:0.10.5'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-
+    implementation 'com.android.support:multidex:1.0.3'
     // Room (use 1.1.0-beta2 for latest beta)
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     kapt "android.arch.persistence.room:compiler:1.1.1"
@@ -129,4 +130,14 @@ dependencies {
 
     //base pupup
     implementation 'com.github.razerdp:BasePopup:2.0.7'
+
+    //easyphoto
+    implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.6'
+
+    //imagepicker
+//    implementation project(':imagepicker')
+    implementation 'com.github.martin90s:ImagePicker:v1.3.2'
+    //glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'
 }

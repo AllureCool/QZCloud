@@ -40,7 +40,6 @@
             android:id="@+id/mTvUpload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:text="@string/upload"
             android:textSize="16sp"
             android:textColor="@color/color_white_ffffff"

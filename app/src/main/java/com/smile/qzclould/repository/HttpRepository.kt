@@ -77,9 +77,16 @@ class HttpRepository {
                     val request = original?.newBuilder()
                             ?.header("User-Agent", "QZCloud")
                             ?.header("token", UserInfoManager.get().getUserToken())
+                            ?.header("user-timestamp", System.currentTimeMillis().toString())
                             ?.build()
-
-                    return chain!!.proceed(request)
+                    val response = chain!!.proceed(request)
+//                    response?.newBuilder()
+//                            ?.header("User-Agent", "QZCloud")
+//                            ?.header("token", UserInfoManager.get().getUserToken())
+//                            ?.header("user-timestamp", System.currentTimeMillis().toString())
+//                            ?.build()
+                    DLog.i("Headers:" + request?.headers()!!.toString())
+                    return response
                 }
             })
             val retrofit = Retrofit.Builder()

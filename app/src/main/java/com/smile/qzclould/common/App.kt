@@ -3,21 +3,23 @@ package com.smile.qzclould.common
 import android.app.Application
 import android.arch.persistence.room.Room
 import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
+import android.support.multidex.MultiDex
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qzclould.BuildConfig
-import com.smile.qzclould.R
 import com.smile.qzclould.common.base.CloudDatabase
+import com.smile.qzclould.uicompment.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
-import com.tencent.bugly.crashreport.CrashReport
 import com.tspoon.traceur.Traceur
 import org.jetbrains.anko.doAsync
 import java.io.File
+import com.imnjh.imagepicker.PickerConfig
+import com.imnjh.imagepicker.SImagePicker
+import com.smile.qzclould.R
+
 
 /**
  * Created by wangzhg on 2018/7/12
@@ -45,6 +47,7 @@ class App : Application() {
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         instance = this
+        MultiDex.install(this)
     }
 
     override fun onCreate() {
@@ -63,6 +66,14 @@ class App : Application() {
                 .maxNetworkThreadCount(3)
                 .commit()
         clearCache()
+        initImagePicker()
+    }
+
+    private fun initImagePicker() {
+        SImagePicker.init(PickerConfig.Builder().setAppContext(this)
+                .setImageLoader(GlideImageLoader())
+                .setToolbaseColor(resources.getColor(R.color.colorPrimary))
+                .build())
     }
 
     private fun clearCache() {

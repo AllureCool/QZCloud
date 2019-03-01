@@ -1,10 +1,13 @@
 package com.smile.qzclould.ui
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Handler
 import android.os.Message
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.widget.Toast
+import com.imnjh.imagepicker.activity.PhotoPickerActivity
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
@@ -77,6 +80,15 @@ class MainActivity : BaseActivity() {
             return
         } else {
             System.exit(0)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode === Activity.RESULT_OK && requestCode === 100) {
+            val pathList = data?.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION)
+            val original = data?.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false)
         }
     }
 
