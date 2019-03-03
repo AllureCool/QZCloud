@@ -9,6 +9,7 @@ import com.smile.qzclould.db.UploadFileEntity
 import com.smile.qzclould.event.UploadFileEvent
 import com.smile.qzclould.repository.upload.OnUploadListener
 import com.smile.qzclould.repository.upload.UploadUtil
+import com.smile.qzclould.ui.preview.picture.PicturePreviewActivity
 import com.smile.qzclould.ui.transfer.adapter.UploadAdapter
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_upload.*
@@ -38,6 +39,12 @@ class UploadFileFragment: BaseFragment() {
         rv_upload.layoutManager = mLayoutManager
         rv_upload.itemAnimator = null
         mAdapter.bindToRecyclerView(rv_upload)
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            val bundle = Bundle()
+            bundle.putBoolean("isLocal", true)
+            bundle.putString("path", mAdapter.data[position].filePath)
+            jumpActivity(PicturePreviewActivity::class.java, bundle)
+        }
         doAsync {
             val fileList = mDao?.loadDirecotory()
             uiThread {
