@@ -6,8 +6,6 @@ import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
-import com.smile.qzclould.ui.transfer.bean.FileDetailBean
-import org.jetbrains.anko.doAsync
 
 class CloudViewModel : BaseViewModel() {
     val repo by lazy { HttpRepository() }

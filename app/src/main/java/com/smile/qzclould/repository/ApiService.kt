@@ -10,11 +10,10 @@ import com.smile.qzclould.ui.preview.picture.PictureBean
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
+import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import io.reactivex.Observable
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by wangzhg on 2018/8/25
@@ -122,6 +121,12 @@ interface ApiService {
      */
     @POST("/v1/offline/page")
     fun offlineDownloadList(@Body requestBody: OfflineDownloadListBody): Observable<Respone<DownloadTaskBean>>
+
+    /**
+     * 获取文件上传地址
+     */
+    @POST("/v1/store/token")
+    fun uploadFile(@Body requestBody: UploadFileBody): Observable<Respone<UploadFileResponeBean>>
 
     /**
      * 获取

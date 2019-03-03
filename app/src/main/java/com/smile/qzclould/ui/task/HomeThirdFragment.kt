@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.FileProvider
 import android.support.v7.widget.LinearLayoutManager
-import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.R
@@ -20,7 +19,6 @@ import com.smile.qzclould.ui.player.PdfViewActivity
 import com.smile.qzclould.ui.preview.player.activity.AudioPlayerActivity
 import com.smile.qzclould.ui.preview.player.activity.PlayerActivity
 import com.smile.qzclould.ui.task.adapter.FileDownloadCompleteAdapter
-import com.smile.qzclould.utils.CallOtherOpenFile
 import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.FileUtils
 import com.smile.qzclould.utils.RxBus

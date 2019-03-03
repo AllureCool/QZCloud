@@ -41,6 +41,7 @@
     <string name="transfer_list">传输列表</string>
     <string name="download_complete">下载完成</string>
     <string name="download_list">下载列表</string>
+    <string name="upload_list">上传列表</string>
     <string name="offline_download">离线下载</string>
     <string name="download">下载</string>
     <string name="file_delete">删除</string>

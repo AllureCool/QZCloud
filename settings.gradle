@@ -1,1 +1,1 @@
-include ':app', ':codeinputlib', ':qsvideoplayer', ':permlib'
+include ':app', ':codeinputlib', ':qsvideoplayer', ':permlib', ':wcs-android-sdk'

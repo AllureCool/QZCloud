@@ -12,6 +12,7 @@ import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.BackPressEvent
+import com.smile.qzclould.event.UploadFileEvent
 import com.smile.qzclould.ui.cloud.fragment.CloudBoardFragment
 import com.smile.qzclould.ui.task.HomeThirdFragment
 import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
@@ -89,6 +90,9 @@ class MainActivity : BaseActivity() {
         if (resultCode === Activity.RESULT_OK && requestCode === 100) {
             val pathList = data?.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION)
             val original = data?.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false)
+            if( pathList!= null) {
+                RxBus.post(UploadFileEvent(pathList))
+            }
         }
     }
 

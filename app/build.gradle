@@ -135,8 +135,11 @@ dependencies {
     implementation 'com.github.HuanTanSheng:EasyPhotos:2.3.6'
 
     //imagepicker
-//    implementation project(':imagepicker')
     implementation 'com.github.martin90s:ImagePicker:v1.3.2'
+
+    //uploadlib
+    implementation project(':wcs-android-sdk')
+
     //glide
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.5.0'

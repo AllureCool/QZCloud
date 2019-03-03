@@ -11,6 +11,7 @@ import com.smile.qzclould.ui.preview.pdf.PdfDetailBean
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
+import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.doRequestAsync
@@ -19,7 +20,6 @@ import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.security.cert.X509Certificate
 import javax.net.ssl.*
 
@@ -215,4 +215,10 @@ class HttpRepository {
         val body = MoveFileBody(path, destPath)
         return service.copyFile(body).doRequestAsync()
     }
+
+    fun uploadFile(fileName: String, hash: String, parent: String, path: String): Observable<Respone<UploadFileResponeBean>> {
+        val body = UploadFileBody(fileName, hash, parent, path, fileName)
+        return service.uploadFile(body).doRequestAsync()
+    }
+
 }

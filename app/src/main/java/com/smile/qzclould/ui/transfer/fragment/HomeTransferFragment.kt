@@ -21,7 +21,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.badge.
 
 class HomeTransferFragment: BaseFragment() {
 
-    private val mIdcTitle = listOf(App.instance.getString(R.string.download_list), App.instance.getString(R.string.offline_download))
+    private val mIdcTitle = listOf(App.instance.getString(R.string.download_list), App.instance.getString(R.string.upload_list), App.instance.getString(R.string.offline_download))
     private val mFragments = mutableListOf<Fragment>()
 
     override fun getLayoutId(): Int {
@@ -31,7 +31,7 @@ class HomeTransferFragment: BaseFragment() {
     override fun initData() {
         mFragments.add(LocalDownloadFragment())
 
-
+        mFragments.add(UploadFileFragment())
         val offlineBundle = Bundle()
         offlineBundle.putInt("download_type", TransferFragment.OFFLINE_DOWNLOAD)
         val offlineDownloadFrag = TransferFragment()
