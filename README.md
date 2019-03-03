@@ -8,3 +8,7 @@
 5.视频播放功能
 6.用户系统
 
+首页预览
+![avatar](https://github.com/MissBears/QZCloud/blob/master/img/%E9%A6%96%E9%A1%B5.png)
+
+
