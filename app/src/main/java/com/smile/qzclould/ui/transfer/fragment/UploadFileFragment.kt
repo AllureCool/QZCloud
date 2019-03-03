@@ -47,7 +47,7 @@ class UploadFileFragment: BaseFragment() {
                     for(file in fileList) {
                         if(file.status != 2) {
                             uploadList.add(file)
-                            mUploadUtil.submitAll(uploadList, mAdapter.data)
+                            mUploadUtil.submitAll(uploadList, mAdapter.data, uploadList.size)
                         }
                     }
                 }
@@ -58,21 +58,20 @@ class UploadFileFragment: BaseFragment() {
     override fun initEvent() {
         RxBus.toObservable(UploadFileEvent::class.java)
                 .subscribe {
-                    val flieList = mutableListOf<UploadFileEntity>()
-                    val preListSize = mAdapter.data.size
+                    val fileList = mutableListOf<UploadFileEntity>()
                     for (file in it.fileList) {
                         val fileBean = UploadFileEntity(file, file, 0, 0)
-                        flieList.add(fileBean)
+                        fileList.add(fileBean)
                     }
                     if(mAdapter.data.isEmpty()) {
-                        mAdapter.setNewData(flieList)
+                        mAdapter.setNewData(fileList)
                     } else {
-                        mAdapter.addData(flieList)
+                        mAdapter.addData(fileList)
                     }
                     doAsync {
-                        mDao?.saveUploadFiles(flieList)
+                        mDao?.saveUploadFiles(fileList)
                     }
-                    mUploadUtil.submitAll(flieList,mAdapter.data)
+                    mUploadUtil.submitAll(fileList,mAdapter.data,fileList.size)
                 }
                 .autoDispose()
     }

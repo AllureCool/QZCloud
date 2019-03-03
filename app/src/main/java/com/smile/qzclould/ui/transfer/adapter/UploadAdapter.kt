@@ -8,7 +8,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.smile.qzclould.R
 import com.smile.qzclould.db.UploadFileEntity
-import com.smile.qzclould.repository.upload.UploadFileBean
 import io.netopen.hotbitmapgg.library.view.RingProgressBar
 
 /**

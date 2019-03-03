@@ -24,7 +24,7 @@ class UploadUtil {
     private val THREAD_POSITION = "THREAD_POSITION"
 
     private var mThreadCount = 0//任务数量
-    private var mThreadCore = 1//线程池核心数
+    private var mThreadCore = 3//线程池核心数
 
     private var mExecutor: ExecutorService? = null//线程池
     private var mDownLatch: CountDownLatch? = null//计数器
@@ -53,8 +53,8 @@ class UploadUtil {
         mExecutor?.shutdownNow()//中断所有线程的执行
     }
 
-    fun submitAll(files: List<UploadFileEntity>, totalFiles: List<UploadFileEntity>) {
-        mThreadCount = totalFiles.size
+    fun submitAll(files: List<UploadFileEntity>, totalFiles: List<UploadFileEntity>, threadCount: Int) {
+        mThreadCount += threadCount
         if(mExecutor == null) {
             mDownLatch = CountDownLatch(mThreadCount)
             mExecutor = Executors.newFixedThreadPool(mThreadCore + 1)

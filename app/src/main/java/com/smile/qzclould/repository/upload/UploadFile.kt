@@ -30,7 +30,7 @@ class UploadFile: Runnable {
     private var mDownLatch: CountDownLatch? = null
     private var mFile: UploadFileEntity? = null
     private var mListener: OnThreadResultListener? = null
-    private var percent = 0
+    private var isFinished = false
     private val mRandom: Random//随机数 模拟上传
     private val repo by lazy { HttpRepository() }
 
@@ -59,10 +59,15 @@ class UploadFile: Runnable {
                 .subscribe({
                     initUploadParams(it.data!!)
                     uploadFile(it.data!!)
-
                 }, {
+                    isFinished = true
                     mListener?.onInterrupted()
+                    mDownLatch?.countDown()
                 })
+        while (!isFinished) {
+            Thread.sleep(10)
+        }
+        mDownLatch?.countDown()
     }
 
     private fun initUploadParams(data: UploadFileResponeBean) {
@@ -80,15 +85,15 @@ class UploadFile: Runnable {
         try {
             FileUploader.upload(App.instance, token, file, callbackBody, object : FileUploaderListener() {
                 override fun onSuccess(status: Int, responseJson: JSONObject?) {
+                    isFinished = true
                     mFile?.status = 2
                     mListener?.onFinish()
-                    mDownLatch?.countDown()
                 }
 
                 override fun onFailure(operationMessage: OperationMessage?) {
+                    isFinished = true
                     mFile?.status = 3
                     mListener?.onInterrupted()
-                    mDownLatch?.countDown()
                 }
 
                 override fun onProgress(request: UploadFileRequest?, currentSize: Long, totalSize: Long) {

@@ -19,4 +19,7 @@ interface UploadFileDao {
 
     @Query("SELECT * FROM TBUploadFile")
     fun loadDirecotory(): List<UploadFileEntity>
+
+    @Query("SELECT * FROM TBUploadFile WHERE fileName IN (:filename)")
+    fun findFiles(filename: String): List<UploadFileEntity>
 }
