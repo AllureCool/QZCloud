@@ -10,15 +10,11 @@ import com.liulishuo.filedownloader.connection.FileDownloadUrlConnection
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.smile.qzclould.BuildConfig
 import com.smile.qzclould.common.base.CloudDatabase
-import com.smile.qzclould.uicompment.GlideImageLoader
 import com.tencent.bugly.Bugly
 import com.tencent.bugly.beta.Beta
 import com.tspoon.traceur.Traceur
 import org.jetbrains.anko.doAsync
 import java.io.File
-import com.imnjh.imagepicker.PickerConfig
-import com.imnjh.imagepicker.SImagePicker
-import com.smile.qzclould.R
 
 
 /**
@@ -66,14 +62,6 @@ class App : Application() {
                 .maxNetworkThreadCount(3)
                 .commit()
         clearCache()
-        initImagePicker()
-    }
-
-    private fun initImagePicker() {
-        SImagePicker.init(PickerConfig.Builder().setAppContext(this)
-                .setImageLoader(GlideImageLoader())
-                .setToolbaseColor(resources.getColor(R.color.colorPrimary))
-                .build())
     }
 
     private fun clearCache() {

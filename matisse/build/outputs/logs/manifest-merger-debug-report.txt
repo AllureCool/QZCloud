@@ -1,0 +1,51 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:17:1-30:12
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:17:1-30:12
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:17:1-30:12
+	package
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:19:5-32
+		INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+		INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:18:5-63
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:21:5-80
+	android:name
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:21:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:22:22-77
+application
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:24:5-29:19
+activity#com.zhihu.matisse.ui.MatisseActivity
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:25:9-72
+	android:name
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:25:19-70
+activity#com.zhihu.matisse.internal.ui.AlbumPreviewActivity
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:26:9-86
+	android:name
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:26:19-84
+activity#com.zhihu.matisse.internal.ui.SelectedPreviewActivity
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:27:9-89
+	android:name
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:27:19-87
+activity#com.zhihu.matisse.ui.ImageCropActivity
+ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:28:9-58
+	android:name
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml:28:19-55
+uses-sdk
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+		INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+		ADDED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml
+		INJECTED from /Users/wangzhiguo/Documents/qzclould_workspace/QZCloud/matisse/src/main/AndroidManifest.xml

@@ -1,5 +1,6 @@
 package com.smile.qzclould.ui.cloud.fragment
 
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -30,10 +31,17 @@ import com.smile.qzclould.utils.EncodeUtils
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.frag_home_first.*
 import kotlinx.android.synthetic.main.view_search_bar.*
-import com.imnjh.imagepicker.SImagePicker
-import com.smile.qzclould.uicompment.SingleFileLimitInterceptor
-import com.imnjh.imagepicker.activity.PhotoPickerActivity
 import android.app.Activity
+import android.content.pm.ActivityInfo
+import android.util.Log
+import com.tbruyelle.rxpermissions2.RxPermissions
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
+import com.zhihu.matisse.internal.entity.CaptureStrategy
+import com.zhihu.matisse.internal.ui.widget.CropImageView
+import com.zhihu.matisse.listener.OnSelectedListener
+import io.reactivex.disposables.Disposable
 
 
 class HomeFirstFragment : BaseFragment() {
@@ -87,13 +95,53 @@ class HomeFirstFragment : BaseFragment() {
         }
 
         mTvUpload.setOnClickListener {
-            SImagePicker
-                    .from(mActivity)
-                    .maxCount(Int.MAX_VALUE)
-                    .rowCount(3)
-                    .pickMode(SImagePicker.MODE_IMAGE)
-                    .fileInterceptor(SingleFileLimitInterceptor())
-                    .forResult(REQUEST_CODE_SELECT)
+            val rxPermissions = RxPermissions(mActivity!!)
+            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                    .subscribe(object : io.reactivex.Observer<Boolean> {
+                        override fun onSubscribe(d: Disposable) {
+
+                        }
+
+                        override fun onNext(aBoolean: Boolean) {
+                            if (aBoolean!!) {
+                                Matisse.from(mActivity)
+                                        .choose(MimeType.ofAll(), false)
+                                        .showSingleMediaType(true)
+                                        .countable(true)
+                                        .capture(true)
+                                        .captureStrategy(
+                                                CaptureStrategy(true, "com.smile.qzclould.fileProvider"))
+                                        .maxSelectable(9)
+                                        .isCrop(true)
+                                        .cropStyle(CropImageView.Style.CIRCLE)
+                                        .isCropSaveRectangle(false)
+                                        //                                            .addFilter(new GifSizeFilter(320, 320, 3 * Filter.K * Filter.K))
+                                        .gridExpectedSize(resources.getDimensionPixelSize(R.dimen.grid_expected_size))
+                                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                                        .originalEnable(true)
+                                        .maxOriginalSize(1)
+                                        .thumbnailScale(0.85f)
+                                        .imageEngine(GlideEngine())
+                                        .setOnSelectedListener(OnSelectedListener { uriList, pathList ->
+                                            if (uriList != null && uriList.size > 0 && pathList != null && pathList.size > 0) {
+                                                Log.d("Leo", uriList.size.toString() + " " + uriList[0] + " " + pathList.size + " " + pathList[0])
+                                            }
+                                        })
+                                        .forResult(REQUEST_CODE_SELECT)
+                            } else {
+                                showToast(Constants.TOAST_NORMAL, mActivity!!.getString(R.string.permission_request_denied))
+                            }
+                        }
+
+                        override fun onError(e: Throwable) {
+
+                        }
+
+                        override fun onComplete() {
+
+                        }
+                    })
+
         }
 
         mRvFile.layoutManager = mLayoutManager
@@ -301,14 +349,6 @@ class HomeFirstFragment : BaseFragment() {
             val ft = childFragmentManager.beginTransaction()
             ft.add(mFileOperationDialog!!, mFileOperationDialog?.javaClass?.simpleName)
             ft.commitAllowingStateLoss()
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode === Activity.RESULT_OK && requestCode === REQUEST_CODE_SELECT) {
-            val pathList = data?.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION)
-            val original = data?.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false)
         }
     }
 }

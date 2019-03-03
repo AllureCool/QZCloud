@@ -74,3 +74,5 @@
 -keep class com.chad.library.adapter.** {
    *;
 }
+
+-dontwarn com.bumptech.glide.**

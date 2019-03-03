@@ -72,4 +72,5 @@
     <string name="save">保存</string>
     <string name="error_modify_nick">修改昵称失败</string>
     <string name="general_max_per_image">图片过大，超过20M上限。</string>
+    <string name="permission_request_denied">需要相应的权限</string>
 </resources>

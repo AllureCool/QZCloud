@@ -7,7 +7,6 @@ import android.os.Message
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.widget.Toast
-import com.imnjh.imagepicker.activity.PhotoPickerActivity
 import com.smile.qielive.common.BaseActivity
 import com.smile.qzclould.R
 import com.smile.qzclould.common.Constants
@@ -18,6 +17,7 @@ import com.smile.qzclould.ui.task.HomeThirdFragment
 import com.smile.qzclould.ui.transfer.fragment.HomeTransferFragment
 import com.smile.qzclould.ui.user.HomeFourthFragment
 import com.smile.qzclould.utils.RxBus
+import com.zhihu.matisse.Matisse
 import kotlinx.android.synthetic.main.act_main.*
 
 class MainActivity : BaseActivity() {
@@ -88,8 +88,8 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode === Activity.RESULT_OK && requestCode === 100) {
-            val pathList = data?.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT_SELECTION)
-            val original = data?.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false)
+            val pathList = Matisse.obtainPathResult(data)
+//            val original = data?.getBooleanExtra(PhotoPickerActivity.EXTRA_RESULT_ORIGINAL, false)
             if( pathList!= null) {
                 RxBus.post(UploadFileEvent(pathList))
             }
