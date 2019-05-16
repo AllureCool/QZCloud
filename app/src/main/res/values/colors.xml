@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_red_FF4D4F">#FF4D4F</color>
     <color name="color_green_2EC17C">#2EC17C</color>
+    <color name="color_green_2EC17C_40">#662EC17C</color>
     <color name="color_green_8AE1B8">#8AE1B8</color>
     <color name="color_black_5A5A5A">#5A5A5A</color>
     <color name="color_white_ffffff">#FFFFFF</color>
@@ -21,4 +22,5 @@
     <color name="color_black_000000">#000000</color>
     <color name="color_black_percent_30">#4d000000</color>
     <color name="transparent">#00000000</color>
+    <color name="color_5b7795">#5b7795</color>
 </resources>

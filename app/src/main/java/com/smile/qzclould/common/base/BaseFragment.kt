@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.navigation.fragment.NavHostFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.smile.qielive.common.mvvm.ErrorStatus

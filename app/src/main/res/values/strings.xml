@@ -1,4 +1,5 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">6盘</string>
     <string name="classify">分类</string>
     <string name="upload">上传</string>
@@ -7,13 +8,13 @@
     <string name="hint_et_pwd">请输入密码</string>
     <string name="login">登录</string>
     <string name="forget_pwd">忘记密码</string>
-    <string name="regist">用户注册</string>
+    <string name="regist">注册用户</string>
     <string name="regist_title">注册</string>
     <string name="please_input_phone_num">请输入您的手机号</string>
     <string name="please_input_nick_name">请输入昵称</string>
-    <string name="please_input_verify_code">请输入您的验证码</string>
+    <string name="please_input_verify_code">请填写验证码</string>
     <string name="next_step">下一步</string>
-    <string name="please_select_country_code">请选择区号</string>
+    <string name="please_select_country_code">请选择国家/地区</string>
     <string name="user_center">个人中心</string>
     <string name="modify_pwd">修改密码</string>
     <string name="reset_pwd">重置密码</string>
@@ -73,4 +74,10 @@
     <string name="error_modify_nick">修改昵称失败</string>
     <string name="general_max_per_image">图片过大，超过20M上限。</string>
     <string name="permission_request_denied">需要相应的权限</string>
+    <string name="phone_num_login">手机号登录</string>
+    <string name="country_and_city">国家/地区</string>
+    <string name="login_phone">手机号</string>
+    <string name="login_by_username">使用用户名密码登陆</string>
+    <string name="loing_vcode">验证码</string>
+    <string name="login_get_vcode">获取验证码</string>
 </resources>

@@ -8,7 +8,7 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_gray_919191"
+        android:textColor="@color/color_black_404040"
         android:text="@string/please_select_country_code"
         android:textSize="15sp"
         android:layout_marginTop="14dp"

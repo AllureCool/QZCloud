@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_new_login"
+    app:startDestination="@id/loginInputPhoneFragment">
+
+    <fragment
+        android:id="@+id/loginInputPhoneFragment"
+        android:name="com.smile.qzclould.ui.user.loign.fragment.LoginInputPhoneFragment"
+        android:label="LoginInputPhoneFragment" >
+        <action
+            android:id="@+id/action_loginInputPhoneFragment_to_loginByPhoneFragment"
+            app:destination="@id/loginByPhoneFragment"
+            app:enterAnim="@anim/anim_frag_enter"
+            app:popExitAnim="@anim/anim_frag_exit"/>
+    </fragment>
+    <fragment
+        android:id="@+id/loginByPhoneFragment"
+        android:name="com.smile.qzclould.ui.user.loign.fragment.LoginByPhoneFragment"
+        android:label="LoginByPhoneFragment" />
+</navigation>
