@@ -54,6 +54,7 @@ class LoginInputPhoneFragment : BaseFragment() {
         btn_next.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("phone_num", et_phone1.text.toString())
+            bundle.putString("country_code", mCountryCode)
             Navigation.findNavController(it).navigate(R.id.action_loginInputPhoneFragment_to_loginByPhoneFragment, bundle)
             //隐藏软键盘
             val imm = mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

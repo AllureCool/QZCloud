@@ -163,4 +163,11 @@ interface ApiService {
      */
     @POST("/v1/preview/image")
     fun getPictureInfo(@Body requestBody: PathBody): Observable<Respone<PictureBean>>
+
+    //------------------------------v2接口------------------------------------------
+    /**
+     * 登录发送验证码
+     */
+    @POST("/v2/user/sendLoginMessage")
+    fun sendLoginMessage(@Body requestBody: SendLoginMsgBody): Observable<Respone<String>>
 }

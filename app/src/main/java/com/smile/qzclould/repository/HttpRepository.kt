@@ -221,4 +221,9 @@ class HttpRepository {
         return service.uploadFile(body).doRequestAsync()
     }
 
+    //-----------------------v2接口-------------------------------------------
+    fun sendLoginMessage(countryCode: String, phone: String): Observable<Respone<String>> {
+        val body = SendLoginMsgBody(countryCode, phone)
+        return service.sendLoginMessage(body).doRequestAsync()
+    }
 }

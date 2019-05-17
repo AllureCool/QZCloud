@@ -145,6 +145,7 @@
             android:gravity="center"
             android:enabled="true"
             android:text="@string/login_get_vcode"
+            android:textColor="@color/color_black_404040"
             android:background="@drawable/bg_btn_get_vcode"
             app:layout_constraintTop_toTopOf="@id/et_vcode"
             app:layout_constraintBottom_toBottomOf="@id/et_vcode"

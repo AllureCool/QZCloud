@@ -24,6 +24,8 @@ class UserViewModel : BaseViewModel() {
 
     val logoutError by lazy { MediatorLiveData<ErrorStatus>() }
 
+    val loginMsgRsp by lazy { MediatorLiveData<String>() }
+
 
     fun login(name: String, pwd: String) {
         repo.login(name, pwd)
@@ -147,6 +149,21 @@ class UserViewModel : BaseViewModel() {
                 .subscribe({
                     if(it.success) {
                         modifyNameResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    //----------------------v2接口----------------------------
+    fun sendLoginMessage(countryCode: String, phone: String) {
+        repo.sendLoginMessage(countryCode, phone)
+                .subscribe({
+                    if(it.success) {
+                        loginMsgRsp.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }
