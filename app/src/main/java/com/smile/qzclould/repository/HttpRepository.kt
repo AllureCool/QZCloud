@@ -106,14 +106,19 @@ class HttpRepository {
         return service.login(body).doRequestAsync()
     }
 
+    fun loginByMessage(phoneInfo: String, vcode: String): Observable<Respone<UserInfoBean>> {
+        val body = LoginByMessageBody(phoneInfo, vcode)
+        return service.loginByMessageV2(body).doRequestAsync()
+    }
+
     fun sendRegisterMessage(countryCode: String, phoneNum: String): Observable<Respone<String>> {
         val body = SendVerifyCodeBody(countryCode, phoneNum)
-        return service.sendRegisterMessage(body).doRequestAsync()
+        return service.sendRegisterMessageV2(body).doRequestAsync()
     }
 
     fun register(phoneInfo: String, code: String, name: String, password: String): Observable<Respone<UserInfoBean>> {
         val body = RegisterBody(phoneInfo, code, name, password)
-        return service.register(body).doRequestAsync()
+        return service.registerV2(body).doRequestAsync()
     }
 
     fun logout(): Observable<Respone<Boolean>> {

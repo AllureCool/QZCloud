@@ -1,26 +1,29 @@
 package com.smile.qzclould.ui.user.loign.fragment
 
-import android.content.Context
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.view.inputmethod.InputMethodManager
 import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
+import com.smile.qzclould.common.Constants
 import com.smile.qzclould.event.SelectCountryCodeEvent
 import com.smile.qzclould.ui.user.loign.bean.CountryCodeBean
 import com.smile.qzclould.ui.user.loign.dialog.SelectCountryCodeDialog
+import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.RxBus
-import kotlinx.android.synthetic.main.fragment_login_by_phone.*
+import kotlinx.android.synthetic.main.fragment_regist_input_phone.*
 
-class LoginInputPhoneFragment : BaseFragment() {
+class RegistInputPhonetFragment : BaseFragment() {
 
     private var mCountryCode = "86"
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_login_by_phone
+        return R.layout.fragment_regist_input_phone
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -35,8 +38,8 @@ class LoginInputPhoneFragment : BaseFragment() {
             areaCodeDialog.arguments = bundle
             areaCodeDialog.show(childFragmentManager, "selectAreaCodeDialog")
         }
-        tv_login_by_username.setOnClickListener {
-
+        iv_close.setOnClickListener {
+            Navigation.findNavController(it).navigateUp()
         }
         et_phone1.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -52,18 +55,25 @@ class LoginInputPhoneFragment : BaseFragment() {
             }
         })
         btn_next.setOnClickListener {
+            showLoading()
+            mModel.sendRegisterMessage(mCountryCode, et_phone1.text.toString())
+        }
+    }
+
+    override fun initViewModel() {
+        mModel.verifyCodeResult.observe(this, Observer {
+            stopLoading()
+            showToast(Constants.TOAST_SUCCESS, getString(R.string.send_success))
             val bundle = Bundle()
             bundle.putString("phone_num", et_phone1.text.toString())
             bundle.putString("country_code", mCountryCode)
-            Navigation.findNavController(it).navigate(R.id.action_loginInputPhoneFragment_to_loginByPhoneFragment, bundle)
-            //隐藏软键盘
-            val imm = mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
-        }
-
-        tv_regist.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_loginInputPhoneFragment_to_registAgreementFragment)
-        }
+            bundle.putString("phone_info", it)
+            Navigation.findNavController(et_phone1).navigate(R.id.action_registInputPhonetFragment_to_registInputPasswordFragment, bundle)
+        })
+        mModel.errorStatus.observe(this, Observer {
+            stopLoading()
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
+        })
     }
 
     override fun initEvent() {

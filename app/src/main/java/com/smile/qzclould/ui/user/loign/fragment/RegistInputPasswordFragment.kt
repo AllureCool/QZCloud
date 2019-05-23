@@ -7,33 +7,29 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
+import androidx.navigation.Navigation
 import com.smile.qielive.common.BaseFragment
 import com.smile.qzclould.R
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
-import com.smile.qzclould.common.Constants.TOAST_ERROR
-import com.smile.qzclould.common.Constants.TOAST_NORMAL
-import com.smile.qzclould.common.Constants.TOAST_SUCCESS
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
-import kotlinx.android.synthetic.main.fragment_login_by_phone.*
+import com.smile.qzclould.utils.CommonUtils
+import kotlinx.android.synthetic.main.fragment_regist_input_password.*
 
-class LoginByPhoneFragment: BaseFragment() {
+class RegistInputPasswordFragment : BaseFragment() {
     private var mPhoneNum: String? = null
     private var mCountryCode: String? = null
     private var mPhoneInfo: String? = null
-    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
     private var mCountDownTimer: CountDownTimer? = null
+    private val mModel by lazy { ViewModelProviders.of(this).get(UserViewModel::class.java) }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_login_by_phone
+        return R.layout.fragment_regist_input_password
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        cl_login_first_step.visibility = View.GONE
-        cl_login_second_step.visibility = View.VISIBLE
         mCountDownTimer = object : CountDownTimer(120000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 tv_get_vcode.isEnabled = false
@@ -47,25 +43,28 @@ class LoginByPhoneFragment: BaseFragment() {
                 tv_get_vcode.text = getString(R.string.login_get_vcode)
             }
         }
-        tv_regist.visibility = View.INVISIBLE
-        tv_login_by_username.visibility = View.INVISIBLE
-        btn_next.text = getString(R.string.login)
+        mCountDownTimer?.start()
     }
 
     override fun initData() {
         mPhoneNum = arguments?.getString("phone_num")
         mCountryCode = arguments?.getString("country_code")
-        et_phone2.setText("+$mCountryCode$mPhoneNum")
+        mPhoneInfo = arguments?.getString("phone_info")
     }
 
     override fun initListener() {
         tv_get_vcode.setOnClickListener {
-            mModel.sendLoginMessage(mCountryCode!!, mPhoneNum!!)
+            showLoading()
+            mModel.sendRegisterMessage(mCountryCode!!, mPhoneNum!!)
         }
 
+        btn_complete.setOnClickListener {
+            showLoading()
+            mModel.register(mPhoneInfo!!, et_vcode.text.toString(), mPhoneNum!!, CommonUtils.encodeMD5(et_pwd.text.toString()))
+        }
         et_vcode.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                btn_next.isEnabled = et_vcode.text.toString().isNotEmpty() && et_phone2.text.toString().isNotEmpty()
+                btn_complete.isEnabled = et_vcode.text.toString().isNotEmpty() && et_pwd.text.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -76,9 +75,9 @@ class LoginByPhoneFragment: BaseFragment() {
 
             }
         })
-        et_phone2.addTextChangedListener(object : TextWatcher {
+        et_pwd.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                btn_next.isEnabled = et_vcode.text.toString().isNotEmpty() && et_phone2.text.toString().isNotEmpty()
+                btn_complete.isEnabled = et_vcode.text.toString().isNotEmpty() && et_pwd.text.toString().isNotEmpty()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -89,19 +88,16 @@ class LoginByPhoneFragment: BaseFragment() {
 
             }
         })
-        btn_next.setOnClickListener {
-            showLoading()
-            mModel.loginByMessage(mPhoneInfo!!, et_vcode.text.toString())
+        iv_close.setOnClickListener {
+            Navigation.findNavController(it).navigateUp()
         }
     }
 
     override fun initViewModel() {
-        mModel.loginMsgRsp.observe(this, Observer {
+        mModel.verifyCodeResult.observe(this, Observer {
             stopLoading()
-            showToast(TOAST_SUCCESS, getString(R.string.send_success))
-            mPhoneInfo = it
+            showToast(Constants.TOAST_SUCCESS, getString(R.string.send_success))
             mCountDownTimer?.start()
-
         })
 
         mModel.loginResult.observe(this, Observer {
@@ -115,8 +111,7 @@ class LoginByPhoneFragment: BaseFragment() {
 
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
-            showToast(TOAST_NORMAL, it?.errorMessage!!)
+            showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
-
 }

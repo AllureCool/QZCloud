@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_white_ffffff">
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_close"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="40dp"
+        android:padding="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_regist_agreement"
+        android:textSize="15sp"
+        android:textColor="@color/color_black_404040"
+        app:layout_constraintLeft_toRightOf="@id/iv_close"
+        app:layout_constraintTop_toTopOf="@id/iv_close"
+        app:layout_constraintBottom_toBottomOf="@id/iv_close"/>
+
+    <Button
+        android:id="@+id/btn_next"
+        style="@style/Button_List_Style"
+        android:layout_marginTop="49dp"
+        android:enabled="false"
+        android:text="@string/next_step"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <CheckBox
+        android:id="@+id/cb_agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:textColor="@color/color_black_404040"
+        android:layout_marginBottom="19dp"
+        android:layout_marginLeft="5dp"
+        android:theme="@style/AuthCheckBox"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_next"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_already_read_agreement"
+        app:layout_constraintTop_toTopOf="@id/cb_agree"
+        app:layout_constraintBottom_toBottomOf="@id/cb_agree"
+        app:layout_constraintLeft_toRightOf="@id/cb_agree"/>
+</android.support.constraint.ConstraintLayout>

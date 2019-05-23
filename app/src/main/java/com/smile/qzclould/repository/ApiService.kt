@@ -166,8 +166,26 @@ interface ApiService {
 
     //------------------------------v2接口------------------------------------------
     /**
-     * 登录发送验证码
+     * 登录发送验证码v2
      */
     @POST("/v2/user/sendLoginMessage")
     fun sendLoginMessage(@Body requestBody: SendLoginMsgBody): Observable<Respone<String>>
+
+    /**
+     * 发送验证码v2
+     */
+    @POST("/v2/user/sendRegisterMessage")
+    fun sendRegisterMessageV2(@Body requestBody: SendVerifyCodeBody): Observable<Respone<String>>
+
+    /**
+     * 用户注册接口v2
+     */
+    @POST("v2/user/register")
+    fun registerV2(@Body requestBody: RegisterBody): Observable<Respone<UserInfoBean>>
+
+    /**
+     * 用户手机验证码登录接口v2
+     */
+    @POST("v2/user/loginByMessage")
+    fun loginByMessageV2(@Body loginBody: LoginByMessageBody): Observable<Respone<UserInfoBean>>
 }

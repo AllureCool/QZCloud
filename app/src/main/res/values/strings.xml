@@ -80,4 +80,7 @@
     <string name="login_by_username">使用用户名密码登陆</string>
     <string name="loing_vcode">验证码</string>
     <string name="login_get_vcode">获取验证码</string>
+    <string name="text_regist_agreement">免责条款</string>
+    <string name="text_already_read_agreement">我已阅读并同意上述条款</string>
+    <string name="text_password">密码</string>
 </resources>

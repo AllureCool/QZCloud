@@ -41,6 +41,12 @@
         <item name="android:windowExitAnimation">@anim/dialog_fragment_right_out</item>
     </style>
 
+    <style name="AuthCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#F2F2F2</item>
+        <item name="colorControlActivated">#2EC17C</item>
+    </style>
+
+
     <style name="Button_List_Style" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">46dp</item>

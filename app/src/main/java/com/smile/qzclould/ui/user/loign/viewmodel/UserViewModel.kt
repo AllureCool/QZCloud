@@ -42,6 +42,21 @@ class UserViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
+    fun loginByMessage(phoneInfo: String, code: String) {
+        repo.loginByMessage(phoneInfo, code)
+                .subscribe({
+                    if (it.success) {
+                        UserInfoManager.get().saveUserToken(it.token)
+                        loginResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
     fun sendRegisterMessage(countryCode: String, phoneNum: String) {
         repo.sendRegisterMessage(countryCode, phoneNum)
                 .subscribe({
