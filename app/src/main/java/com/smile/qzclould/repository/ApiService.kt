@@ -181,11 +181,17 @@ interface ApiService {
      * 用户注册接口v2
      */
     @POST("v2/user/register")
-    fun registerV2(@Body requestBody: RegisterBody): Observable<Respone<UserInfoBean>>
+    fun registerV2(@Body requestBody: RegisterBodyV2): Observable<Respone<UserInfoBean>>
 
     /**
      * 用户手机验证码登录接口v2
      */
-    @POST("v2/user/loginByMessage")
+    @POST("v2/user/loginWithMessage")
     fun loginByMessageV2(@Body loginBody: LoginByMessageBody): Observable<Respone<UserInfoBean>>
+
+    /**
+     * 根据path列出文件v2
+     */
+    @POST("/v2/files/page")
+    fun listFileByPathV2(@Body requestBody: GetDataByPathBody): Observable<Respone<FileBean>>
 }

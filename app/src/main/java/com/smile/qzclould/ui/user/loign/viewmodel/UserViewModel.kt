@@ -31,22 +31,7 @@ class UserViewModel : BaseViewModel() {
         repo.login(name, pwd)
                 .subscribe({
                     if (it.success) {
-                        UserInfoManager.get().saveUserToken(it.token)
-                        loginResult.value = it.data
-                    } else {
-                        errorStatus.value = ErrorStatus(it.status, it.message)
-                    }
-                }, {
-                    errorStatus.value = ErrorStatus(100, it.message)
-                })
-                .autoDispose()
-    }
 
-    fun loginByMessage(phoneInfo: String, code: String) {
-        repo.loginByMessage(phoneInfo, code)
-                .subscribe({
-                    if (it.success) {
-                        UserInfoManager.get().saveUserToken(it.token)
                         loginResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -61,7 +46,7 @@ class UserViewModel : BaseViewModel() {
         repo.sendRegisterMessage(countryCode, phoneNum)
                 .subscribe({
                     if (it.success) {
-                        UserInfoManager.get().saveUserToken(it.token)
+
                         verifyCodeResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -76,7 +61,7 @@ class UserViewModel : BaseViewModel() {
         repo.register(phoneInfo, code, name, password)
                 .subscribe({
                     if (it.success) {
-                        UserInfoManager.get().saveUserToken(it.token)
+
                         loginResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -105,7 +90,7 @@ class UserViewModel : BaseViewModel() {
         repo.sendChangePasswordMessage()
                 .subscribe({
                     if (it.success) {
-                        UserInfoManager.get().saveUserToken(it.token)
+
                         verifyCodeResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -120,7 +105,7 @@ class UserViewModel : BaseViewModel() {
         repo.sendForgetPwdMessage(phone)
                 .subscribe({
                     if (it.success) {
-                        UserInfoManager.get().saveUserToken(it.token)
+
                         verifyCodeResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
@@ -179,6 +164,20 @@ class UserViewModel : BaseViewModel() {
                 .subscribe({
                     if(it.success) {
                         loginMsgRsp.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun loginByMessageV2(phoneInfo: String, code: String) {
+        repo.loginByMessageV2(phoneInfo, code)
+                .subscribe({
+                    if (it.success) {
+                        loginResult.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }

@@ -33,9 +33,9 @@ public class CustomGsonResponseBodyConverter<T> implements Converter<ResponseBod
     public T convert(ResponseBody value) throws IOException {
         String response = value.string();
         HttpStatus httpStatus = gson.fromJson(response, HttpStatus.class);
-        if (httpStatus.hasToken()) {
-            UserInfoManager.Companion.get().saveUserToken(httpStatus.getToken());
-        }
+//        if (httpStatus.hasToken()) {
+//            UserInfoManager.Companion.get().saveUserToken(httpStatus.getToken());
+//        }
 
         MediaType contentType = value.contentType();
         Charset charset = contentType != null ? contentType.charset(UTF_8) : UTF_8;

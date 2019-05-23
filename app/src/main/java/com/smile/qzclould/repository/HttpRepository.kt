@@ -1,5 +1,6 @@
 package com.smile.qzclould.repository
 
+import android.text.TextUtils
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.repository.requestbody.*
 import com.smile.qzclould.db.Direcotory
@@ -76,16 +77,16 @@ class HttpRepository {
                     val original = chain?.request()
                     val request = original?.newBuilder()
                             ?.header("User-Agent", "QZCloud")
-                            ?.header("token", UserInfoManager.get().getUserToken())
+                            ?.header("Qingzhen-Token", UserInfoManager.get().getUserToken())
                             ?.header("user-timestamp", System.currentTimeMillis().toString())
                             ?.build()
                     val response = chain!!.proceed(request)
-//                    response?.newBuilder()
-//                            ?.header("User-Agent", "QZCloud")
-//                            ?.header("token", UserInfoManager.get().getUserToken())
-//                            ?.header("user-timestamp", System.currentTimeMillis().toString())
-//                            ?.build()
-                    DLog.i("Headers:" + request?.headers()!!.toString())
+                    val headers = response.headers()
+
+                    if(!TextUtils.isEmpty(headers.get("qingzhen-token"))) {
+                        DLog.i("Token-----------------" + headers.get("qingzhen-token"))
+                        UserInfoManager.get().saveUserToken(headers.get("qingzhen-token"))
+                    }
                     return response
                 }
             })
@@ -106,18 +107,13 @@ class HttpRepository {
         return service.login(body).doRequestAsync()
     }
 
-    fun loginByMessage(phoneInfo: String, vcode: String): Observable<Respone<UserInfoBean>> {
-        val body = LoginByMessageBody(phoneInfo, vcode)
-        return service.loginByMessageV2(body).doRequestAsync()
-    }
-
     fun sendRegisterMessage(countryCode: String, phoneNum: String): Observable<Respone<String>> {
         val body = SendVerifyCodeBody(countryCode, phoneNum)
         return service.sendRegisterMessageV2(body).doRequestAsync()
     }
 
     fun register(phoneInfo: String, code: String, name: String, password: String): Observable<Respone<UserInfoBean>> {
-        val body = RegisterBody(phoneInfo, code, name, password)
+        val body = RegisterBodyV2(phoneInfo, code, password)
         return service.registerV2(body).doRequestAsync()
     }
 
@@ -230,5 +226,15 @@ class HttpRepository {
     fun sendLoginMessage(countryCode: String, phone: String): Observable<Respone<String>> {
         val body = SendLoginMsgBody(countryCode, phone)
         return service.sendLoginMessage(body).doRequestAsync()
+    }
+
+    fun loginByMessageV2(phoneInfo: String, vcode: String): Observable<Respone<UserInfoBean>> {
+        val body = LoginByMessageBody(phoneInfo, vcode)
+        return service.loginByMessageV2(body).doRequestAsync()
+    }
+
+    fun listFileByPathV2(path: String, page: Int, pageSize: Int, orderBy: Int, type: Int): Observable<Respone<FileBean>> {
+        val body = GetDataByPathBody(path, page, pageSize, orderBy, type)
+        return service.listFileByPathV2(body).doRequestAsync()
     }
 }

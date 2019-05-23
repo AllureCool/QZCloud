@@ -5,6 +5,7 @@ import android.text.TextUtils
 import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
+import com.smile.qzclould.utils.DLog
 import java.io.*
 
 class UserInfoManager private constructor(){
@@ -74,6 +75,7 @@ class UserInfoManager private constructor(){
     }
 
     fun hasLogin(): Boolean {
+        DLog.i("Token-----------------" + sp.getString(Constants.USER_TOKEN, ""))
         return !"".equals(sp.getString(Constants.USER_TOKEN, ""))
     }
 

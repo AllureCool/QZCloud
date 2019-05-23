@@ -91,7 +91,7 @@ class LoginByPhoneFragment: BaseFragment() {
         })
         btn_next.setOnClickListener {
             showLoading()
-            mModel.loginByMessage(mPhoneInfo!!, et_vcode.text.toString())
+            mModel.loginByMessageV2(mPhoneInfo!!, et_vcode.text.toString())
         }
     }
 
@@ -106,7 +106,7 @@ class LoginByPhoneFragment: BaseFragment() {
 
         mModel.loginResult.observe(this, Observer {
             stopLoading()
-            showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.register_success))
+            showToast(Constants.TOAST_SUCCESS, App.instance.getString(R.string.login_success))
             UserInfoManager.get().saveUserInfo(it)
             val intent = Intent(mActivity, MainActivity::class.java)
             startActivity(intent)
@@ -116,7 +116,12 @@ class LoginByPhoneFragment: BaseFragment() {
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
             showToast(TOAST_NORMAL, it?.errorMessage!!)
+            UserInfoManager.get().logout()
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mCountDownTimer?.cancel()
+    }
 }
