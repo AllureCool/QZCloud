@@ -10,7 +10,7 @@
     <string name="forget_pwd">忘记密码</string>
     <string name="regist">注册用户</string>
     <string name="regist_title">注册</string>
-    <string name="please_input_phone_num">请输入您的手机号</string>
+    <string name="please_input_phone_num">请输入手机号</string>
     <string name="please_input_nick_name">请输入昵称</string>
     <string name="please_input_verify_code">请填写验证码</string>
     <string name="next_step">下一步</string>
@@ -83,4 +83,9 @@
     <string name="text_regist_agreement">免责条款</string>
     <string name="text_already_read_agreement">我已阅读并同意上述条款</string>
     <string name="text_password">密码</string>
+    <string name="text_please_input_vcode_and_pwd">请填写验证码和密码</string>
+    <string name="text_login_by_password">账号密码登录</string>
+    <string name="text_account">账号</string>
+    <string name="text_login_by_phone">使用手机号登录</string>
+    <string name="text_pwd_back">密码找回</string>
 </resources>

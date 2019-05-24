@@ -190,8 +190,22 @@ interface ApiService {
     fun loginByMessageV2(@Body loginBody: LoginByMessageBody): Observable<Respone<UserInfoBean>>
 
     /**
+     * 登录v2
+     */
+    @POST("/v2/user/login")
+    fun loginV2(@Body loginBody: LoginBody): Observable<Respone<UserInfoBean>>
+
+    /**
+     * 注销登录v2
+     */
+    @POST("/v2/user/logout")
+    fun logoutV2(@Body logoutBody: LogoutBody): Observable<Respone<Boolean>>
+
+    /**
      * 根据path列出文件v2
      */
     @POST("/v2/files/page")
     fun listFileByPathV2(@Body requestBody: GetDataByPathBody): Observable<Respone<FileBean>>
+
+
 }

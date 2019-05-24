@@ -28,7 +28,7 @@ class UserViewModel : BaseViewModel() {
 
 
     fun login(name: String, pwd: String) {
-        repo.login(name, pwd)
+        repo.loginV2(name, pwd)
                 .subscribe({
                     if (it.success) {
 
@@ -73,7 +73,7 @@ class UserViewModel : BaseViewModel() {
     }
 
     fun logout() {
-        repo.logout()
+        repo.logoutV2()
                 .subscribe({
                     if(it.success) {
                         logoutResult.value = it.data

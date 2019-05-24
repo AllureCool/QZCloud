@@ -114,4 +114,9 @@ class RegistInputPasswordFragment : BaseFragment() {
             showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
         })
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mCountDownTimer?.cancel()
+    }
 }

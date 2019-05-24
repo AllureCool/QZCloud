@@ -18,6 +18,11 @@
             app:destination="@id/registAgreementFragment"
             app:enterAnim="@anim/anim_frag_enter"
             app:popExitAnim="@anim/anim_frag_exit"/>
+        <action
+            android:id="@+id/action_loginInputPhoneFragment_to_loginByPasswordFragment"
+            app:destination="@id/loginByPasswordFragment"
+            app:enterAnim="@anim/anim_frag_enter"
+            app:popExitAnim="@anim/anim_frag_exit"/>
     </fragment>
     <fragment
         android:id="@+id/loginByPhoneFragment"
@@ -47,4 +52,14 @@
         android:id="@+id/registInputPasswordFragment"
         android:name="com.smile.qzclould.ui.user.loign.fragment.RegistInputPasswordFragment"
         android:label="RegistInputPasswordFragment" />
+    <fragment
+        android:id="@+id/loginByPasswordFragment"
+        android:name="com.smile.qzclould.ui.user.loign.fragment.LoginByPasswordFragment"
+        android:label="LoginByPasswordFragment" >
+        <action
+            android:id="@+id/action_loginByPasswordFragment_to_registAgreementFragment2"
+            app:destination="@id/registAgreementFragment"
+            app:enterAnim="@anim/anim_frag_enter"
+            app:popExitAnim="@anim/anim_frag_exit"/>
+    </fragment>
 </navigation>

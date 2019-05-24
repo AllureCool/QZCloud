@@ -237,4 +237,14 @@ class HttpRepository {
         val body = GetDataByPathBody(path, page, pageSize, orderBy, type)
         return service.listFileByPathV2(body).doRequestAsync()
     }
+
+    fun loginV2(name: String, pwd: String): Observable<Respone<UserInfoBean>> {
+        val body = LoginBody(name, pwd)
+        return service.loginV2(body).doRequestAsync()
+    }
+
+    fun logoutV2(): Observable<Respone<Boolean>> {
+        val body = LogoutBody(System.currentTimeMillis())
+        return service.logoutV2(body).doRequestAsync()
+    }
 }

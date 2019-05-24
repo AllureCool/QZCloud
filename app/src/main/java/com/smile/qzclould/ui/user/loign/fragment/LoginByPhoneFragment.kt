@@ -60,6 +60,7 @@ class LoginByPhoneFragment: BaseFragment() {
 
     override fun initListener() {
         tv_get_vcode.setOnClickListener {
+            showLoading()
             mModel.sendLoginMessage(mCountryCode!!, mPhoneNum!!)
         }
 

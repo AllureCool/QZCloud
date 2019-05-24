@@ -36,7 +36,7 @@ class LoginInputPhoneFragment : BaseFragment() {
             areaCodeDialog.show(childFragmentManager, "selectAreaCodeDialog")
         }
         tv_login_by_username.setOnClickListener {
-
+            Navigation.findNavController(it).navigate(R.id.action_loginInputPhoneFragment_to_loginByPasswordFragment)
         }
         et_phone1.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
