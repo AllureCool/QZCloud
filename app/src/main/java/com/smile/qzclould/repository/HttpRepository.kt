@@ -247,4 +247,9 @@ class HttpRepository {
         val body = LogoutBody(System.currentTimeMillis())
         return service.logoutV2(body).doRequestAsync()
     }
+
+    fun createDirectoryV2(directoryName: String, parentUUid: String = ""): Observable<Respone<Direcotory>> {
+        val body = CreateDirectoryBody(directoryName, parentUUid)
+        return service.createDirectoryV2(body).doRequestAsync()
+    }
 }

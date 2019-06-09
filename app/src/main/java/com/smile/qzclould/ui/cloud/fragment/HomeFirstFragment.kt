@@ -209,8 +209,8 @@ class HomeFirstFragment : BaseFragment() {
                         val bundle = Bundle()
                         bundle.putBoolean("isLocal", false)
                         bundle.putString("path", item.path)
-                        bundle.putBoolean("hasPreview", item.hasPreview)
-                        if (item.hasPreview) {
+                        bundle.putBoolean("hasPreview", item.preview)
+                        if (item.preview) {
                             jumpActivity(PlayerActivity::class.java, bundle)
                         } else {
                             mPlayConfirmDialog.show(childFragmentManager, this@HomeFirstFragment.hashCode().toString())

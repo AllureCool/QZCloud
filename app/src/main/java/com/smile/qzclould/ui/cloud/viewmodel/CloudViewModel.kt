@@ -18,7 +18,7 @@ class CloudViewModel : BaseViewModel() {
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
     fun createDirectory(name: String, parentUUid: String = "") {
-        repo.createDirectory(name, parentUUid)
+        repo.createDirectoryV2(name, parentUUid)
                 .subscribe({
                     if (it.success) {
                         createDirectoryResult.value = it.data

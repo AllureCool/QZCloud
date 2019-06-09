@@ -207,5 +207,11 @@ interface ApiService {
     @POST("/v2/files/page")
     fun listFileByPathV2(@Body requestBody: GetDataByPathBody): Observable<Respone<FileBean>>
 
+    /**
+     * 新建文件夹v2
+     */
+    @POST("/v2/files/createDirectory")
+    fun createDirectoryV2(@Body requestBody: CreateDirectoryBody): Observable<Respone<Direcotory>>
+
 
 }
