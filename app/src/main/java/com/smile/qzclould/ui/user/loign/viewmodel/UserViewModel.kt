@@ -5,7 +5,9 @@ import com.smile.qielive.common.mvvm.BaseViewModel
 import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.repository.HttpRepository
+import com.smile.qzclould.repository.Respone
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
+import com.smile.qzclould.ui.user.loign.bean.UserOnlineBean
 
 class UserViewModel : BaseViewModel() {
     val repo by lazy { HttpRepository() }
@@ -26,6 +28,9 @@ class UserViewModel : BaseViewModel() {
 
     val loginMsgRsp by lazy { MediatorLiveData<String>() }
 
+    val onlineInfoRsp by lazy { MediatorLiveData<UserOnlineBean>() }
+
+    val logoutOtherRsp by lazy { MediatorLiveData<Respone<Boolean>>() }
 
     fun login(name: String, pwd: String) {
         repo.loginV2(name, pwd)
@@ -181,6 +186,28 @@ class UserViewModel : BaseViewModel() {
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun getOnlineInfo() {
+        repo.getUserOnlineInfo()
+                .subscribe({
+                    if(it.success) {
+                        onlineInfoRsp.value = it.data
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun logoutOther(ssids: List<String>) {
+        repo.logoutOther(ssids)
+                .subscribe({
+                    logoutOtherRsp.value = it
                 }, {
                     errorStatus.value = ErrorStatus(100, it.message)
                 })

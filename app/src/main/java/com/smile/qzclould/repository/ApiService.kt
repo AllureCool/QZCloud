@@ -7,11 +7,14 @@ import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
 import com.smile.qzclould.ui.preview.pdf.PdfDetailBean
 import com.smile.qzclould.ui.preview.picture.PictureBean
+import com.smile.qzclould.ui.preview.picture.PictureBeanV2
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
+import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBeanV2
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
+import com.smile.qzclould.ui.user.loign.bean.UserOnlineBean
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -213,5 +216,39 @@ interface ApiService {
     @POST("/v2/files/createDirectory")
     fun createDirectoryV2(@Body requestBody: CreateDirectoryBody): Observable<Respone<Direcotory>>
 
+    /**
+     * 文件上传v2
+     */
+    @POST("/v2/upload/token")
+    fun uploadFileV2(@Body requestBody: UploadFileBodyV2): Observable<Respone<UploadFileResponeBeanV2>>
 
+    /**
+     * 获取图片预览信息v2
+     */
+    @POST("/v2/preview/image")
+    fun getPictureInfoV2(@Body requestBody: PathBody): Observable<Respone<PictureBeanV2>>
+
+    /**
+     * 预览视频文件v2
+     */
+    @POST("/v1/preview/video")
+    fun getVideoInfoV2(@Body requestBody: PathBody): Observable<Respone<PictureBeanV2>>
+
+    /**
+     * 获取文件详细信息V2
+     */
+    @POST("/v2/files/get")
+    fun getFileDetailV2(@Body requestBody: PathBody): Observable<Respone<FileDetailBean>>
+
+    /**
+     * 查询用户多端登录接口v2
+     */
+    @POST("/v2/user/online")
+    fun getOnlinInfoV2(): Observable<Respone<UserOnlineBean>>
+
+    /**
+     * 踢掉用户v2
+     */
+    @POST("/v2/user/logoutOther")
+    fun logoutOther(@Body requestBody: LogoutOtherBody): Observable<Respone<Boolean>>
 }

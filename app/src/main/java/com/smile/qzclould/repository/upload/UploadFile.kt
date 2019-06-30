@@ -11,6 +11,7 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.db.UploadFileEntity
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
+import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBeanV2
 import java.util.concurrent.CountDownLatch
 import com.smile.qzclould.utils.EncodeUtils.getFileMD5
 import okhttp3.Callback
@@ -55,7 +56,7 @@ class UploadFile: Runnable {
 //        this.mDownLatch?.countDown()
         val file = File(mFile?.filePath)
         val md5 = getFileMD5(file)
-        repo.uploadFile(mFile?.fileName!!, md5, "/", "/")
+        repo.uploadFileV2(mFile?.fileName!!, md5, "/", "/")
                 .subscribe({
                     initUploadParams(it.data!!)
                     uploadFile(it.data!!)
@@ -70,17 +71,17 @@ class UploadFile: Runnable {
         mDownLatch?.countDown()
     }
 
-    private fun initUploadParams(data: UploadFileResponeBean) {
-        FileUploader.setUploadUrl(data.uploadUrl)
+    private fun initUploadParams(data: UploadFileResponeBeanV2) {
+        FileUploader.setUploadUrl(data.uploadInfo.uploadUrl)
         val conf = ParamsConf()
         conf.fileName = mFile?.fileName
         conf.keyName = mFile?.fileName
         FileUploader.setParams(conf)
     }
 
-    private fun uploadFile(data: UploadFileResponeBean) {
+    private fun uploadFile(data: UploadFileResponeBeanV2) {
         val file = File(mFile?.filePath)
-        val token = data.token
+        val token = data.uploadInfo.uploadToken
         val callbackBody = HashMap<String, String>()
         try {
             FileUploader.upload(App.instance, token, file, callbackBody, object : FileUploaderListener() {

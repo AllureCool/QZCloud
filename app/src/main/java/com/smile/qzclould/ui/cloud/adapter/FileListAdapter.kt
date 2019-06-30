@@ -18,6 +18,7 @@ import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.user.loign.activity.LoginActivity
+import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.DateUtils
 import com.smile.qzclould.utils.RxBus
 import es.dmoral.toasty.Toasty
@@ -179,8 +180,14 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             } else {
                 Toasty.success(mContext, mContext.getString(R.string.downloading)).show()
                 doAsync {
-                    val dao = App.getCloudDatabase()?.DirecotoryDao()
-                    dao?.saveDirecotoryList(downloadList)
+                    try {
+                        val dao = App.getCloudDatabase()?.DirecotoryDao()
+                        val flag = dao?.saveDirecotoryList(downloadList)
+                        DLog.i(flag.toString() + "&&&&&&&&&&&&&&&")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
                     uiThread {
                         RxBus.post(FileDownloadEvent(true))
                     }

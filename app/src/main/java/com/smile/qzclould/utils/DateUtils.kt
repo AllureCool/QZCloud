@@ -8,4 +8,9 @@ object DateUtils {
         val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         return format.format(time)
     }
+
+    fun dateFormatHMS(time: Long): String {
+        val format = SimpleDateFormat("HH:mm:ss")
+        return format.format(time)
+    }
 }

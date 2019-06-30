@@ -4,14 +4,12 @@ import android.arch.lifecycle.Observer
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.liulishuo.filedownloader.BaseDownloadTask
-import com.liulishuo.filedownloader.FileDownloadList
 import com.liulishuo.filedownloader.FileDownloadSampleListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.util.FileDownloadUtils
@@ -107,8 +105,8 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             doAsync {
                 val hashStr = WetagUtil.getEtagHash(File(savePath + itemData?.name))
                 uiThread {
-                    DLog.i("------" + hashStr + "************************" + itemData?.fileDetail!!.storeId)
-                    if(hashStr != itemData?.fileDetail!!.storeId) {
+                    DLog.i("------" + hashStr + "************************" + itemData?.fileDetail!!.identity)
+                    if(hashStr != itemData?.fileDetail!!.identity) {
                         val index = data.indexOf(itemData)
                         itemData?.downloadStatus = 6
                         itemData?.downProgress = 0
@@ -134,7 +132,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
         val path = savePath + file.name
         val task = FileDownloader.getImpl().create(file.fileDetail?.downloadAddress)
                 .setPath(path)
-                .setTag(file.uuid)
+                .setTag(file.identity)
                 .setCallbackProgressTimes(750)
                 .setListener(mTaskDownloadListener)
         file.taskId = task.id
@@ -142,7 +140,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
     }
 
     fun getFileBeanById(uuid:String):Direcotory?{
-        return data.firstOrNull { TextUtils.equals(uuid,it?.uuid) }
+        return data.firstOrNull { TextUtils.equals(uuid,it?.identity) }
     }
 
     override fun setNewData(data: List<Direcotory>?) {

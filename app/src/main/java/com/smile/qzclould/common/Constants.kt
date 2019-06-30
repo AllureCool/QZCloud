@@ -10,7 +10,7 @@ object Constants {
     var pathList = mutableListOf<String>()
 
     const val MIME_IMG = "image/"
-    const val MIME_FOLDER = "application/x-directory"
+    const val MIME_FOLDER = "text/directory"
     const val MIME_TEXT = "text/"
     const val MIME_AUDIO = "audio/"
     const val MIME_VIDEO = "video/"

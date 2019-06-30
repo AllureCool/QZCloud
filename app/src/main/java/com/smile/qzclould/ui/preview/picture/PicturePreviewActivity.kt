@@ -47,7 +47,7 @@ class PicturePreviewActivity: BaseActivity() {
 
     override fun initViewModel() {
         mModel.pictureInfoResult.observe(this, Observer {
-            mPhotoView.setPhotoUri(Uri.parse(it?.url))
+            mPhotoView.setPhotoUri(Uri.parse(it?.previewHlsAddress))
         })
     }
 }

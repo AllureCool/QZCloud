@@ -76,7 +76,7 @@ class UserInfoManager private constructor(){
 
     fun hasLogin(): Boolean {
         DLog.i("Token-----------------" + sp.getString(Constants.USER_TOKEN, ""))
-        return !"".equals(sp.getString(Constants.USER_TOKEN, ""))
+        return !"".equals(sp.getString(Constants.USER_TOKEN, "")) && getUserInfo() != null
     }
 
     fun logout() {

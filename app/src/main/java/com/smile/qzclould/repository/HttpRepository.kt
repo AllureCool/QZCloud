@@ -9,11 +9,14 @@ import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
 import com.smile.qzclould.ui.preview.picture.PictureBean
 import com.smile.qzclould.ui.preview.pdf.PdfDetailBean
+import com.smile.qzclould.ui.preview.picture.PictureBeanV2
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
+import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBeanV2
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
+import com.smile.qzclould.ui.user.loign.bean.UserOnlineBean
 import com.smile.qzclould.utils.DLog
 import com.smile.qzclould.utils.doRequestAsync
 import io.reactivex.Observable
@@ -251,5 +254,34 @@ class HttpRepository {
     fun createDirectoryV2(directoryName: String, parentUUid: String = ""): Observable<Respone<Direcotory>> {
         val body = CreateDirectoryBody(directoryName, parentUUid)
         return service.createDirectoryV2(body).doRequestAsync()
+    }
+
+    fun uploadFileV2(fileName: String, hash: String, parent: String, path: String): Observable<Respone<UploadFileResponeBeanV2>> {
+        val body = UploadFileBodyV2(fileName, hash, path)
+        return service.uploadFileV2(body).doRequestAsync()
+    }
+
+    fun getPictureInfoV2(path: String): Observable<Respone<PictureBeanV2>> {
+        val body = PathBody(path)
+        return service.getPictureInfoV2(body).doRequestAsync()
+    }
+
+    fun getVideoInfoV2(path: String): Observable<Respone<PictureBeanV2>> {
+        val body = PathBody(path)
+        return service.getVideoInfoV2(body).doRequestAsync()
+    }
+
+    fun getFileDetailV2(path: String): Observable<Respone<FileDetailBean>> {
+        val body = PathBody(path)
+        return service.getFileDetailV2(body).doRequestAsync()
+    }
+
+    fun getUserOnlineInfo(): Observable<Respone<UserOnlineBean>>{
+        return service.getOnlinInfoV2().doRequestAsync()
+    }
+
+    fun logoutOther(ssids: List<String>): Observable<Respone<Boolean>> {
+        val body = LogoutOtherBody(ssids)
+        return service.logoutOther(body).doRequestAsync()
     }
 }

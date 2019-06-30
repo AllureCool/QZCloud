@@ -13,6 +13,7 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.MainActivity
+import com.smile.qzclould.ui.user.loign.dialog.UserOnlineDialog
 import com.smile.qzclould.ui.user.loign.viewmodel.UserViewModel
 import com.smile.qzclould.utils.CommonUtils
 import kotlinx.android.synthetic.main.fragment_login_by_password.*
@@ -84,7 +85,12 @@ class LoginByPasswordFragment: BaseFragment() {
         mModel.errorStatus.observe(this, Observer {
             stopLoading()
             showToast(Constants.TOAST_NORMAL, it?.errorMessage!!)
-            UserInfoManager.get().logout()
+            if(it.errorCode == 16) {
+                val dialog = UserOnlineDialog()
+                dialog.show(childFragmentManager, "user_online_dialog")
+            } else {
+                UserInfoManager.get().logout()
+            }
         })
     }
 

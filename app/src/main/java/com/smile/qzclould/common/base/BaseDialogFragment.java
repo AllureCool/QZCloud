@@ -151,7 +151,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
                 Toasty.success(App.instance, msg).show();
                 break;
             case Constants.TOAST_ERROR:
-                Toasty.error(App.instance, msg).show();
+                Toasty.normal(App.instance, msg).show();
                 break;
         }
     }

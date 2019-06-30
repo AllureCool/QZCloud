@@ -15,6 +15,8 @@ import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 import com.smile.qzclould.utils.DLog
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import java.lang.Exception
 
 class TransferViewModel : BaseViewModel() {
 
@@ -46,12 +48,18 @@ class TransferViewModel : BaseViewModel() {
 
     fun loadLocalDownloadList() {
         doAsync {
+            try {
+                val cursor = mDao?.loadDirecotory()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
             localDownloadList.postValue(mDao?.loadDirecotory())
         }
     }
 
     fun loadFileDetail(path: String, pos: Int) {
-        repo.getFileDetail(path)
+        repo.getFileDetailV2(path)
                 .subscribe({
                     if (it.success) {
                         it.data?.position = pos

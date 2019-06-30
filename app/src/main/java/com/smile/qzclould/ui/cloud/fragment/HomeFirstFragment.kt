@@ -210,7 +210,7 @@ class HomeFirstFragment : BaseFragment() {
                         bundle.putBoolean("isLocal", false)
                         bundle.putString("path", item.path)
                         bundle.putBoolean("hasPreview", item.preview)
-                        if (item.preview) {
+                        if (item.preview && item.previewType == 3010) {
                             jumpActivity(PlayerActivity::class.java, bundle)
                         } else {
                             mPlayConfirmDialog.show(childFragmentManager, this@HomeFirstFragment.hashCode().toString())

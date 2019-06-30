@@ -5,6 +5,7 @@ import com.smile.qielive.common.mvvm.BaseViewModel
 import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.ui.preview.picture.PictureBean
+import com.smile.qzclould.ui.preview.picture.PictureBeanV2
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 
@@ -12,7 +13,7 @@ class PreviewViewModel: BaseViewModel() {
     private val repo by lazy { HttpRepository() }
 
     val MediaInfoResult by lazy { MediatorLiveData<VideoDetailBean>() }
-    val pictureInfoResult by lazy { MediatorLiveData<PictureBean>() }
+    val pictureInfoResult by lazy { MediatorLiveData<PictureBeanV2>() }
     val fileDetail by lazy { MediatorLiveData<FileDetailBean>() }
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
@@ -31,7 +32,7 @@ class PreviewViewModel: BaseViewModel() {
     }
 
     fun getPictureInfo(path: String) {
-        repo.getPictureInfo(path)
+        repo.getPictureInfoV2(path)
                 .subscribe({
                     if(it.success) {
                         pictureInfoResult.value = it.data
@@ -45,7 +46,7 @@ class PreviewViewModel: BaseViewModel() {
     }
 
     fun loadFileDetail(path: String) {
-        repo.getFileDetail(path)
+        repo.getFileDetailV2(path)
                 .subscribe({
                     if (it.success) {
                         fileDetail.value = it.data

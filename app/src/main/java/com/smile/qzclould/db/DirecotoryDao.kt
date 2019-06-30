@@ -1,6 +1,7 @@
 package com.smile.qzclould.db
 
 import android.arch.persistence.room.*
+import android.database.Cursor
 
 @Dao
 interface DirecotoryDao {
@@ -19,6 +20,7 @@ interface DirecotoryDao {
     @Delete
     fun deleteDirecotory(direcotoryList: List<Direcotory>)
 
-    @Query("SELECT * FROM TBDownloadFile")
+    @Query("SELECT * FROM TableDownloadFile")
     fun loadDirecotory(): List<Direcotory>
+
 }
