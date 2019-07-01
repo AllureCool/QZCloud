@@ -284,4 +284,14 @@ class HttpRepository {
         val body = LogoutOtherBody(ssids)
         return service.logoutOther(body).doRequestAsync()
     }
+
+    fun moveFileV2(source: List<MoveFileBodyV2.Source>, destPath: MoveFileBodyV2.Destination): Observable<Respone<String>> {
+        val body = MoveFileBodyV2(source, destPath)
+        return service.moveFileV2(body).doRequestAsync()
+    }
+
+    fun copyFileV2(source: List<MoveFileBodyV2.Source>, destPath: MoveFileBodyV2.Destination): Observable<Respone<String>> {
+        val body = MoveFileBodyV2(source, destPath)
+        return service.copyFileV2(body).doRequestAsync()
+    }
 }

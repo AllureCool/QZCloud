@@ -251,4 +251,17 @@ interface ApiService {
      */
     @POST("/v2/user/logoutOther")
     fun logoutOther(@Body requestBody: LogoutOtherBody): Observable<Respone<Boolean>>
+
+    /**
+     * 移动文件v2
+     */
+    @POST("/v2/files/move")
+    fun moveFileV2(@Body requestBody: MoveFileBodyV2): Observable<Respone<String>>
+
+    /**
+     * 复制文件V2
+     */
+    @POST("/v2/files/copy")
+    fun copyFileV2(@Body requestBody: MoveFileBodyV2): Observable<Respone<String>>
 }
+

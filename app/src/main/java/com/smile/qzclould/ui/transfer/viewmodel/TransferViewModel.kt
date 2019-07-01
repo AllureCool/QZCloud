@@ -102,7 +102,7 @@ class TransferViewModel : BaseViewModel() {
     }
 
     fun listFolderByPath(path: String, page: Int, pageSize: Int, orderBy: Int, type: Int = -1) {
-        repo.listFileByPath(path, page, pageSize, orderBy, type)
+        repo.listFileByPathV2(path, page, pageSize, orderBy, type)
                 .subscribe({
                     if (it.success) {
 //                        if (filterList(it.data?.list)!!.isNotEmpty()) {

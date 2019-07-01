@@ -5,6 +5,7 @@ import com.smile.qielive.common.mvvm.BaseViewModel
 import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.db.Direcotory
+import com.smile.qzclould.repository.requestbody.MoveFileBodyV2
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
 
 class CloudViewModel : BaseViewModel() {
@@ -101,8 +102,8 @@ class CloudViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
-    fun moveFile(path: List<String>, destPath: String) {
-        repo.moveFile(path, destPath)
+    fun moveFile(path: List<MoveFileBodyV2.Source>, destPath: MoveFileBodyV2.Destination) {
+        repo.moveFileV2(path, destPath)
                 .subscribe({
                     if(it.success) {
                         moveFileResult.value = it.data
@@ -113,8 +114,8 @@ class CloudViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
-    fun copyFile(path: List<String>, destPath: String) {
-        repo.copyFile(path, destPath)
+    fun copyFile(path: List<MoveFileBodyV2.Source>, destPath: MoveFileBodyV2.Destination) {
+        repo.copyFileV2(path, destPath)
                 .subscribe({
                     if(it.success) {
                         copyFileResult.value = it.data

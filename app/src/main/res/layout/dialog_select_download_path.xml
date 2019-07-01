@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toRightOf="@id/tvTitle"
-            android:text="(不选择默认为根目录)"
+            android:text=" (不选择默认为根目录)"
             android:textSize="10sp"/>
     </RelativeLayout>
 

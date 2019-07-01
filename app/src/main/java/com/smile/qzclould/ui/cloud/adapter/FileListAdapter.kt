@@ -15,6 +15,7 @@ import com.smile.qzclould.common.Constants
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.*
 import com.smile.qzclould.manager.UserInfoManager
+import com.smile.qzclould.repository.requestbody.MoveFileBodyV2
 import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.user.loign.activity.LoginActivity
@@ -216,32 +217,38 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     private fun moveFiles(destPath: String) {
         doAsync {
-            val moveList = mutableListOf<String>()
+            val moveList = mutableListOf<MoveFileBodyV2.Source>()
             for (file in mSelectedList) {
-                moveList.add(file.path)
+                val source = MoveFileBodyV2.Source(file.path)
+                moveList.add(source)
             }
+            mSelectedList.clear()
             uiThread {
                 for (item in data) {
                     item.isSelected = false
                 }
                 notifyDataSetChanged()
-                mViewModel?.moveFile(moveList, destPath)
+                val destination = MoveFileBodyV2.Destination(destPath)
+                mViewModel?.moveFile(moveList, destination)
             }
         }
     }
 
     private fun copyFiles(destPath: String) {
         doAsync {
-            val copyList = mutableListOf<String>()
+            val copyList = mutableListOf<MoveFileBodyV2.Source>()
             for (file in mSelectedList) {
-                copyList.add(file.path)
+                val source = MoveFileBodyV2.Source(file.path)
+                copyList.add(source)
             }
+            mSelectedList.clear()
             uiThread {
                 for (item in data) {
                     item.isSelected = false
                 }
                 notifyDataSetChanged()
-                mViewModel?.copyFile(copyList, destPath)
+                val destination = MoveFileBodyV2.Destination(destPath)
+                mViewModel?.copyFile(copyList, destination)
             }
         }
     }
