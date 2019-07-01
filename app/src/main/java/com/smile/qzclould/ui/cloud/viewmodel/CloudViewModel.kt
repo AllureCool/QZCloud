@@ -6,6 +6,7 @@ import com.smile.qielive.common.mvvm.ErrorStatus
 import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.repository.requestbody.MoveFileBodyV2
+import com.smile.qzclould.repository.requestbody.PathArrayBodyV2
 import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
 
 class CloudViewModel : BaseViewModel() {
@@ -90,8 +91,8 @@ class CloudViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
-    fun removeFile(path: List<String>) {
-        repo.removeFile(path)
+    fun removeFile(path: List<PathArrayBodyV2.Source>) {
+        repo.removeFileV2(path)
                 .subscribe({
                     if (it.success) {
                         removeResult.value = it.data

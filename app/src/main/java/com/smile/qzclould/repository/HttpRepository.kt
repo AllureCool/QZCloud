@@ -294,4 +294,9 @@ class HttpRepository {
         val body = MoveFileBodyV2(source, destPath)
         return service.copyFileV2(body).doRequestAsync()
     }
+
+    fun removeFileV2(path: List<PathArrayBodyV2.Source>): Observable<Respone<String>> {
+        val body = PathArrayBodyV2(path)
+        return service.removeFileV2(body).doRequestAsync()
+    }
 }

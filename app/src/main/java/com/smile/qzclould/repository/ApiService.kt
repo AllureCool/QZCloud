@@ -263,5 +263,11 @@ interface ApiService {
      */
     @POST("/v2/files/copy")
     fun copyFileV2(@Body requestBody: MoveFileBodyV2): Observable<Respone<String>>
+
+    /**
+     * 删除文件夹或文件v2
+     */
+    @POST("/v2/files/delete")
+    fun removeFileV2(@Body requestBody: PathArrayBodyV2): Observable<Respone<String>>
 }
 

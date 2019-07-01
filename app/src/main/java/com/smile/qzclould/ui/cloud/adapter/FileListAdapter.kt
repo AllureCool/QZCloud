@@ -16,6 +16,7 @@ import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.event.*
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.repository.requestbody.MoveFileBodyV2
+import com.smile.qzclould.repository.requestbody.PathArrayBodyV2
 import com.smile.qzclould.ui.MainActivity
 import com.smile.qzclould.ui.cloud.viewmodel.CloudViewModel
 import com.smile.qzclould.ui.user.loign.activity.LoginActivity
@@ -107,6 +108,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             Toasty.success(App.instance, mContext.getString(R.string.deleting)).show()
             data.removeAll(mSelectedList)
             notifyDataSetChanged()
+            mSelectedList.clear()
         }
         mViewModel?.removeResult?.observeForever(observer)
 
@@ -114,10 +116,12 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             Toasty.success(App.instance, mContext.getString(R.string.move_success)).show()
             data.removeAll(mSelectedList)
             notifyDataSetChanged()
+            mSelectedList.clear()
         }
         mViewModel?.moveFileResult?.observeForever(moveObserver)
 
         val copyObserver = Observer<String> {
+            mSelectedList.clear()
             Toasty.success(App.instance, mContext.getString(R.string.copy_success)).show()
         }
         mViewModel?.copyFileResult?.observeForever(copyObserver)
@@ -201,9 +205,10 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
 
     private fun removeFiles() {
         doAsync {
-            val removeList = mutableListOf<String>()
+            val removeList = mutableListOf<PathArrayBodyV2.Source>()
             for (file in mSelectedList) {
-                removeList.add(file.path)
+                val source = PathArrayBodyV2.Source(file.path)
+                removeList.add(source)
             }
             uiThread {
                 for (item in data) {
@@ -222,7 +227,6 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 val source = MoveFileBodyV2.Source(file.path)
                 moveList.add(source)
             }
-            mSelectedList.clear()
             uiThread {
                 for (item in data) {
                     item.isSelected = false
@@ -241,7 +245,6 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 val source = MoveFileBodyV2.Source(file.path)
                 copyList.add(source)
             }
-            mSelectedList.clear()
             uiThread {
                 for (item in data) {
                     item.isSelected = false
