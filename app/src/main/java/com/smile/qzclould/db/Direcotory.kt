@@ -23,7 +23,7 @@ data class Direcotory(
         val ctime: Long, //文件创建时间
         val mtime: Long, //文件修改时间
         val atime: Long, //文件访问时间
-        val flag: Int, //总是 0
+//        val flag: Int, //总是 0
         val preview: Boolean, //预览状态
         val previewType: Int,
         val share: Boolean,
@@ -39,7 +39,6 @@ data class Direcotory(
         var taskId: Int = 0, //下载任务id
         var fileDetail: FileDetailBean? = null,
 
-        val storeId: String,
         val lft: Int,
         val rgt: Int,
         val version: Int,

@@ -106,7 +106,7 @@ class LocalDownloadAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
                 val hashStr = WetagUtil.getEtagHash(File(savePath + itemData?.name))
                 uiThread {
                     DLog.i("------" + hashStr + "************************" + itemData?.fileDetail!!.identity)
-                    if(hashStr != itemData?.fileDetail!!.identity) {
+                    if(hashStr != itemData?.fileDetail!!.hash) {
                         val index = data.indexOf(itemData)
                         itemData?.downloadStatus = 6
                         itemData?.downProgress = 0
