@@ -55,7 +55,7 @@ class UploadFile: Runnable {
 //        this.mDownLatch?.countDown()
         val file = File(mFile?.filePath)
         val md5 = getFileMD5(file)
-        repo.uploadFile(mFile?.fileName!!, md5, "/", "/")
+        repo.uploadFile(file?.name!!, md5, "/", "/")
                 .subscribe({
                     initUploadParams(it.data!!)
                     uploadFile(it.data!!)

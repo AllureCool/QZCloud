@@ -213,6 +213,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             for (file in mSelectedList) {
                 moveList.add(file.path)
             }
+            mSelectedList.clear()
             uiThread {
                 for (item in data) {
                     item.isSelected = false
@@ -229,6 +230,7 @@ class FileListAdapter : BaseQuickAdapter<Direcotory, BaseViewHolder> {
             for (file in mSelectedList) {
                 copyList.add(file.path)
             }
+            mSelectedList.clear()
             uiThread {
                 for (item in data) {
                     item.isSelected = false

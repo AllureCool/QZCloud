@@ -30,7 +30,7 @@ import javax.net.ssl.*
  */
 class HttpRepository {
     companion object {
-        const val HOST = "https://api.6pan.cn"
+        const val HOST = "https://test-v1.6pan.cn"
 
         val service: ApiService by lazy { buildServic() }
 
