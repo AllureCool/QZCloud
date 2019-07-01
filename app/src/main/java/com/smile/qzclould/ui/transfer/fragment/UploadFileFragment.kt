@@ -98,8 +98,9 @@ class UploadFileFragment: BaseFragment() {
         RxBus.toObservable(UploadFileEvent::class.java)
                 .subscribe {
                     val fileList = mutableListOf<UploadFileEntity>()
-                    for (file in it.fileList) {
-                        val fileBean = UploadFileEntity(file, file, 0, 0)
+                    for (path in it.fileList) {
+                        val file = File(path)
+                        val fileBean = UploadFileEntity(file.name, path, 0, 0)
                         fileList.add(fileBean)
                     }
                     if(mAdapter.data.isEmpty()) {
