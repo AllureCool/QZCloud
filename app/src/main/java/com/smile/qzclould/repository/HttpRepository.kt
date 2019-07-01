@@ -4,17 +4,12 @@ import android.text.TextUtils
 import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.repository.requestbody.*
 import com.smile.qzclould.db.Direcotory
-import com.smile.qzclould.ui.cloud.bean.FileBean
-import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
-import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.ui.cloud.bean.*
 import com.smile.qzclould.ui.preview.picture.PictureBean
 import com.smile.qzclould.ui.preview.pdf.PdfDetailBean
 import com.smile.qzclould.ui.preview.picture.PictureBeanV2
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
-import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
-import com.smile.qzclould.ui.transfer.bean.FileDetailBean
-import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
-import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBeanV2
+import com.smile.qzclould.ui.transfer.bean.*
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import com.smile.qzclould.ui.user.loign.bean.UserOnlineBean
 import com.smile.qzclould.utils.DLog
@@ -298,5 +293,25 @@ class HttpRepository {
     fun removeFileV2(path: List<PathArrayBodyV2.Source>): Observable<Respone<String>> {
         val body = PathArrayBodyV2(path)
         return service.removeFileV2(body).doRequestAsync()
+    }
+
+    fun changeUserNameV2(name: String): Observable<Respone<String>> {
+        val body = ModifyNameBody(name)
+        return service.changeUserNameV2(body).doRequestAsync()
+    }
+
+    fun parseUrlSV2(url: String): Observable<Respone<List<OfflineParseBean>>> {
+        val body = ParseUrlBody(url)
+        return service.parseurlV2(body).doRequestAsync()
+    }
+
+    fun offlineDownloadV2(path: String, tasks: List<OfflineAddBody.OfflineTask>): Observable<Respone<OfflineAddResultBean>> {
+        val body = OfflineAddBody(path, tasks)
+        return service.startOfflineDownloadV2(body).doRequestAsync()
+    }
+
+    fun offlineDownloadListV2(start: Int, listSize: Int): Observable<Respone<OfflineListBean>> {
+        val body = OfflineDownloadListBodyV2(start, listSize)
+        return service.offlineDownloadListV2(body).doRequestAsync()
     }
 }

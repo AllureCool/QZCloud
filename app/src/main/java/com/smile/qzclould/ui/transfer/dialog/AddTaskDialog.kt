@@ -12,6 +12,7 @@ import com.smile.qzclould.common.Constants
 import com.smile.qzclould.common.base.BaseDialogFragment
 import com.smile.qzclould.event.RefreshOfflineTaskListEvent
 import com.smile.qzclould.event.SelectDownloadPathEvent
+import com.smile.qzclould.repository.requestbody.OfflineAddBody
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
 import com.smile.qzclould.utils.RxBus
 import kotlinx.android.synthetic.main.dialog_add_download_task.*
@@ -67,11 +68,29 @@ class AddTaskDialog: BaseDialogFragment() {
                     mDownLoadPath = it.path
                     mTvPath?.text = it.path
                 }
-        mModel.parseUrlResult.observe(this, Observer {
-            mModel.offlineDownloadStart(it!!.taskHash, mDownLoadPath, arrayOf())
+        mModel.offlineParseRsp.observe(this, Observer {
+            val tasks = mutableListOf<OfflineAddBody.OfflineTask>()
+            for (i in 0 until it!!.size) {
+                val task = OfflineAddBody.OfflineTask()
+                task.identity = it[i].identity
+                val list = mutableListOf<String>()
+                for (item in it[i].files) {
+                    list.add(item.downloadIdentity)
+                }
+                task.iginreFiles = list
+                tasks.add(task)
+            }
+            mModel.startOfflinDownload(mDownLoadPath, tasks)
+//            mModel.offlineDownloadStart(it!!.taskHash, mDownLoadPath, arrayOf())
         })
 
         mModel.offlineDownloadResult.observe(this, Observer {
+            RxBus.post(RefreshOfflineTaskListEvent())
+            showToast(Constants.TOAST_SUCCESS, getString(R.string.already_add_to_offlin_task))
+            dismiss()
+        })
+
+        mModel.offlineResp.observe(this, Observer {
             RxBus.post(RefreshOfflineTaskListEvent())
             showToast(Constants.TOAST_SUCCESS, getString(R.string.already_add_to_offlin_task))
             dismiss()

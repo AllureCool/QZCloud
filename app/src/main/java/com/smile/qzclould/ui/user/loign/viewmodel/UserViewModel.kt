@@ -150,7 +150,7 @@ class UserViewModel : BaseViewModel() {
     }
 
     fun modifyName(nickName: String) {
-        repo.changeUserName(nickName)
+        repo.changeUserNameV2(nickName)
                 .subscribe({
                     if(it.success) {
                         modifyNameResult.value = it.data

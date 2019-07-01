@@ -12,6 +12,7 @@ import com.smile.qzclould.ui.component.FileDeleteDialog
 import com.smile.qzclould.ui.transfer.activity.OfflineFilePreviewActivity
 import com.smile.qzclould.ui.transfer.adapter.DownloadTaskAdapter
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
+import com.smile.qzclould.ui.transfer.bean.OfflineListBean
 import com.smile.qzclould.ui.transfer.dialog.AddTaskDialog
 import com.smile.qzclould.ui.transfer.viewmodel.TransferViewModel
 import com.smile.qzclould.utils.RxBus
@@ -28,9 +29,9 @@ class TransferFragment: BaseFragment() {
     private val mLayoutManager by lazy { LinearLayoutManager(mActivity) }
     private val mAdapter by lazy { DownloadTaskAdapter() }
     private val mFileDeleteDialog by lazy { FileDeleteDialog() }
-    private var mDeleteFile: DownloadTaskBean.Task? = null
+    private var mDeleteFile: OfflineListBean.OfflineInfo? = null
     private var mDownloadType = LOCAL_DOWNLOAD
-    private var mPage = 1
+    private var mStart = 0
 
 
     override fun getLayoutId(): Int {
@@ -40,7 +41,7 @@ class TransferFragment: BaseFragment() {
     override fun initData() {
         mDownloadType = arguments?.getInt("download_type")!!
         when {
-            mDownloadType == OFFLINE_DOWNLOAD -> loadOfflinTask(mPage)
+            mDownloadType == OFFLINE_DOWNLOAD -> loadOfflinTask(mStart)
 
         }
     }
@@ -50,35 +51,36 @@ class TransferFragment: BaseFragment() {
         mRvDownload.layoutManager = mLayoutManager
         mRvDownload.itemAnimator = null
         mAdapter.bindToRecyclerView(mRvDownload)
-        mAdapter.setOnLoadMoreListener({loadOfflinTask(mPage)}, mRvDownload)
+        mAdapter.setOnLoadMoreListener({loadOfflinTask(mStart)}, mRvDownload)
         mAdapter.setItemRemoveListener(object : DownloadTaskAdapter.OnItemRemoveListener {
             override fun onRemoved(file: DownloadTaskBean.Task?) {
             }
         })
         mRefreshLayout.setOnRefreshListener {
-            mPage = 1
-            loadOfflinTask(mPage)
+            mStart = 0
+            loadOfflinTask(mStart)
         }
         mRefreshLayout.setColorSchemeColors(resources.getColor(R.color.color_green_2EC17C))
     }
 
     override fun initViewModel() {
-        mModel.offlineTaskList.observe(this, Observer {
+        mModel.offlineListResp.observe(this, Observer {
             mRefreshLayout.isRefreshing = false
-            if(mPage == 1 && it!!.isEmpty()) {
+            if(mStart == 0 && it!!.list.isEmpty()) {
                 mAdapter.setEmptyView(R.layout.view_empty)
             }
-            if(it!!.isEmpty()) {
+            if(mStart == 0) {
+                mAdapter.setNewData(it?.list)
+            } else {
+                mAdapter.addData(it?.list!!)
+            }
+            if(it?.list?.size!! < 10) {
                 mAdapter.loadMoreEnd(true)
             } else {
                 mAdapter.loadMoreComplete()
             }
-            if(mPage == 1) {
-                mAdapter.setNewData(it)
-            } else {
-                mAdapter.addData(it)
-            }
-            mPage++
+
+            mStart += it.list.size
         })
 
         mModel.removeResult.observe(this, Observer {
@@ -99,12 +101,12 @@ class TransferFragment: BaseFragment() {
         mFileDeleteDialog.setOnDialogClickListener(object : FileDeleteDialog.OnDialogClickListener {
             override fun onDeleteClick() {
 
-                mModel.removeFile(mDeleteFile!!.taskId)
+//                mModel.removeFile(mDeleteFile!!.taskId)
             }
         })
 
         mAdapter.setOnItemLongClickListener { adapter, view, position ->
-            mDeleteFile = adapter.getItem(position) as DownloadTaskBean.Task
+            mDeleteFile = adapter.getItem(position) as OfflineListBean.OfflineInfo
 
             if(!mFileDeleteDialog.isAdded) {
                 mFileDeleteDialog.showNow(childFragmentManager, "file_delete_dialog")
@@ -130,14 +132,14 @@ class TransferFragment: BaseFragment() {
     override fun initEvent() {
         RxBus.toObservable(RefreshOfflineTaskListEvent::class.java)
                 .subscribe {
-                    mPage = 1
-                    loadOfflinTask(mPage)
+                    mStart = 0
+                    loadOfflinTask(mStart)
                 }
                 .autoDispose()
     }
 
-    private fun loadOfflinTask(page: Int) {
-        mModel.loadOfflineTask(page, 3)
+    private fun loadOfflinTask(start: Int) {
+        mModel.loadOfflineTask(start, 10)
 
     }
 }

@@ -8,11 +8,11 @@ import com.smile.qzclould.common.App
 import com.smile.qzclould.common.Constants
 import com.smile.qzclould.db.Direcotory
 import com.smile.qzclould.repository.HttpRepository
-import com.smile.qzclould.ui.cloud.bean.FileBean
-import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
-import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.repository.requestbody.OfflineAddBody
+import com.smile.qzclould.ui.cloud.bean.*
 import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
+import com.smile.qzclould.ui.transfer.bean.OfflineListBean
 import com.smile.qzclould.utils.DLog
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -27,16 +27,19 @@ class TransferViewModel : BaseViewModel() {
     val offlineTaskList by lazy { MediatorLiveData<List<DownloadTaskBean.Task>>() }
     val localDownloadList by lazy { MediatorLiveData<List<Direcotory>>() }
     val parseUrlResult by lazy { MediatorLiveData<ParseUrlResultBean>() }
+    val offlineParseRsp by lazy { MediatorLiveData<List<OfflineParseBean>>() }
     val offlineDownloadResult by lazy { MediatorLiveData<OfflineDownloadResult>() }
     val fileDetail by lazy { MediatorLiveData<FileDetailBean>() }
     val removeResult by lazy { MediatorLiveData<String>() }
     val folderListResult by lazy { MediatorLiveData<List<Direcotory>>() }
+    val offlineResp by lazy { MediatorLiveData<OfflineAddResultBean>() }
+    val offlineListResp by lazy { MediatorLiveData<OfflineListBean>() }
 
-    fun loadOfflineTask(page: Int, pageSize: Int, order: Int = 0) {
-        repo.offlineDownloadList(page, pageSize, order)
+    fun loadOfflineTask(start: Int, listSize: Int) {
+        repo.offlineDownloadListV2(start, listSize)
                 .subscribe({
                     if (it.success) {
-                        offlineTaskList.value = it.data!!.list
+                        offlineListResp.value = it.data!!
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }
@@ -74,10 +77,10 @@ class TransferViewModel : BaseViewModel() {
     }
 
     fun parseUrl(url: String) {
-        repo.parseUrlS(url)
+        repo.parseUrlSV2(url)
                 .subscribe({
                     if (it.success) {
-                        parseUrlResult.value = it.data
+                        offlineParseRsp.postValue(it.data)
                     } else {
                         errorStatus.value = ErrorStatus(100, it.message)
                     }
@@ -92,6 +95,20 @@ class TransferViewModel : BaseViewModel() {
                 .subscribe({
                     if (it.success) {
                         offlineDownloadResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun startOfflinDownload(path: String, tasks: List<OfflineAddBody.OfflineTask>) {
+        repo.offlineDownloadV2(path, tasks)
+                .subscribe({
+                    if (it.success) {
+                        offlineResp.value = it.data
                     } else {
                         errorStatus.value = ErrorStatus(it.status, it.message)
                     }

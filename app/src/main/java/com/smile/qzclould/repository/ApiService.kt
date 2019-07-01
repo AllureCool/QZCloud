@@ -2,17 +2,12 @@ package com.smile.qzclould.repository
 
 import com.smile.qzclould.repository.requestbody.*
 import com.smile.qzclould.db.Direcotory
-import com.smile.qzclould.ui.cloud.bean.FileBean
-import com.smile.qzclould.ui.cloud.bean.OfflineDownloadResult
-import com.smile.qzclould.ui.cloud.bean.ParseUrlResultBean
+import com.smile.qzclould.ui.cloud.bean.*
 import com.smile.qzclould.ui.preview.pdf.PdfDetailBean
 import com.smile.qzclould.ui.preview.picture.PictureBean
 import com.smile.qzclould.ui.preview.picture.PictureBeanV2
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
-import com.smile.qzclould.ui.transfer.bean.DownloadTaskBean
-import com.smile.qzclould.ui.transfer.bean.FileDetailBean
-import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBean
-import com.smile.qzclould.ui.transfer.bean.UploadFileResponeBeanV2
+import com.smile.qzclould.ui.transfer.bean.*
 import com.smile.qzclould.ui.user.loign.bean.UserInfoBean
 import com.smile.qzclould.ui.user.loign.bean.UserOnlineBean
 import io.reactivex.Observable
@@ -269,5 +264,29 @@ interface ApiService {
      */
     @POST("/v2/files/delete")
     fun removeFileV2(@Body requestBody: PathArrayBodyV2): Observable<Respone<String>>
+
+    /**
+     * 修改用户名V2
+     */
+    @POST("/v2/user/changeName")
+    fun changeUserNameV2(@Body requestBody: ModifyNameBody): Observable<Respone<String>>
+
+    /**
+     * 预解析文件V2
+     */
+    @POST("/v2/offline/parseUrl")
+    fun parseurlV2(@Body requestBody: ParseUrlBody): Observable<Respone<List<OfflineParseBean>>>
+
+    /**
+     * 离线下载任务添加V2
+     */
+    @POST("/v2/offline/add")
+    fun startOfflineDownloadV2(@Body requestBody: OfflineAddBody): Observable<Respone<OfflineAddResultBean>>
+
+    /**
+     * 获取离线下载列表
+     */
+    @POST("/v2/offline/page")
+    fun offlineDownloadListV2(@Body requestBody: OfflineDownloadListBodyV2): Observable<Respone<OfflineListBean>>
 }
 
