@@ -7,18 +7,33 @@ import com.smile.qzclould.repository.HttpRepository
 import com.smile.qzclould.ui.preview.picture.PictureBean
 import com.smile.qzclould.ui.preview.picture.PictureBeanV2
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
+import com.smile.qzclould.ui.preview.video.VideoBeanV2
 import com.smile.qzclould.ui.transfer.bean.FileDetailBean
 
 class PreviewViewModel: BaseViewModel() {
     private val repo by lazy { HttpRepository() }
 
-    val MediaInfoResult by lazy { MediatorLiveData<VideoDetailBean>() }
+    val MediaInfoResult by lazy { MediatorLiveData<VideoBeanV2>() }
     val pictureInfoResult by lazy { MediatorLiveData<PictureBeanV2>() }
     val fileDetail by lazy { MediatorLiveData<FileDetailBean>() }
     val errorStatus by lazy { MediatorLiveData<ErrorStatus>() }
 
     fun getMediaInfo(path: String) {
-        repo.getMediaInfo(path)
+        repo.getVideoInfoV2(path)
+                .subscribe({
+                    if(it.success) {
+                        MediaInfoResult.value = it.data
+                    } else {
+                        errorStatus.value = ErrorStatus(it.status, it.message)
+                    }
+                }, {
+                    errorStatus.value = ErrorStatus(100, it.message)
+                })
+                .autoDispose()
+    }
+
+    fun getAudioInfo(path: String) {
+        repo.getAudioInfoV2(path)
                 .subscribe({
                     if(it.success) {
                         MediaInfoResult.value = it.data

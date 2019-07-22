@@ -81,10 +81,10 @@ class AudioPlayerActivity : BaseActivity() {
 
     override fun initViewModel() {
         mModel.MediaInfoResult.observe(this, Observer {
-            if (!it!!.preview.isEmpty()) {
+//            if (!it!!.preview.isEmpty()) {
                 play.setImageDrawable(resources.getDrawable(R.mipmap.audio_pause))
-                play(it.preview[0].url + "?token=" + UserInfoManager.get().getUserToken())
-            }
+                play(it?.previewHlsAddress + "?token=" + UserInfoManager.get().getUserToken())
+//            }
         })
     }
 

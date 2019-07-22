@@ -10,6 +10,7 @@ import com.smile.qzclould.manager.UserInfoManager
 import com.smile.qzclould.ui.preview.PreviewViewModel
 import com.smile.qzclould.ui.preview.player.uicomponent.SwitchClarityView
 import com.smile.qzclould.ui.preview.player.bean.VideoDetailBean
+import com.smile.qzclould.ui.preview.video.VideoBeanV2
 import com.smile.qzclould.utils.ViewUtils
 import kotlinx.android.synthetic.main.activity_player.*
 
@@ -21,7 +22,7 @@ class PlayerActivity: BaseActivity(){
     private var mFirstLoad: Boolean = true
     private var mHasPreview: Boolean = true
     private var mSwitchClarityView: SwitchClarityView? = null
-    private var mVideoDetail: VideoDetailBean? = null
+    private var mVideoDetail: VideoBeanV2? = null
 
     override fun setLayoutId(): Int {
         return R.layout.activity_player
@@ -49,25 +50,25 @@ class PlayerActivity: BaseActivity(){
         mVideoView.enterWindowFullscreen()
 
         mVideoView.setOnPlayerControlListener {
-            if(mSwitchClarityView == null) {
-                mSwitchClarityView = SwitchClarityView()
-            }
-
-            if(!mSwitchClarityView!!.isAdded) {
-                val bundle = Bundle()
-                bundle.putSerializable("video_infos", mVideoDetail)
-                mSwitchClarityView!!.arguments = bundle
-                mSwitchClarityView!!.show(supportFragmentManager, "clarity_view")
-            }
-            mSwitchClarityView?.setOnClaritySelectedListener(object : SwitchClarityView.OnClaritySelectedListener {
-                override fun onClaritySelected(info: VideoDetailBean.VideoInfo) {
-                    for (item in mVideoDetail!!.preview) {
-                        item.isPlay = false
-                    }
-                    info.isPlay = true
-                    play(info.url + "?token=" + UserInfoManager.get().getUserToken())
-                }
-            })
+//            if(mSwitchClarityView == null) {
+//                mSwitchClarityView = SwitchClarityView()
+//            }
+//
+//            if(!mSwitchClarityView!!.isAdded) {
+//                val bundle = Bundle()
+//                bundle.putSerializable("video_infos", mVideoDetail)
+//                mSwitchClarityView!!.arguments = bundle
+//                mSwitchClarityView!!.show(supportFragmentManager, "clarity_view")
+//            }
+//            mSwitchClarityView?.setOnClaritySelectedListener(object : SwitchClarityView.OnClaritySelectedListener {
+//                override fun onClaritySelected(info: VideoDetailBean.VideoInfo) {
+//                    for (item in mVideoDetail!!.preview) {
+//                        item.isPlay = false
+//                    }
+//                    info.isPlay = true
+//                    play(info.url + "?token=" + UserInfoManager.get().getUserToken())
+//                }
+//            })
         }
 
 
@@ -76,11 +77,11 @@ class PlayerActivity: BaseActivity(){
     override fun initViewModel() {
         mModel.MediaInfoResult.observe(this, Observer {
             mVideoDetail = it
-            if(!it!!.preview.isEmpty()) {
-                mVideoView.showClarityBtn(true)
-                play(it.preview[0].url + "?token=" + UserInfoManager.get().getUserToken())
-                it.preview[0].isPlay = true
-            }
+//            if(!it!!.preview.isEmpty()) {
+                mVideoView.showClarityBtn(false)
+                play(it?.previewHlsAddress + "?token=" + UserInfoManager.get().getUserToken())
+//                it.preview[0].isPlay = true
+//            }
         })
 
         mModel.fileDetail.observe(this, Observer {

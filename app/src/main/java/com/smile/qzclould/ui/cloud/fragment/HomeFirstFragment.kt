@@ -296,10 +296,6 @@ class HomeFirstFragment : BaseFragment() {
             mAdapter.addData(0, it!!)
         })
 
-        mModel.parseUrlResult.observe(this, Observer {
-            mModel.offlineDownloadStart(it!!.taskHash, "", arrayOf())
-        })
-
         mModel.errorStatus.observe(this, Observer {
             mRefreshLayout.isRefreshing = false
             stopLoading()

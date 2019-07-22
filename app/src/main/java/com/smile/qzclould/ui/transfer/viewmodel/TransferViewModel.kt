@@ -90,20 +90,6 @@ class TransferViewModel : BaseViewModel() {
                 .autoDispose()
     }
 
-    fun offlineDownloadStart(taskHash: String, savePath: String, copyFile: Array<Int> = arrayOf()) {
-        repo.offlineDownloadStart(taskHash, savePath, copyFile)
-                .subscribe({
-                    if (it.success) {
-                        offlineDownloadResult.value = it.data
-                    } else {
-                        errorStatus.value = ErrorStatus(it.status, it.message)
-                    }
-                }, {
-                    errorStatus.value = ErrorStatus(100, it.message)
-                })
-                .autoDispose()
-    }
-
     fun startOfflinDownload(path: String, tasks: List<OfflineAddBody.OfflineTask>) {
         repo.offlineDownloadV2(path, tasks)
                 .subscribe({
@@ -144,15 +130,4 @@ class TransferViewModel : BaseViewModel() {
         return filterList
     }
 
-    fun removeFile(taskId: String) {
-        repo.removeOfflineFile(taskId)
-                .subscribe({
-                    if (it.success) {
-                        removeResult.value = it.data
-                    }
-                }, {
-
-                })
-                .autoDispose()
-    }
 }
