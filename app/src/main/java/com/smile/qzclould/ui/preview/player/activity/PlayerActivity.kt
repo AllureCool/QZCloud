@@ -78,7 +78,7 @@ class PlayerActivity: BaseActivity(){
             mVideoDetail = it
             if(!it!!.preview.isEmpty()) {
                 mVideoView.showClarityBtn(true)
-                play(it.preview[0].url + "?token=" + UserInfoManager.get().getUserToken())
+                play(it.preview[0].url)
                 it.preview[0].isPlay = true
             }
         })

@@ -11,8 +11,8 @@ android {
         applicationId "com.smile.qzclould"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 1001005
-        versionName "1.0.5"
+        versionCode 1001006
+        versionName "1.0.6"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
